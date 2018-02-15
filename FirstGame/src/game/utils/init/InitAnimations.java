@@ -18,6 +18,14 @@ public class InitAnimations implements Runnable {
 				new Texture(new Texture("PlayerIdleMap"), 1, 1, 64) ,
 				new Texture(new Texture("PlayerIdleMap"), 3, 1, 64)));
 		
+		animations.put("Player_jump", new Animation(10, new Texture(new Texture("PlayerIdleMap"), 4, 1, 64) ,
+				new Texture(new Texture("PlayerIdleMap"), 1, 2, 64) ,
+				new Texture(new Texture("PlayerIdleMap"), 2, 2, 64) ,
+				new Texture(new Texture("PlayerIdleMap"), 3, 2, 64)));
+		
+		animations.put("Player_run", new Animation(10, new Texture(new Texture("PlayerIdleMap"), 1, 1, 64) ,
+				new Texture(new Texture("PlayerIdleMap"), 4, 2, 64)));
+		
 		System.out.println("Animations Loaded");
 	}
 

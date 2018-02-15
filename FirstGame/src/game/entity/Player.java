@@ -19,7 +19,7 @@ public class Player extends Mob {
 	private Animation idle;
 
 	public Player(double x, double y, TileMap tileMap) {
-		super(new Texture(new Texture("PlayerIdleMap"), 1, 1, 64), x, y, tileMap,new Rectangle());
+		super(new Texture(new Texture("PlayerIdleMap"), 1, 1, 64), x, y, tileMap, new Rectangle());
 
 
 		this.AABB = new Rectangle((int)this.getCollisionX(),(int)this.getCollisionY(),this.getCollisionWidth(),this.getCollisionHeight());
@@ -83,7 +83,7 @@ public class Player extends Mob {
 		}
 		
 		if(!moving) {
-			idle.run();
+			//idle.run();
 			if(motionX < 1 && motionX > -1) {
 				motionX = 0;
 			} else {
@@ -100,6 +100,23 @@ public class Player extends Mob {
 				motionX = 0;
 			}
 		}
+		
+		if(!moving && !isAirBorne) {
+			this.idle = InitAnimations.animations.get("Player_idle"); 
+			InitAnimations.animations.get("Player_idle").run();
+		} else {
+				if (isAirBorne) {
+					this.idle = InitAnimations.animations.get("Player_jump");
+					InitAnimations.animations.get("Player_jump").run();
+				} else {
+					if(moving) {
+						this.idle = InitAnimations.animations.get("Player_run");
+						this.idle.setSpeed(30 - (int)Math.abs(2*motionX)); //oof this isnt working as intended
+						InitAnimations.animations.get("Player_run").run();
+					}
+				}
+		}
+		
 		super.tick();
 	}
 	

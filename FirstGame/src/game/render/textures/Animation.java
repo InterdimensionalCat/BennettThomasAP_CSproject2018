@@ -16,6 +16,7 @@ public class Animation {
 		this.speed = speed;
 		this.frames = frames;
 		this.numFrames = frames.length;
+		this.currentFrame = frames[0];
 	}
 	
 	private void nextFrame() {
@@ -36,5 +37,9 @@ public class Animation {
 		if(currentFrame != null) {
 			currentFrame.render((Graphics)g2d, x, y);
 		}
+	}
+	
+	public void setSpeed(int speed) {
+		this.speed = speed;
 	}
 }
