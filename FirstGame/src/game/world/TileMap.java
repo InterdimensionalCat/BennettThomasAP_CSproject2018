@@ -288,24 +288,26 @@ public class TileMap {
 		for (Entity e : entities) {
 			if (e instanceof EntityMovingTile) {
 
-				if (player.getAABB().getMaxY() > e.getAABB().getMinY()
-						&& player.getAABB().getMaxY() < e.getAABB().getMaxY()
-						&& player.getAABB().getMaxX() > e.getAABB().getMinX()
-						&& player.getAABB().getMaxX() < e.getAABB().getMaxX()
-						&& player.getY() + 60 <= e.getAABB().getMinY()) { // this is the bottom right corner
+				EntityMovingTile movingTile = (EntityMovingTile)e;
+				
+				if (player.getAABB().getMaxY() > movingTile.getAABB().getMinY()
+						&& player.getAABB().getMaxY() < movingTile.getAABB().getMaxY()
+						&& player.getAABB().getMaxX() > movingTile.getAABB().getMinX()
+						&& player.getAABB().getMaxX() < movingTile.getAABB().getMaxX()
+						&& player.getY() + 60 <= movingTile.getAABB().getMinY()) { // this is the bottom right corner
 
-					player.setY(e.getAABB().getMinY() - 64);
+					player.setY(movingTile.getAABB().getMinY() - 64);
 					player.setMotionY(0);
 					player.setAirBorne(false);
-					e.setCollided(true);
+					movingTile.setCollided(true);
 					
-					if(e.getMotionY()  > 0) {
-						player.setY(e.getAABB().getMinY() - 63);
+					if(movingTile.getMotionY()  > 0) {
+						player.setY(movingTile.getAABB().getMinY() - 63);
 					}
 					
 					if(!player.isMoving()) {
-						player.setMotionX(e.getMotionX()*2.4); //2.4 is a constant that prevents traction from slowing down the player
-						player.setMotionY(e.getMotionY());
+						player.setMotionX(movingTile.getMotionX()*2.4); //2.4 is a constant that prevents traction from slowing down the player
+						player.setMotionY(movingTile.getMotionY());
 					}
 
 					if (Game.debug) {
@@ -313,24 +315,24 @@ public class TileMap {
 					}
 
 				} else {
-					if (player.getAABB().getMaxY() > e.getAABB().getMinY()
-							&& player.getAABB().getMaxY() < e.getAABB().getMaxY()
-							&& player.getAABB().getMinX() < e.getAABB().getMaxX()
-							&& player.getAABB().getMinX() > e.getAABB().getMinX()
-							&& player.getY() + 60 <= e.getAABB().getMinY()) { // this is the bottom left corner
+					if (player.getAABB().getMaxY() > movingTile.getAABB().getMinY()
+							&& player.getAABB().getMaxY() < movingTile.getAABB().getMaxY()
+							&& player.getAABB().getMinX() < movingTile.getAABB().getMaxX()
+							&& player.getAABB().getMinX() > movingTile.getAABB().getMinX()
+							&& player.getY() + 60 <= movingTile.getAABB().getMinY()) { // this is the bottom left corner
 
-						player.setY(e.getAABB().getMinY() - 64);
+						player.setY(movingTile.getAABB().getMinY() - 64);
 						player.setMotionY(0);
 						player.setAirBorne(false);
-						e.setCollided(true);
+						movingTile.setCollided(true);
 						
-						if(e.getMotionY()  > 0) {
-							player.setY(e.getAABB().getMinY() - 63);
+						if(movingTile.getMotionY()  > 0) {
+							player.setY(movingTile.getAABB().getMinY() - 63);
 						}
 						
 						if(!player.isMoving()) {
-							player.setMotionX(e.getMotionX()*2.4); //2.4 is a constant that prevents traction from slowing down the player
-							player.setMotionY(e.getMotionY());
+							player.setMotionX(movingTile.getMotionX()*2.4); //2.4 is a constant that prevents traction from slowing down the player
+							player.setMotionY(movingTile.getMotionY());
 						}
 
 						if (Game.debug) {

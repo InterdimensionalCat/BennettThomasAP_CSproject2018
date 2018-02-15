@@ -172,8 +172,8 @@ public class Game extends Canvas implements Runnable {
 		
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-		MusicPlayer player = new MusicPlayer("AngelFalse", "Irondust");
-		pool.runTask(player);
+		/*MusicPlayer player = new MusicPlayer("AngelFalse", "Irondust"); //music player playlist initialization
+		pool.runTask(player);*/
 		pool.runTask(game);
 		//game.start();
 		pool.join();

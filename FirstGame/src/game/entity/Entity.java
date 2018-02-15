@@ -62,10 +62,10 @@ public abstract class Entity {
 	}
 	
 	
-	public abstract double getMotionY();
+/*	public abstract double getMotionY();
 
 	
-	public abstract double getMotionX();
+	public abstract double getMotionX();*/
 	
 
 	public boolean isCollided() {
