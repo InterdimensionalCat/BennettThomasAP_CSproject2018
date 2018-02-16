@@ -2,12 +2,18 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="" key="selection"/>
+		<item value="add" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="add"/>
+			<item value="load"/>
+			<item value="wait"/>
+			<item value="stop"/>
+			<item value="exit"/>
+			<item value="image"/>
 			<item value="run"/>
 			<item value="getMotionX"/>
 			<item value="tick"/>
@@ -15,14 +21,8 @@
 			<item value="new"/>
 			<item value="new Player"/>
 			<item value="player"/>
-			<item value="add"/>
 			<item value="idle"/>
 			<item value="animation"/>
-			<item value="dile"/>
-			<item value="parall"/>
-			<item value="set"/>
-			<item value="moving"/>
-			<item value="motionX"/>
 		</list>
 		<list key="replacehistory">
 			<item value="texture"/>

@@ -1,0 +1,34 @@
+package game.utils.init;
+
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import game.entity.Entity;
+import game.entity.EntityGoal;
+import game.entity.EntityMovingTile;
+import game.entity.PlatformType;
+import game.render.textures.Texture;
+import game.world.TileMap;
+
+public class PreloadLevels implements Runnable {
+
+	public static volatile ArrayList<String> levels = new ArrayList<String>();
+	public static volatile HashMap<String , Entity[]> levelEntities = new HashMap<String, Entity[]>();
+	public static volatile TileMap tileMap = new TileMap("level_3");
+	
+	@Override
+	public void run() {
+		System.out.println("Preloading Levels");
+		levels.add("level_3");
+		Entity[] entityLevel1 = {
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 1000, 300, tileMap, new Rectangle(100, 100, 128, 20), 200, PlatformType.VERTICAL_MOVING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 100, 500, tileMap, new Rectangle(100, 100, 128, 20), 100, PlatformType.HORIZONTAL_MOVING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 1500, 300, tileMap, new Rectangle(100, 100, 128, 20), 100, PlatformType.FALLING),
+				(Entity)new EntityGoal(new Texture(new Texture("SpriteMap1"), 4, 1 , 64, 64), 1000.0, 400.0, tileMap, new Rectangle(1000, 400, 64, 64))
+			};
+		levelEntities.put("level_3", entityLevel1);
+		
+		System.out.println("Levels Loaded");
+	}
+}

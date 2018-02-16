@@ -2,6 +2,7 @@ package game.entity;
 
 import java.awt.Rectangle;
 
+import game.Game;
 import game.render.textures.Texture;
 import game.world.TileMap;
 
@@ -14,6 +15,7 @@ public class EntityGoal extends Entity {
 	@Override
 	public void tick() {
 		if(tileMap.getPlayer().getAABB().intersects(AABB)) {
+			Game.level.nextLevel();
 			System.out.println("You Win!");
 		}
 		
@@ -21,7 +23,7 @@ public class EntityGoal extends Entity {
 
 	@Override
 	public void setDead() {
-		
+		AABB = null;
 	}
 
 }

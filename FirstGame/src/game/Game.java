@@ -24,7 +24,7 @@ import game.states.StateManager;
 import game.utils.ThreadPool;
 import game.utils.Util;
 import game.utils.init.InitAnimations;
-import game.utils.init.Test2;
+import game.utils.init.PreloadLevels;
 import game.world.Tile;
 
 public class Game extends Canvas implements Runnable {
@@ -38,6 +38,7 @@ public class Game extends Canvas implements Runnable {
 	private StateManager stateManager;
 	public static Game INSTANCE;
 	public static boolean debug = false;
+	public static GameState level;
 	
 	public Game() {
 		texture = new Texture("GrassTile");
@@ -148,7 +149,7 @@ public class Game extends Canvas implements Runnable {
 	public static void main(String[] args) {
 		ThreadPool pool = new ThreadPool(3);
 		pool.runTask(new InitAnimations());
-		//pool.runTask(new Test2());
+		pool.runTask(new PreloadLevels());
 		//pool.join();
 		
 		System.out.println("Running on OS: " + Util.getOSName());

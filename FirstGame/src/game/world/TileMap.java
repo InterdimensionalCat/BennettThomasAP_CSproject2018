@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 
 import game.Game;
 import game.entity.Entity;
+import game.entity.EntityGoal;
 import game.entity.EntityMovingTile;
 import game.entity.PlatformType;
 import game.entity.Player;
@@ -344,7 +345,7 @@ public class TileMap {
 		}
 	}
 	
-	private void load(String name) {
+	public void load(String name) {
 		BufferedImage image = null;
 		try {
 			image = ImageIO.read(new File("src/assets/levels/" + name + ".png"));
@@ -373,15 +374,33 @@ public class TileMap {
 				}
 		
 			}
-			EntityMovingTile movingTile = new EntityMovingTile(new Texture("movingTile"), 1000, 300, this, new Rectangle(100, 100, 128, 20), 200, PlatformType.VERTICAL_MOVING);
+/*			EntityMovingTile movingTile = new EntityMovingTile(new Texture("movingTile"), 1000, 300, this, new Rectangle(100, 100, 128, 20), 200, PlatformType.VERTICAL_MOVING);
 			EntityMovingTile movingTile1 = new EntityMovingTile(new Texture("movingTile"), 100, 500, this, new Rectangle(100, 100, 128, 20), 100, PlatformType.HORIZONTAL_MOVING);
 			EntityMovingTile movingTile2 = new EntityMovingTile(new Texture("movingTile"), 1500, 300, this, new Rectangle(100, 100, 128, 20), 100, PlatformType.FALLING);
+			EntityGoal goal = new EntityGoal(new Texture(new Texture("SpriteMap1"), 4, 1 , 64, 64), 1000.0, 400.0, this, new Rectangle(1000, 400, 64, 64));
 			addEntity(movingTile);
 			addEntity(movingTile1);
 			addEntity(movingTile2);
+			addEntity(goal);*/
 	
 		}
 
+	}
+	
+	public void unload() {
+		for(Entity e: entities) {
+			e.setDead();
+			e = null;
+		}
+		entities.clear();
+		
+	}
+	
+	public void setEntityList(Entity[] arr) {
+		entities.clear();
+		for(Entity e : arr) {
+			entities.add(e);
+		}
 	}
 	
 	public void addEntity(Entity e) {
