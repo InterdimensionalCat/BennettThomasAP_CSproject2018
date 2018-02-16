@@ -33,6 +33,8 @@ public class TileMap {
 	private Player player;
 	private ParallaxEngine parallaxEngine;
 	private ArrayList<Entity> entities;
+	
+	private boolean isOnMovingTile;
 
 	public TileMap(String name) {
 		entities = new ArrayList<Entity>();
@@ -189,7 +191,7 @@ public class TileMap {
 			
 		}
 		
-		if(getTile(pixelsToTiles((int)AABB.getMinX()), pixelsToTiles((int)AABB.getMaxY()  - 1)) != null) { //this is the bottom left corner
+		if(getTile(pixelsToTiles((int)AABB.getMinX()), pixelsToTiles((int)AABB.getMaxY()  - 1)) != null && !isOnMovingTile) { //this is the bottom left corner
 			newX = tilesToPixels(pixelsToTiles((int)AABB.getMaxX())) - 5/*this is the offset from AABB hitbox to texture*/ + 1;
 			player.setX(newX);
 			AABB.setBounds((int)player.ajustXforCollision(newX), (int)player.ajustYforCollision(posY), AABB.width, AABB.height);
@@ -240,7 +242,7 @@ public class TileMap {
 		}
 		
 		
-		if(getTile(pixelsToTiles((int)AABB.getMaxX() - 1), pixelsToTiles((int)AABB.getMaxY())) != null) { // this is the bottom right corner
+		if(getTile(pixelsToTiles((int)AABB.getMaxX() - 1), pixelsToTiles((int)AABB.getMaxY())) != null && !isOnMovingTile) { // this is the bottom right corner
 			Tile tile = getTile(pixelsToTiles((int)AABB.getMaxX() - 1), pixelsToTiles((int)AABB.getMaxY()));
 			if(tile.type == TileType.SOLID) {
 				player.setY(tilesToPixels(pixelsToTiles((int)player.ajustYforCollision(posY))));
@@ -285,10 +287,11 @@ public class TileMap {
 			}
 		}
 
+		isOnMovingTile = false;
+		
 		//Entity Collision
 		for (Entity e : entities) {
 			if (e instanceof EntityMovingTile) {
-
 				EntityMovingTile movingTile = (EntityMovingTile)e;
 				
 				if (player.getAABB().getMaxY() > movingTile.getAABB().getMinY()
@@ -297,18 +300,20 @@ public class TileMap {
 						&& player.getAABB().getMaxX() < movingTile.getAABB().getMaxX()
 						&& player.getY() + 60 <= movingTile.getAABB().getMinY()) { // this is the bottom right corner
 
-					player.setY(movingTile.getAABB().getMinY() - 64);
+					player.setY(movingTile.getAABB().getMinY() - 62);
 					player.setMotionY(0);
 					player.setAirBorne(false);
 					movingTile.setCollided(true);
+					isOnMovingTile = true;
 					
 					if(movingTile.getMotionY()  > 0) {
-						player.setY(movingTile.getAABB().getMinY() - 63);
+						player.setY(movingTile.getAABB().getMinY() - 62);
 					}
 					
-					if(!player.isMoving()) {
-						player.setMotionX(movingTile.getMotionX()*2.4); //2.4 is a constant that prevents traction from slowing down the player
-						player.setMotionY(movingTile.getMotionY());
+					if(!player.isMoving()/* && movingTile.getPlatformType() == PlatformType.HORIZONTAL_MOVING*/) {
+						//player.setMotionX(movingTile.getMotionX()*2.4); //2.4 is a constant that prevents traction from slowing down the player
+						player.setX(player.getX() + movingTile.getMotionX());
+						//player.setMotionY(movingTile.getMotionY());
 					}
 
 					if (Game.debug) {
@@ -322,16 +327,17 @@ public class TileMap {
 							&& player.getAABB().getMinX() > movingTile.getAABB().getMinX()
 							&& player.getY() + 60 <= movingTile.getAABB().getMinY()) { // this is the bottom left corner
 
-						player.setY(movingTile.getAABB().getMinY() - 64);
+						player.setY(movingTile.getAABB().getMinY() - 62);
 						player.setMotionY(0);
 						player.setAirBorne(false);
 						movingTile.setCollided(true);
+						isOnMovingTile = true;
 						
 						if(movingTile.getMotionY()  > 0) {
-							player.setY(movingTile.getAABB().getMinY() - 63);
+							player.setY(movingTile.getAABB().getMinY() - 62);
 						}
 						
-						if(!player.isMoving()) {
+						if(!player.isMoving()/* && movingTile.getPlatformType() == PlatformType.HORIZONTAL_MOVING*/) {
 							player.setMotionX(movingTile.getMotionX()*2.4); //2.4 is a constant that prevents traction from slowing down the player
 							player.setMotionY(movingTile.getMotionY());
 						}

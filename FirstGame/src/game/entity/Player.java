@@ -17,6 +17,7 @@ public class Player extends Mob {
 	private TileMap tileMap;
 	private double maxMotionX;
 	private Animation idle;
+	private ActionState playerActionState;
 
 	public Player(double x, double y, TileMap tileMap) {
 		super(new Texture(new Texture("PlayerIdleMap"), 1, 1, 64), x, y, tileMap, new Rectangle());
@@ -25,7 +26,8 @@ public class Player extends Mob {
 		this.AABB = new Rectangle((int)this.getCollisionX(),(int)this.getCollisionY(),this.getCollisionWidth(),this.getCollisionHeight());
 		this.tileMap = tileMap;
 		this.maxMotionX = 6.0;
-		this.idle = InitAnimations.animations.get("Player_idle"); 
+		this.idle = InitAnimations.animations.get("Player_idle");
+		//playerActionState = ActionState.FALLING;
 	}
 	
 	@Override
