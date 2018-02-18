@@ -81,7 +81,7 @@ public class Player extends Mob {
 		}
 		
 		if(KeyInput.wasReleased(KeyEvent.VK_SPACE) && motionY < 0) {
-			motionY /= 2.0; //1.5;
+			motionY /= 1.5;
 		}
 		
 		if(!moving) {

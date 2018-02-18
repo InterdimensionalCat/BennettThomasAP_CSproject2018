@@ -45,7 +45,7 @@ public class EntityMovingTile extends Mob {
 				motionX = -motionX;
 			}
 			x += motionX;
-			AABB.setBounds((int)x, (int)y, (int)AABB.getHeight(), (int)AABB.getWidth());
+			AABB.setBounds((int)x, (int)y, (int)AABB.getWidth(), (int)AABB.getHeight());
 
 		}
 		
@@ -54,7 +54,7 @@ public class EntityMovingTile extends Mob {
 				motionY = -motionY;
 			}
 			y += motionY;
-			AABB.setBounds((int)x, (int)y, (int)AABB.getHeight(), (int)AABB.getWidth());
+			AABB.setBounds((int)x, (int)y, (int)AABB.getWidth(), (int)AABB.getHeight());
 
 		}
 		
@@ -64,7 +64,7 @@ public class EntityMovingTile extends Mob {
 		    //AABB.setBounds((int)x, (int)y, (int)AABB.getHeight(), (int)AABB.getWidth());
 		}
 		if(this.type != PlatformType.DEAD) {
-		    AABB.setBounds((int)x, (int)y, (int)AABB.getHeight(), (int)AABB.getWidth());
+		    AABB.setBounds((int)x, (int)y, (int)AABB.getWidth(), (int)AABB.getHeight());
 		}
 	}
 	
@@ -77,6 +77,11 @@ public class EntityMovingTile extends Mob {
 		if(this.y > Game.HEIGHT) {
 			this.setDead();
 		}
+		
+	}
+	
+	public PlatformType getPlatformType() {
+		return type;
 	}
 	
 	/*public void fall() {

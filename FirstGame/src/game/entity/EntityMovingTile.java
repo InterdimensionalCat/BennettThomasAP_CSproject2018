@@ -74,7 +74,7 @@ public class EntityMovingTile extends Mob {
 			falling = true;
 		}
 		collided = false;
-		if(this.y > Game.HEIGHT) {
+		if(this.y - 100 > Game.HEIGHT) {
 			this.setDead();
 		}
 		
