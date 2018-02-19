@@ -113,7 +113,7 @@ public class Player extends Mob {
 				} else {
 					if(moving) {
 						this.idle = InitAnimations.animations.get("Player_run");
-						//this.idle.setSpeed(30 - (int)Math.abs(2*motionX)); //oof this isnt working as intended
+						this.idle.setSpeed(30 - (int)Math.abs(2*motionX)); //oof this isnt working as intended
 						InitAnimations.animations.get("Player_run").run();
 					}
 				}
