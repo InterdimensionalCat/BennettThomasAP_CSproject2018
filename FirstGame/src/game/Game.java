@@ -39,6 +39,7 @@ public class Game extends Canvas implements Runnable {
 	public static Game INSTANCE;
 	public static boolean debug = false;
 	public static GameState level;
+	public static volatile SplashScreenDriver driver;
 	
 	public Game() {
 		texture = new Texture("GrassTile");
@@ -147,13 +148,13 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	public static void main(String[] args) {
+		driver = new SplashScreenDriver();
 		ThreadPool pool = new ThreadPool(3);
 		pool.runTask(new InitAnimations());
 		pool.runTask(new PreloadLevels());
 		//pool.join();
 		
 		System.out.println("Running on OS: " + Util.getOSName());
-		new SplashScreenDriver();
 		final Game game = new Game();
 		JFrame frame = new JFrame(TITLE);
 		frame.add(game);
