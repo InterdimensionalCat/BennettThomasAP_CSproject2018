@@ -2,12 +2,16 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="setSpeed" key="selection"/>
+		<item value="null" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="null"/>
+			<item value="vert"/>
+			<item value="getmob.getAABB()()"/>
+			<item value="AABB"/>
 			<item value="setSpeed"/>
 			<item value="setDead"/>
 			<item value="add"/>
@@ -19,12 +23,10 @@
 			<item value="run"/>
 			<item value="getMotionX"/>
 			<item value="tick"/>
-			<item value="new Entity"/>
-			<item value="new"/>
-			<item value="new Player"/>
-			<item value="player"/>
 		</list>
 		<list key="replacehistory">
+			<item value="movingTile.getAABB()"/>
+			<item value="mob.getAABB()"/>
 			<item value="texture"/>
 			<item value="Texture"/>
 		</list>

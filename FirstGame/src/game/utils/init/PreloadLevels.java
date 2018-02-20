@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import game.entity.Entity;
+import game.entity.EntityBoop;
 import game.entity.EntityGoal;
 import game.entity.EntityMovingTile;
 import game.entity.PlatformType;
@@ -15,13 +16,18 @@ public class PreloadLevels implements Runnable {
 
 	public static volatile ArrayList<String> levels = new ArrayList<String>();
 	public static volatile HashMap<String , Entity[]> levelEntities = new HashMap<String, Entity[]>();
-	public static volatile TileMap tileMap = new TileMap("level_4");
+	public static volatile TileMap tileMap = new TileMap("enemyTest");
+	public static volatile Entity[] entityLevel0 = {
+			(Entity)new EntityGoal(new Texture(new Texture("SpriteMap1"), 4, 1 , 64, 64), 0.0, 64*10, tileMap, new Rectangle(0, 64*10, 64, 64)),
+			(Entity)new EntityBoop(new Texture(new Texture("SpriteMap1"), 4, 1 , 64, 64), 300.0, 200.0, tileMap, new Rectangle(2000, 400, 64, 64), 0.7, 100)
+		};
 	public static volatile Entity[] entityLevel1 = {
 			(Entity)new EntityMovingTile(new Texture("movingTile"), 1000, 300, tileMap, new Rectangle(100, 100, 128, 20), 200, PlatformType.VERTICAL_MOVING),
 			(Entity)new EntityMovingTile(new Texture("movingTile"), 100, 500, tileMap, new Rectangle(100, 100, 128, 20), 100, PlatformType.HORIZONTAL_MOVING),
 			(Entity)new EntityMovingTile(new Texture("movingTile"), 2300, 500, tileMap, new Rectangle(100, 100, 128, 20), 100, PlatformType.FALLING),
 			(Entity)new EntityMovingTile(new Texture("movingTile"), 1500, 300, tileMap, new Rectangle(100, 100, 128, 20), 100, PlatformType.FALLING),
-			(Entity)new EntityGoal(new Texture(new Texture("SpriteMap1"), 4, 1 , 64, 64), 2000.0, 400.0, tileMap, new Rectangle(2000, 400, 64, 64))
+			(Entity)new EntityGoal(new Texture(new Texture("SpriteMap1"), 4, 1 , 64, 64), 2000.0, 400.0, tileMap, new Rectangle(2000, 400, 64, 64)),
+			(Entity)new EntityBoop(new Texture(new Texture("SpriteMap1"), 4, 1 , 64, 64), 300.0, 200.0, tileMap, new Rectangle(2000, 400, 64, 64), 0.7, 100)
 		};
 	
 	public static volatile Entity[] entityLevel2 = {
@@ -31,6 +37,8 @@ public class PreloadLevels implements Runnable {
 	@Override
 	public void run() {
 		System.out.println("Preloading Levels");
+		levels.add("enemyTest");
+		levelEntities.put("enemyTest", entityLevel0);
 		levels.add("level_4");
 		levelEntities.put("level_4", entityLevel1);
 		

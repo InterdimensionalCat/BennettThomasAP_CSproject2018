@@ -12,8 +12,10 @@ import javax.imageio.ImageIO;
 
 import game.Game;
 import game.entity.Entity;
+import game.entity.EntityBoop;
 import game.entity.EntityGoal;
 import game.entity.EntityMovingTile;
+import game.entity.Mob;
 import game.entity.PlatformType;
 import game.entity.Player;
 import game.render.ParallaxEngine;
@@ -351,6 +353,226 @@ public class TileMap {
 		}
 	}
 	
+	public void calculateNPCCollision(Mob mob, double posX, double posY, double motionX, double motionY) {
+		double toX = posX + motionX;
+		double toY = posY + motionY;
+		double newX = -1.0;
+		mob.getAABB().setBounds((int)toX, (int)posY, mob.getAABB().width, mob.getAABB().height);
+		
+		
+		
+		if(getTile(pixelsToTiles((int)mob.getAABB().getMaxX()), pixelsToTiles((int)mob.getAABB().getMinY() + 1)) != null) { //this is the top right corner
+			Tile tile = getTile(pixelsToTiles((int)mob.getAABB().getMaxX()), pixelsToTiles((int)mob.getAABB().getMinY() + 1));
+			if (tile.type == TileType.SOLID) { 
+				newX = tilesToPixels(pixelsToTiles((int)mob.getAABB().getMaxX())) - mob.getAABB().getWidth() - 1 - 5;
+				mob.setX(newX);
+				mob.getAABB().setBounds((int)newX, (int)posY, mob.getAABB().width, mob.getAABB().height);
+				mob.setMotionX(0);
+				mob.setMoving(false);
+				
+				if(Game.debug) {
+					System.out.println("Collided top right horizontally");
+				}
+			} else {
+				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
+					newX = toX;
+					if(Game.debug) {
+						System.out.println("Walking up a slope");
+					}
+				}
+			}
+		}
+		
+		if(getTile(pixelsToTiles((int)mob.getAABB().getMaxX()), pixelsToTiles((int)mob.getAABB().getMaxY() - 1)) != null) { //this is the bottom right corner
+			Tile tile = getTile(pixelsToTiles((int)mob.getAABB().getMaxX()), pixelsToTiles((int)mob.getAABB().getMaxY() - 1));
+			if (tile.type == TileType.SOLID) {
+				newX = tilesToPixels(pixelsToTiles((int) mob.getAABB().getMaxX())) - mob.getAABB().getWidth() - 1 - 5;
+				mob.setX(newX);
+				mob.getAABB().setBounds((int)newX, (int)posY, mob.getAABB().width, mob.getAABB().height);
+				mob.setMotionX(0);
+				mob.setMoving(false);
+				if(Game.debug) {
+					System.out.println("Collided bottom right horizontally");
+				}
+			} else {
+				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
+
+				}
+			}
+		}
+		
+		if(getTile(pixelsToTiles((int)mob.getAABB().getMinX()), pixelsToTiles((int)mob.getAABB().getMinY() + 1)) != null) { //this is the top left corner
+			newX = tilesToPixels(pixelsToTiles((int)mob.getAABB().getMaxX())) - 5/*this is the offset from mob.getAABB() hitbox to texture*/ + 1;
+			mob.setX(newX);
+			mob.getAABB().setBounds((int)newX, (int)posY, mob.getAABB().width, mob.getAABB().height);
+			mob.setMotionX(0);
+			mob.setMoving(false);
+			
+			if(Game.debug) {
+				System.out.println("Collided top left horizontally");
+			}
+			
+		}
+		
+		if(getTile(pixelsToTiles((int)mob.getAABB().getMinX()), pixelsToTiles((int)mob.getAABB().getMaxY()  - 1)) != null && !isOnMovingTile) { //this is the bottom left corner
+			newX = tilesToPixels(pixelsToTiles((int)mob.getAABB().getMaxX())) - 5/*this is the offset from mob.getAABB() hitbox to texture*/ + 1;
+			mob.setX(newX);
+			mob.getAABB().setBounds((int)newX, (int)posY, mob.getAABB().width, mob.getAABB().height);
+			mob.setMotionX(0);
+			mob.setMoving(false);
+			
+			if(Game.debug) {
+				System.out.println("Collided bottom left horizontally");
+			}
+		}
+		
+		if (newX == -1.0) {
+			newX = toX;
+		}
+		
+		if((int)newX < 0) { //colliding with the map boundry
+			mob.setX(1);
+			mob.setMotionX(0);
+			mob.setMoving(false);
+		}
+		
+		if((int)newX + 64 > tilesToPixels(this.width)) {
+			mob.setX(tilesToPixels(this.width) - 64); // must change this
+			mob.setMotionX(0);
+			mob.setMoving(false);
+		}
+		
+		//horz is first, now vert;
+		
+		mob.getAABB().setBounds((int)newX, (int)toY, mob.getAABB().width, mob.getAABB().height);
+		
+		if(getTile(pixelsToTiles((int)mob.getAABB().getMaxX() - 1), pixelsToTiles((int)mob.getAABB().getMinY())) != null) { // this is the top right corner
+			mob.setMotionY(motionY / 4);
+			
+			if(Game.debug) {
+				System.out.println("Collided top left vertically");
+			}
+			
+		}
+			
+		if(getTile(pixelsToTiles((int)mob.getAABB().getMinX() + 1), pixelsToTiles((int)mob.getAABB().getMinY())) != null) { // this is the top left corner
+			mob.setMotionY(motionY / 4);
+			
+			if(Game.debug) {
+				System.out.println("Collided top right vertically");
+			}
+			
+		}
+		
+		
+		if(getTile(pixelsToTiles((int)mob.getAABB().getMaxX() - 1), pixelsToTiles((int)mob.getAABB().getMaxY())) != null && !isOnMovingTile) { // this is the bottom right corner
+			Tile tile = getTile(pixelsToTiles((int)mob.getAABB().getMaxX() - 1), pixelsToTiles((int)mob.getAABB().getMaxY()));
+			if(tile.type == TileType.SOLID) {
+				mob.setY(tilesToPixels(pixelsToTiles((int)posY + 10)));
+				mob.setMotionY(0);
+				mob.setAirBorne(false);
+				
+				if(Game.debug) {
+					System.out.println("Collided bottom right vertically");
+				}
+			} else {
+				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
+
+				}
+			}
+		}
+		
+		if(getTile(pixelsToTiles((int)mob.getAABB().getMinX() + 1), pixelsToTiles((int)mob.getAABB().getMaxY())) != null) { // this is the bottom left corner
+			Tile tile = getTile(pixelsToTiles((int)mob.getAABB().getMinX() + 1), pixelsToTiles((int)mob.getAABB().getMaxY()));
+			if(tile.type == TileType.SOLID) {
+				mob.setY(tilesToPixels(pixelsToTiles((int)posY + 10)));
+				mob.setMotionY(0);
+				mob.setAirBorne(false);
+				if(Game.debug) {
+					System.out.println("Collided bottom left vertically");
+				}
+			} else {
+				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
+					
+				}
+			}
+		}
+
+		isOnMovingTile = false;
+		
+		//Entity Collision
+		for (Entity e : entities) {
+			if (e instanceof EntityMovingTile) {
+				EntityMovingTile movingTile = (EntityMovingTile)e;
+				
+				if (mob.getAABB().getMaxY() > movingTile.getAABB().getMinY()
+						&& mob.getAABB().getMaxY() < movingTile.getAABB().getMaxY()
+						&& mob.getAABB().getMaxX() > movingTile.getAABB().getMinX()
+						&& mob.getAABB().getMaxX() < movingTile.getAABB().getMaxX()
+						&& mob.getY() + 60 <= movingTile.getAABB().getMinY()) { // this is the bottom right corner
+
+					mob.setY(movingTile.getAABB().getMinY() - 62);
+					mob.setMotionY(0);
+					mob.setAirBorne(false);
+					movingTile.setCollided(true);
+					isOnMovingTile = true;
+					
+					if(movingTile.getMotionY()  > 0) {
+						mob.setY(movingTile.getAABB().getMinY() - 62);
+					}
+					
+					if(!mob.isMoving()/* && movingTile.getPlatformType() == PlatformType.HORIZONTAL_MOVING*/) {
+						//player.setMotionX(movingTile.getMotionX()*2.4); //2.4 is a constant that prevents traction from slowing down the player
+						mob.setX(mob.getX() + movingTile.getMotionX());
+						//player.setMotionY(movingTile.getMotionY());
+					}
+
+					if (Game.debug) {
+						System.out.println("Collided bottom left with an entity vertically");
+					}
+
+				} else {
+					if (mob.getAABB().getMaxY() > movingTile.getAABB().getMinY()
+							&& mob.getAABB().getMaxY() < movingTile.getAABB().getMaxY()
+							&& mob.getAABB().getMinX() < movingTile.getAABB().getMaxX()
+							&& mob.getAABB().getMinX() > movingTile.getAABB().getMinX()
+							&& mob.getY() + 60 <= movingTile.getAABB().getMinY()) { // this is the bottom left corner
+
+						mob.setY(movingTile.getAABB().getMinY() - 62);
+						mob.setMotionY(0);
+						mob.setAirBorne(false);
+						movingTile.setCollided(true);
+						isOnMovingTile = true;
+						
+						if(movingTile.getMotionY()  > 0) {
+							mob.setY(movingTile.getAABB().getMinY() - 62);
+						}
+						
+						if(!mob.isMoving()/* && movingTile.getPlatformType() == PlatformType.HORIZONTAL_MOVING*/) {
+							mob.setMotionX(movingTile.getMotionX()*2.4); //2.4 is a constant that prevents traction from slowing down the player
+							mob.setMotionY(movingTile.getMotionY());
+						}
+
+						if (Game.debug) {
+							System.out.println("Collided bottom right with an entity vertically");
+						}
+					}
+				}
+			} else {
+				if (e instanceof EntityBoop) {
+					EntityBoop boop = (EntityBoop)e;
+					if (player.getAABB().intersects(boop.getAABB())) {
+						if (boop.getY() - player.getY() < 48) {
+							boop.onHit(player);
+						} else {
+							boop.onHit();
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	public void load(String name) {
 		BufferedImage image = null;
 		try {
@@ -436,6 +658,10 @@ public class TileMap {
 	
 	public int getWidth() {
 		return width;
+	}
+	public void killEntity(Entity e) {
+		removeEntity(e);
+		//e = null;
 	}
 		
 }

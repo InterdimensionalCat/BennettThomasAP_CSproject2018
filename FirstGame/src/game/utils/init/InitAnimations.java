@@ -2,7 +2,6 @@ package game.utils.init;
 
 import java.util.HashMap;
 
-import game.Game;
 import game.render.textures.Animation;
 import game.render.textures.Texture;
 
@@ -26,9 +25,9 @@ public class InitAnimations implements Runnable {
 		
 		animations.put("Player_run", new Animation(10, /*new Texture(new Texture("PlayerIdleMap"), 1, 1, 64) ,*/
 				new Texture(new Texture("PlayerIdleMap"), 4, 2, 64),
-				new Texture(new Texture("PlayerIdleMap"), 1, 3, 64),
-				new Texture(new Texture("PlayerIdleMap"), 2, 3, 64),
-		new Texture(new Texture("PlayerIdleMap"), 1, 3, 64)));
+/*				new Texture(new Texture("PlayerIdleMap"), 1, 3, 64),*/
+				new Texture(new Texture("PlayerIdleMap"), 2, 3, 64)//,
+		/*new Texture(new Texture("PlayerIdleMap"), 1, 3, 64)*/));
 		
 		System.out.println("Animations Loaded");
 	}
