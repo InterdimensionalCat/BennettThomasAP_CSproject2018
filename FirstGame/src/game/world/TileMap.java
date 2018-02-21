@@ -565,7 +565,7 @@ public class TileMap {
 						if (boop.getY() - player.getY() < 48) {
 							boop.onHit(player);
 						} else {
-							boop.onHit();
+							boop.onKillHit(player);
 						}
 					}
 				}

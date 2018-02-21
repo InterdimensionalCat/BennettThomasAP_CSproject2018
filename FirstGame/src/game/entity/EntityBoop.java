@@ -43,7 +43,8 @@ public class EntityBoop extends Mob {
 		player.setDead();
 	}
 	
-	public void onHit() {
+	public void onKillHit(Player player) {
+		player.setMotionY(-10.0);
 		this.setDead();
 	}
 	

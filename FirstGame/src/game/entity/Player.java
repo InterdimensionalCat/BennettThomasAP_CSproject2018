@@ -119,6 +119,7 @@ public class Player extends Mob {
 				}
 		}
 		
+		
 		super.tick();
 	}
 	
@@ -181,4 +182,5 @@ public class Player extends Mob {
 	public void setPlayerSpawnY(int y) {
 		playerSpawnY = y;
 	}
+
 }

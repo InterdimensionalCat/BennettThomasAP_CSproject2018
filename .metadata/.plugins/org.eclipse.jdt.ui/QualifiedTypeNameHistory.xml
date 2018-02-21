@@ -57,7 +57,7 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="game.world.TileMap"/>
 <fullyQualifiedTypeName name="game.utils.init.PreloadLevels"/>
-<fullyQualifiedTypeName name="game.Game"/>
 <fullyQualifiedTypeName name="game.entity.Mob"/>
 <fullyQualifiedTypeName name="game.entity.EntityBoop"/>
+<fullyQualifiedTypeName name="game.Game"/>
 </qualifiedTypeNameHistroy>

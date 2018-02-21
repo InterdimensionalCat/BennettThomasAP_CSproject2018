@@ -40,6 +40,7 @@ public class Game extends Canvas implements Runnable {
 	public static boolean debug = false;
 	public static GameState level;
 	public static volatile SplashScreenDriver driver;
+	public static volatile int taskComplete;
 	
 	public Game() {
 		texture = new Texture("GrassTile");
@@ -50,7 +51,7 @@ public class Game extends Canvas implements Runnable {
 		MouseInput mi = new MouseInput();
 		addMouseListener(mi);
 		addMouseMotionListener(mi);
-		stateManager = new StateManager();
+		setStateManager(new StateManager());
 		
 		stateManager.addState(new MenuState());
 		stateManager.addState(new GameState());
@@ -59,7 +60,7 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	private void tick() {
-		stateManager.tick();
+		getStateManager().tick();
 		if (KeyInput.wasPressed(KeyEvent.VK_I)) {
 			debug = !debug;
 		}
@@ -79,7 +80,7 @@ public class Game extends Canvas implements Runnable {
 		
 		g2d.setColor(Color.WHITE);
 		g2d.fillRect(0, 0, WIDTH, HEIGHT);
-		stateManager.render(g2d);
+		getStateManager().render(g2d);
 		
 		/////////////////////////////////////
 		g.dispose();
@@ -155,6 +156,13 @@ public class Game extends Canvas implements Runnable {
 		//pool.join();
 		
 		System.out.println("Running on OS: " + Util.getOSName());
+		while(taskComplete < 2) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		final Game game = new Game();
 		JFrame frame = new JFrame(TITLE);
 		frame.add(game);
@@ -179,6 +187,14 @@ public class Game extends Canvas implements Runnable {
 		pool.runTask(game);
 		//game.start();
 		pool.join();
+	}
+
+	public StateManager getStateManager() {
+		return stateManager;
+	}
+
+	public void setStateManager(StateManager stateManager) {
+		this.stateManager = stateManager;
 	}
 
 }

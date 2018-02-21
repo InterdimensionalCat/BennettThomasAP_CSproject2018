@@ -2,6 +2,7 @@ package game.utils.init;
 
 import java.util.HashMap;
 
+import game.Game;
 import game.render.textures.Animation;
 import game.render.textures.Texture;
 
@@ -30,6 +31,7 @@ public class InitAnimations implements Runnable {
 		/*new Texture(new Texture("PlayerIdleMap"), 1, 3, 64)*/));
 		
 		System.out.println("Animations Loaded");
+		Game.taskComplete++;
 	}
 
 }
