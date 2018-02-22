@@ -358,7 +358,7 @@ public class TileMap {
 		}
 	}
 	
-	public void calculateNPCCollision(Mob mob, double posX, double posY, double motionX, double motionY) {
+	public boolean calculateNPCCollision(Mob mob, double posX, double posY, double motionX, double motionY) {
 		double toX = posX + motionX;
 		double toY = posY + motionY;
 		double newX = -1.0;
@@ -374,10 +374,12 @@ public class TileMap {
 				mob.getAABB().setBounds((int)newX, (int)posY, mob.getAABB().width, mob.getAABB().height);
 				mob.setMotionX(0);
 				mob.setMoving(false);
-				
 				if(Game.debug) {
 					System.out.println("Collided top right horizontally");
 				}
+				
+				return true;
+				
 			} else {
 				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
 					newX = toX;
@@ -399,6 +401,9 @@ public class TileMap {
 				if(Game.debug) {
 					System.out.println("Collided bottom right horizontally");
 				}
+				
+				return true;
+				
 			} else {
 				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
 
@@ -417,6 +422,8 @@ public class TileMap {
 				System.out.println("Collided top left horizontally");
 			}
 			
+			return true;
+			
 		}
 		
 		if(getTile(pixelsToTiles((int)mob.getAABB().getMinX()), pixelsToTiles((int)mob.getAABB().getMaxY()  - 1)) != null && !isOnMovingTile) { //this is the bottom left corner
@@ -429,6 +436,9 @@ public class TileMap {
 			if(Game.debug) {
 				System.out.println("Collided bottom left horizontally");
 			}
+			
+			return true;
+			
 		}
 		
 		if (newX == -1.0) {
@@ -576,6 +586,7 @@ public class TileMap {
 				}
 			}
 		}
+		return false;
 	}
 	
 	public void load(String name) {

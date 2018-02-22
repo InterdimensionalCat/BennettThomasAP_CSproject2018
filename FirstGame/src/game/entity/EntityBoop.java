@@ -7,13 +7,16 @@ import game.world.TileMap;
 
 public class EntityBoop extends Mob {
 	
-	public double displacement;
-	public double spawnPointX;
-	public boolean dead;
+	private double displacement;
+	private double speed;
+	private double spawnPointX;
+	private boolean dead;
+	private boolean displaced;
 
 	public EntityBoop(Texture texture, double x, double y, TileMap tileMap, Rectangle AABB, double speed, double displacement) {
 		super(texture, x, y, tileMap, AABB);
 		this.motionX = speed;
+		this.speed = speed;
 		this.spawnPointX = x;
 		this.displacement = displacement;
 	}
@@ -32,8 +35,9 @@ public class EntityBoop extends Mob {
 	@Override
 	public void tick() {
 		if (!dead) {
-			if (Math.abs(x - spawnPointX) > displacement) {
+			if (Math.abs(x - spawnPointX) > displacement || displaced) {
 				this.motionX = -motionX;
+				displaced = false;
 			}
 			super.tick();
 		}
@@ -51,7 +55,12 @@ public class EntityBoop extends Mob {
 	@Override
 	public void move() {
 
-		tileMap.calculateNPCCollision(this, x, y, motionX, motionY);
+		if(tileMap.calculateNPCCollision(this, x, y, motionX, motionY)) {
+			motionX = speed;
+		} 
+		if(tileMap.calculateNPCCollision(this, x, y, motionX, motionY)) {
+			motionX = -speed;
+		} 
 		y+= getMotionY();
 		x+= getMotionX();
 	}

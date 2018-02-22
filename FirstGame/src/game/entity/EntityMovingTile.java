@@ -60,10 +60,13 @@ public class EntityMovingTile extends Mob {
 		
 		if(this.type == PlatformType.FALLING && falling) {
 			//this.motionY *= 1.01;
-			this.motionY += 0.5;
+/*			this.motionY += 0.5;
 			if(this.motionY > 10) {
-				this.motionY = 10;
-			}
+				this.motionY = 2;
+			}*/
+			
+			motionY = 0.7;
+			
 		    y += motionY;
 		    //AABB.setBounds((int)x, (int)y, (int)AABB.getHeight(), (int)AABB.getWidth());
 		}
