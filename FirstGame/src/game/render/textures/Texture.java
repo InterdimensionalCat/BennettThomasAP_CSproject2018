@@ -16,6 +16,7 @@ public class Texture {
 	private BufferedImage image;
 	private String fileName;
 	private int width, height;
+	private boolean flip;
 	
 	public Texture(String fileName) {
 		this.fileName = fileName;
@@ -56,7 +57,12 @@ public class Texture {
 	}
 	
 	public void render(Graphics g, double posX, double posY) {
-		g.drawImage(image, (int) posX, (int) posY , null);
+		//g.drawImage(image, (int) posX, (int) posY , null); //old drawing method, would not allow image to be easily flipped
+		if(flip) {
+			g.drawImage(image, (int)posX, (int)posY, (int)posX + width, (int)posY + height, (int)0 + width, (int)0, (int)0 ,(int) 0 + height, null);
+		} else {
+			g.drawImage(image, (int)posX, (int)posY, (int)posX + width, (int)posY + height, (int)0, (int)0, (int)0 + width ,(int) 0 + height, null);
+		}
 	}
 	
 	public void render(Graphics2D g2d, double toX1, double toX2, double posX1, double posX2, double y) {
@@ -75,6 +81,13 @@ public class Texture {
 		return height;
 	}
 	
+	public void setFlip(boolean flip) {
+		this.flip = flip;
+	}
+	
+	public boolean getFlip() {
+		return flip;
+	}
 
 	
 }

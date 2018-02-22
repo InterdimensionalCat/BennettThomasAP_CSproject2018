@@ -104,7 +104,13 @@ public class Player extends Mob {
 		}
 		
 		if(!moving && !isAirBorne) {
-			this.idle = InitAnimations.animations.get("Player_idle"); 
+			if(this.idle.getFlip() == false) {
+				this.idle = InitAnimations.animations.get("Player_idle");
+				this.idle.setFlip(true);
+			} else {
+				this.idle = InitAnimations.animations.get("Player_idle"); 
+				this.idle.setFlip(false);
+			}
 			InitAnimations.animations.get("Player_idle").run();
 		} else {
 				if (isAirBorne) {
@@ -113,6 +119,13 @@ public class Player extends Mob {
 				} else {
 					if(moving) {
 						this.idle = InitAnimations.animations.get("Player_run");
+						if(this.motionX < 0) {
+							this.idle.setFlip(true);
+							InitAnimations.animations.get("Player_run").setFlip(true);
+						} else {
+							this.idle.setFlip(false);
+							InitAnimations.animations.get("Player_run").setFlip(false);
+						}
 						//this.idle.setSpeed(30 - (int)Math.abs(2*motionX)); //oof this isnt working as intended
 						InitAnimations.animations.get("Player_run").run();
 					}

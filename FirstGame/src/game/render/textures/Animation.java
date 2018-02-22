@@ -42,4 +42,14 @@ public class Animation {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
+	
+	public void setFlip(boolean flip) {
+		for (Texture t : frames) {
+			t.setFlip(flip);
+		}
+	}
+	
+	public boolean getFlip() {
+		return frames[0].getFlip();
+	}
 }

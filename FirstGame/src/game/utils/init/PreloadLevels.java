@@ -11,7 +11,6 @@ import game.entity.EntityGoal;
 import game.entity.EntityMovingTile;
 import game.entity.PlatformType;
 import game.render.textures.Texture;
-import game.states.GameState;
 import game.world.TileMap;
 
 public class PreloadLevels implements Runnable {
