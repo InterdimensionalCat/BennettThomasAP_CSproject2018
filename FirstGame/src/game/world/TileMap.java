@@ -40,7 +40,7 @@ public class TileMap {
 
 	public TileMap(String name) {
 		entities = new ArrayList<Entity>();
-		ParallaxLayer layer1 = new ParallaxLayer(new Texture("background1"), (int)((16 * 0.25) * -0.23));
+		ParallaxLayer layer1 = new ParallaxLayer(new Texture("background12"), (int)((16 * 0.25) * -0.23));
 		ParallaxLayer layer2 = new ParallaxLayer(new Texture("background2"), (int)((16 * 0.25) * -0.3));
 		ParallaxLayer layer3 = new ParallaxLayer(new Texture("background3"), (int)((16 * 0.25) * -0.6));
 		this.parallaxEngine = new ParallaxEngine(layer1, layer2, layer3);
@@ -181,7 +181,7 @@ public class TileMap {
 		}
 		
 		if(getTile(pixelsToTiles((int)AABB.getMinX()), pixelsToTiles((int)AABB.getMinY() + 1)) != null) { //this is the top left corner
-			newX = tilesToPixels(pixelsToTiles((int)AABB.getMaxX())) - 5/*this is the offset from AABB hitbox to texture*/ + 1;
+			newX = tilesToPixels(pixelsToTiles((int)AABB.getMaxX())) - 5/*this is the offset from AABB hitbox to texture*/ ;
 			player.setX(newX);
 			AABB.setBounds((int)player.ajustXforCollision(newX), (int)player.ajustYforCollision(posY), AABB.width, AABB.height);
 			player.setMotionX(0);
@@ -194,7 +194,7 @@ public class TileMap {
 		}
 		
 		if(getTile(pixelsToTiles((int)AABB.getMinX()), pixelsToTiles((int)AABB.getMaxY()  - 1)) != null && !isOnMovingTile) { //this is the bottom left corner
-			newX = tilesToPixels(pixelsToTiles((int)AABB.getMaxX())) - 5/*this is the offset from AABB hitbox to texture*/ + 1;
+			newX = tilesToPixels(pixelsToTiles((int)AABB.getMaxX())) - 5/*this is the offset from AABB hitbox to texture*/ ;
 			player.setX(newX);
 			AABB.setBounds((int)player.ajustXforCollision(newX), (int)player.ajustYforCollision(posY), AABB.width, AABB.height);
 			player.setMotionX(0);
@@ -341,6 +341,11 @@ public class TileMap {
 						
 						if(!player.isMoving()/* && movingTile.getPlatformType() == PlatformType.HORIZONTAL_MOVING*/) {
 							player.setMotionX(movingTile.getMotionX()*2.4); //2.4 is a constant that prevents traction from slowing down the player
+							player.setMotionY(movingTile.getMotionY());
+						}
+						
+						if(movingTile.getPlatformType() == PlatformType.FALLING) {
+							//player.setY(movingTile.getY() + movingTile.getMotionY());
 							player.setMotionY(movingTile.getMotionY());
 						}
 

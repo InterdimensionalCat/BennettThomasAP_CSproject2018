@@ -14,21 +14,24 @@ public class InitAnimations implements Runnable {
 	public void run() {
 		System.out.println("Loading Animations");
 		
-		animations.put("Player_idle", new Animation(60, new Texture(new Texture("PlayerIdleMap"), 1, 1, 64) ,
-				new Texture(new Texture("PlayerIdleMap"), 2, 1, 64) ,
-				new Texture(new Texture("PlayerIdleMap"), 1, 1, 64) ,
-				new Texture(new Texture("PlayerIdleMap"), 3, 1, 64)));
+		animations.put("Player_idle", new Animation(60, new Texture(new Texture("PlayerIdleMap"), 1, 1, 64, true) ,
+				new Texture(new Texture("PlayerIdleMap"), 2, 1, 64, true) ,
+				new Texture(new Texture("PlayerIdleMap"), 1, 1, 64, true) ,
+				new Texture(new Texture("PlayerIdleMap"), 3, 1, 64, true)));
 		
-		animations.put("Player_jump", new Animation(10, new Texture(new Texture("PlayerIdleMap"), 4, 1, 64) ,
-				new Texture(new Texture("PlayerIdleMap"), 1, 2, 64) ,
-				new Texture(new Texture("PlayerIdleMap"), 2, 2, 64) ,
-				new Texture(new Texture("PlayerIdleMap"), 3, 2, 64)));
+		animations.put("Player_jump", new Animation(10, new Texture(new Texture("PlayerIdleMap"), 4, 1, 64, true) ,
+				new Texture(new Texture("PlayerIdleMap"), 1, 2, 64, true) ,
+				new Texture(new Texture("PlayerIdleMap"), 2, 2, 64, true) ,
+				new Texture(new Texture("PlayerIdleMap"), 3, 2, 64, true)));
 		
 		animations.put("Player_run", new Animation(10, /*new Texture(new Texture("PlayerIdleMap"), 1, 1, 64) ,*/
-				new Texture(new Texture("PlayerIdleMap"), 4, 2, 64),
+				new Texture(new Texture("PlayerIdleMap"), 4, 2, 64, true),
 /*				new Texture(new Texture("PlayerIdleMap"), 1, 3, 64),*/
-				new Texture(new Texture("PlayerIdleMap"), 2, 3, 64)//,
+				new Texture(new Texture("PlayerIdleMap"), 2, 3, 64, true)//,
 		/*new Texture(new Texture("PlayerIdleMap"), 1, 3, 64)*/));
+		
+		animations.put("Player_turnRun", new Animation(10,
+				new Texture(new Texture("PlayerIdleMap"), 1, 3, 64, true)));
 		
 		System.out.println("Animations Loaded");
 		Game.taskComplete++;

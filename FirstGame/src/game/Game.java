@@ -139,7 +139,10 @@ public class Game extends Canvas implements Runnable {
 			
 			if(System.currentTimeMillis() - 1000 > timer) {
 				timer += 1000;
-				System.out.printf("FPS: %d | TPS: %d\n", fps, tps);
+				if(Game.debug) {
+					//System.out.printf("FPS: %d | TPS: %d\n", fps, tps);
+					System.out.printf("TPS: %d\n", tps);
+				}
 				fps = 0;
 				tps = 0;
 			}
@@ -158,10 +161,18 @@ public class Game extends Canvas implements Runnable {
 		System.out.println("Running on OS: " + Util.getOSName());
 		while(taskComplete < 2) {
 			try {
-				Thread.sleep(100);
+				driver.getScreen().setProgress((taskComplete + 1) * 50);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+		}
+		
+		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
 		}
 		final Game game = new Game();
 		JFrame frame = new JFrame(TITLE);

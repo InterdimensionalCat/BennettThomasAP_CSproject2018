@@ -24,4 +24,7 @@ public class SplashScreenDriver {
 		screen.setVisible(false);
 	}
 	
+	public SplashScreen getScreen() {
+		return screen;
+	}
 }

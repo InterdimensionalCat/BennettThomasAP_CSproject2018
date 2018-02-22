@@ -18,6 +18,8 @@ public class Player extends Mob {
 	private double maxMotionX;
 	private Animation idle;
 	private ActionState playerActionState;
+	protected boolean turnRunRight;
+	protected boolean turnRunLeft;
 
 	public Player(double x, double y, TileMap tileMap) {
 		super(new Texture(new Texture("PlayerIdleMap"), 1, 1, 64), x, y, tileMap, new Rectangle());
@@ -38,6 +40,8 @@ public class Player extends Mob {
 	@Override
 	public void tick() {
 
+		turnRunRight = false;
+		turnRunLeft = false;
 		
 		if(KeyInput.isDown(KeyEvent.VK_A)) {
 			moving = true;
@@ -52,6 +56,11 @@ public class Player extends Mob {
 					motionX = -maxMotionX;
 				}
 			}
+			
+			if(motionX > 0) {
+				turnRunRight = true;
+			}
+			
 		}
 		
 		
@@ -68,6 +77,9 @@ public class Player extends Mob {
 				if(motionX > maxMotionX) {
 					motionX = maxMotionX;
 				}
+			}
+			if(motionX < 0) {
+				turnRunLeft = true;
 			}
 		}
 		
@@ -104,11 +116,10 @@ public class Player extends Mob {
 		}
 		
 		if(!moving && !isAirBorne) {
-			if(this.idle.getFlip() == false) {
-				this.idle = InitAnimations.animations.get("Player_idle");
+			this.idle = InitAnimations.animations.get("Player_idle");
+			if (InitAnimations.animations.get("Player_run").getFlip() == true)  {
 				this.idle.setFlip(true);
 			} else {
-				this.idle = InitAnimations.animations.get("Player_idle"); 
 				this.idle.setFlip(false);
 			}
 			InitAnimations.animations.get("Player_idle").run();
@@ -118,18 +129,34 @@ public class Player extends Mob {
 					InitAnimations.animations.get("Player_jump").run();
 				} else {
 					if(moving) {
-						this.idle = InitAnimations.animations.get("Player_run");
-						if(this.motionX < 0) {
+						if (turnRunLeft) {
+							this.idle = InitAnimations.animations.get("Player_turnRun");
 							this.idle.setFlip(true);
-							InitAnimations.animations.get("Player_run").setFlip(true);
+							InitAnimations.animations.get("Player_turnRun").setFlip(true);
+							InitAnimations.animations.get("Player_turnRun").run();
 						} else {
-							this.idle.setFlip(false);
-							InitAnimations.animations.get("Player_run").setFlip(false);
+							if (turnRunRight) {
+								this.idle = InitAnimations.animations.get("Player_turnRun");
+								this.idle.setFlip(false);
+								InitAnimations.animations.get("Player_turnRun").setFlip(false);
+								InitAnimations.animations.get("Player_turnRun").run();
+							} else {
+								this.idle = InitAnimations.animations.get("Player_run");
+								if(this.motionX < 0) {
+									this.idle.setFlip(true);
+									InitAnimations.animations.get("Player_run").setFlip(true);
+									}
+								if(this.motionX > 0) {
+									this.idle.setFlip(false);
+									InitAnimations.animations.get("Player_run").setFlip(false);
+								}
+								//this.idle.setSpeed(30 - (int)Math.abs(2*motionX)); //oof this isnt working as intended
+								InitAnimations.animations.get("Player_run").run();
+							}
 						}
-						//this.idle.setSpeed(30 - (int)Math.abs(2*motionX)); //oof this isnt working as intended
-						InitAnimations.animations.get("Player_run").run();
 					}
 				}
+				
 		}
 		
 		

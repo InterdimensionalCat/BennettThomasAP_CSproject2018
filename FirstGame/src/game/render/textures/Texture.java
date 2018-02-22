@@ -17,6 +17,7 @@ public class Texture {
 	private String fileName;
 	private int width, height;
 	private boolean flip;
+	private boolean hasFlip;
 	
 	public Texture(String fileName) {
 		this.fileName = fileName;
@@ -52,16 +53,29 @@ public class Texture {
 			}
 	}
 	
+	public Texture(Texture spriteSheet, int x, int y, int width, int height, boolean hasFlip) {
+		this(spriteSheet, x, y, width, height);
+		this.hasFlip = hasFlip;
+	}
+	
+	public Texture(Texture spriteSheet, int x, int y, int size, boolean hasFlip) {
+		this(spriteSheet, x, y, size);
+		this.hasFlip = hasFlip;
+	}
+	
 	public Texture(Texture spriteSheet, int x, int y, int size) {
 		this(spriteSheet,  x,  y, size, size);
 	}
 	
 	public void render(Graphics g, double posX, double posY) {
-		//g.drawImage(image, (int) posX, (int) posY , null); //old drawing method, would not allow image to be easily flipped
-		if(flip) {
-			g.drawImage(image, (int)posX, (int)posY, (int)posX + width, (int)posY + height, (int)0 + width, (int)0, (int)0 ,(int) 0 + height, null);
+		if(!hasFlip) {
+			g.drawImage(image, (int) posX, (int) posY , null); //old drawing method, would not allow image to be easily flipped
 		} else {
-			g.drawImage(image, (int)posX, (int)posY, (int)posX + width, (int)posY + height, (int)0, (int)0, (int)0 + width ,(int) 0 + height, null);
+			if(flip) {
+				g.drawImage(image, (int)posX, (int)posY, (int)posX + width, (int)posY + height, (int)0 + width, (int)0, (int)0 ,(int) 0 + height, null);
+			} else {
+				g.drawImage(image, (int)posX, (int)posY, (int)posX + width, (int)posY + height, (int)0, (int)0, (int)0 + width ,(int) 0 + height, null);
+			}
 		}
 	}
 	
