@@ -32,7 +32,7 @@ public class InitLevels implements Runnable {
 		
 		Entity[] entityLevel0 = {
 					(Entity)new EntityGoal(new Texture(new Texture("SpriteMap1"), 4, 1 , 64, 64), 0.0, 64*10, tileMap, new Rectangle(0, 64*10, 64, 64)),
-					(Entity)new EntityBoop(300.0, 200.0, tileMap, 1.5, 200)
+					(Entity)new EntityBoop(new Texture(new Texture("SpriteMap1"), 4, 1 , 64, 64), 300.0, 200.0, tileMap, new Rectangle(2000, 400, 64, 64), 1.5, 200)
 				};
 		
 		Entity[] entityLevel1 = {
@@ -41,7 +41,7 @@ public class InitLevels implements Runnable {
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 2300, 500, tileMap, new Rectangle(100, 100, 128, 20), 100, PlatformType.FALLING),
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 1500, 300, tileMap, new Rectangle(100, 100, 128, 20), 100, PlatformType.FALLING),
 				(Entity)new EntityGoal(new Texture(new Texture("SpriteMap1"), 4, 1 , 64, 64), 2000.0, 400.0, tileMap, new Rectangle(2000, 400, 64, 64)),
-				(Entity)new EntityBoop(300.0, 200.0, tileMap, 0.7, 100)
+				(Entity)new EntityBoop(new Texture(new Texture("SpriteMap1"), 4, 1 , 64, 64), 300.0, 200.0, tileMap, new Rectangle(2000, 400, 64, 64), 0.7, 100)
 			};
 		
 		Entity[] entityLevel2 = {

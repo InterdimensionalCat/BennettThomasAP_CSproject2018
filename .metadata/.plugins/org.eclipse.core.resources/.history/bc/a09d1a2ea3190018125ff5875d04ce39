@@ -41,11 +41,6 @@ public class InitAnimations implements Runnable {
 		animations.put("Player_turnRun", new Animation(10,
 				new Texture(new Texture("PlayerIdleMap"), 1, 3, 64, true)));
 		
-		animations.put("Boop_walk", new Animation(5, new Texture("BoopWalk1"),
-				new Texture("BoopWalk2"),
-				new Texture("BoopWalk1"),
-				new Texture("BoopWalk3")));
-		
 		System.out.println("Animations Loaded");
 		try {
 			Thread.sleep(2000);

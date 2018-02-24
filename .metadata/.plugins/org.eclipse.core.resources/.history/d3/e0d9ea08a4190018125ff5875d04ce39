@@ -21,8 +21,8 @@ public class EntityBoop extends Mob {
 	private boolean displaced;
 	private Animation currentState;
 
-	public EntityBoop(double x, double y, TileMap tileMap, double speed, double displacement) {
-		super(new Texture("BoopWalk1"), x, y, tileMap, new Rectangle((int)x, (int)y, 64, 64));
+	public EntityBoop(Texture texture, double x, double y, TileMap tileMap, Rectangle AABB, double speed, double displacement) {
+		super(texture, x, y, tileMap, AABB);
 		this.motionX = speed;
 		this.speed = speed;
 		this.spawnPointX = x;
@@ -79,10 +79,6 @@ public class EntityBoop extends Mob {
 	@Override
 	public void render(Graphics2D g, int offsetX, int offsetY) {
 		currentState.render(g, x + offsetX, y + offsetY);
-		if (Game.debug) {
-			g.setColor(Color.BLUE);
-			g.drawRect((int)AABB.getX() + offsetX, (int)AABB.getY() + offsetY, (int)AABB.getWidth(), (int)AABB.getHeight());
-		}
 
 	}
 }
