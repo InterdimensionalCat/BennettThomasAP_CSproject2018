@@ -1,9 +1,0 @@
-package game.states;
-
-public class Level {
-
-	public Level(String name) {
-		
-	}
-	
-}

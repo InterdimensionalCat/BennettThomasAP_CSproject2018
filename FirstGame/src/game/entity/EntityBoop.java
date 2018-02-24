@@ -2,6 +2,7 @@ package game.entity;
 
 import java.awt.Rectangle;
 
+import game.Game;
 import game.render.textures.Texture;
 import game.world.TileMap;
 
@@ -37,6 +38,7 @@ public class EntityBoop extends Mob {
 		if (!dead) {
 			if (Math.abs(x - spawnPointX) > displacement || displaced) {
 				this.motionX = -motionX;
+				this.speed = -speed;
 				displaced = false;
 			}
 			super.tick();
@@ -49,6 +51,7 @@ public class EntityBoop extends Mob {
 	
 	public void onKillHit(Player player) {
 		player.setMotionY(-10.0);
+		Game.fxmanager.playSound("BoopDeath");
 		this.setDead();
 	}
 	
@@ -56,11 +59,9 @@ public class EntityBoop extends Mob {
 	public void move() {
 
 		if(tileMap.calculateNPCCollision(this, x, y, motionX, motionY)) {
-			motionX = speed;
-		} 
-		if(tileMap.calculateNPCCollision(this, x, y, motionX, motionY)) {
 			motionX = -speed;
-		} 
+			speed = -speed;
+		}  
 		y+= getMotionY();
 		x+= getMotionX();
 	}

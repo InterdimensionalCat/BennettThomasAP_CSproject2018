@@ -47,4 +47,12 @@ public class StateManager {
 		return currentState;
 	}
 	
+	public String getCurrentLevel() {
+		if(currentState instanceof GameState) {
+			return ((GameState)currentState).getCurrentLevel();
+		} else {
+			return "";
+		}
+	}
+	
 }

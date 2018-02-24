@@ -1,0 +1,5 @@
+package game.audio;
+
+public class SoundFXPlayer {
+
+}

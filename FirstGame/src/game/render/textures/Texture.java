@@ -15,6 +15,7 @@ public class Texture {
 	private static final Map<String, BufferedImage> textureMap = new HashMap<String, BufferedImage>();
 	private BufferedImage image;
 	private String fileName;
+	private String uniqueName;
 	private int width, height;
 	private boolean flip;
 	private boolean hasFlip;
@@ -36,14 +37,14 @@ public class Texture {
 			this.height = image.getHeight();
 			this.width = image.getWidth();
 		}
-		
+		uniqueName = fileName;
 		
 	}
 	
 	public Texture(Texture spriteSheet, int x, int y, int width, int height) {
 		this.width = width;
 		this.height = height;
-		String key = spriteSheet.fileName + "_" + x + "_" + y; 
+		String key = spriteSheet.fileName + "_" + x + "_" + y;
 		BufferedImage oldImage = textureMap.get(key);
 		if(oldImage != null) { //SWITCH TO HASKEY
 			image = oldImage;
@@ -51,6 +52,7 @@ public class Texture {
 				this.image = spriteSheet.image.getSubimage(x*width - width, y * height - height, width, height);
 				System.out.println("Calculating image: " + key);
 			}
+		uniqueName = key;
 	}
 	
 	public Texture(Texture spriteSheet, int x, int y, int width, int height, boolean hasFlip) {
@@ -85,6 +87,10 @@ public class Texture {
 
 	public BufferedImage getImage() {
 		return image;
+	}
+	
+	public String getName() {
+		return uniqueName;
 	}
 
 	public int getWidth() {

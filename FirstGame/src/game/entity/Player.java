@@ -4,10 +4,13 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
+import game.Game;
 import game.input.KeyInput;
 import game.render.textures.Animation;
 import game.render.textures.Texture;
 import game.utils.init.InitAnimations;
+import game.utils.init.InitAudio;
+import game.utils.init.InitLevels;
 import game.world.TileMap;
 
 public class Player extends Mob {
@@ -163,6 +166,17 @@ public class Player extends Mob {
 		super.tick();
 	}
 	
+	protected void jump(double velocityY) {
+		if(!isAirBorne) {
+			if(!InitAudio.musicFiles.get("PlayerJump1").isPlaying()) {
+				Game.fxmanager.playSound("PlayerJump1");
+			} else {
+				Game.fxmanager.playSound("PlayerJump2");
+			}
+		}
+		super.jump(velocityY);
+	}
+	
 	public int getCollisionWidth() {
 		return texture.getWidth() - 24;
 	}
@@ -203,6 +217,8 @@ public class Player extends Mob {
 	
 	public void setDead() {
 		System.out.println("You Died!");
+		//tileMap.setEntityList(PreloadLevels.levelEntities.get(Game.INSTANCE.getStateManager().getCurrentLevel()));
+		Game.fxmanager.playSound("PlayerDead");
 		x = playerSpawnX;
 		y = playerSpawnY;	
 	}

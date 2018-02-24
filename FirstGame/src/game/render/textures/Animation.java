@@ -2,6 +2,10 @@ package game.render.textures;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+
+import game.Game;
+import game.utils.init.InitAudio;
 
 public class Animation {
 
@@ -11,6 +15,8 @@ public class Animation {
 	private int numFrames;
 	private Texture currentFrame;
 	private Texture[] frames;
+	private boolean hasAudio;
+	private ArrayList<String> audio;
 	
 	public Animation(int speed, Texture... frames) {
 		this.speed = speed;
@@ -19,10 +25,24 @@ public class Animation {
 		this.currentFrame = frames[0];
 	}
 	
+	public Animation (ArrayList<String> audio, int speed, Texture... frames) {
+		this(speed, frames);
+		this.audio = audio;
+		hasAudio = true;
+	}
+	
 	private void nextFrame() {
 		currentFrame = frames[index++];
 		if(index >= numFrames) {
 			index = 0;
+		}
+		if(hasAudio) {
+			for(int i = (index + 2) % 2; i < audio.size(); i++) {
+				if(!InitAudio.musicFiles.get(audio.get(i)).isPlaying()) {
+					Game.fxmanager.playSound(audio.get(i));
+					break;
+				}
+			}
 		}
 	}
 	

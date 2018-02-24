@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.awt.event.KeyEvent"/>
-<fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="game.render.textures.SpriteSheet"/>
 <fullyQualifiedTypeName name="game.states.GameState"/>
@@ -53,11 +51,13 @@
 <fullyQualifiedTypeName name="game.entity.PlatformType"/>
 <fullyQualifiedTypeName name="java.lang.Math"/>
 <fullyQualifiedTypeName name="game.entity.EntityGoal"/>
-<fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="game.world.TileMap"/>
-<fullyQualifiedTypeName name="game.utils.init.PreloadLevels"/>
 <fullyQualifiedTypeName name="game.entity.Mob"/>
 <fullyQualifiedTypeName name="game.entity.EntityBoop"/>
+<fullyQualifiedTypeName name="game.utils.init.PreloadLevels"/>
 <fullyQualifiedTypeName name="game.Game"/>
+<fullyQualifiedTypeName name="game.audio.SoundFXPlayer"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="game.utils.init.InitAudio"/>
 </qualifiedTypeNameHistroy>

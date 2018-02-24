@@ -3,7 +3,7 @@ package game.states;
 import java.awt.Graphics2D;
 
 import game.Game;
-import game.utils.init.PreloadLevels;
+import game.utils.init.InitLevels;
 import game.world.TileMap;
 
 public class GameState implements State {
@@ -14,10 +14,10 @@ public class GameState implements State {
 
 	@Override
 	public void init() {
-		tileMap = PreloadLevels.tileMap;
-		tileMap.load(PreloadLevels.levels.get(0));
-		currentLevel = PreloadLevels.levels.get(0);
-		tileMap.setEntityList(PreloadLevels.levelEntities.get(PreloadLevels.levels.get(0)));
+		tileMap = InitLevels.tileMap;
+		tileMap.load(InitLevels.levels.get(0));
+		currentLevel = InitLevels.levels.get(0);
+		tileMap.setEntityList(InitLevels.levelEntities.get(InitLevels.levels.get(0)));
 		Game.level = this;
 	}
 
@@ -43,14 +43,18 @@ public class GameState implements State {
 	
 	public void nextLevel() {
 		tileMap.unload();
-		tileMap.load(PreloadLevels.levels.get(++levelInt));
-		currentLevel = PreloadLevels.levels.get(levelInt);
-		tileMap.setEntityList(PreloadLevels.levelEntities.get(PreloadLevels.levels.get(levelInt)));
+		tileMap.load(InitLevels.levels.get(++levelInt));
+		currentLevel = InitLevels.levels.get(levelInt);
+		tileMap.setEntityList(InitLevels.levelEntities.get(InitLevels.levels.get(levelInt)));
 	}
 
 	@Override
 	public String getName() {
-		return PreloadLevels.levels.get(levelInt);
+		return InitLevels.levels.get(levelInt);
+	}
+	
+	public String getCurrentLevel() {
+		return currentLevel;
 	}
 
 }

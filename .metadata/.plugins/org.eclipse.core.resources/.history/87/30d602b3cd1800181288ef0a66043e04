@@ -1,0 +1,23 @@
+package game.utils.init;
+
+import java.util.HashMap;
+
+import game.Game;
+import game.render.textures.Animation;
+import game.render.textures.Texture;
+
+public class InitTextures implements Runnable {
+	
+	public static volatile HashMap<String, Animation> textures = new HashMap<String, Animation>();
+
+	@Override
+	public void run() {
+		System.out.println("Loading Textures");
+		
+		
+		
+		System.out.println("Textures Loaded");
+		Game.taskComplete++;
+	}
+
+}
