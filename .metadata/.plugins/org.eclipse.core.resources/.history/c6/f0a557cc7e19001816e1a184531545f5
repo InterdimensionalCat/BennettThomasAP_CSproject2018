@@ -1,0 +1,38 @@
+package game.utils.init;
+
+import java.util.HashMap;
+
+import game.Game;
+import game.render.ParallaxLayer;
+import game.render.textures.Animation;
+import game.render.textures.Texture;
+
+public class InitTextures implements Runnable {
+	
+	public static volatile HashMap<String, Texture> textures = new HashMap<String, Texture>();
+
+	@Override
+	public void run() {
+		System.out.println("Loading Textures");
+		
+		addTexture(new Texture("background12"));
+		addTexture(new Texture("background2"));
+		addTexture(new Texture("background3"));
+		addTexture(new Texture("PlayerIdleMap"));
+		addTexture(new Texture("SpriteMap1"));
+		
+		System.out.println("Textures Loaded");
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		Game.driver.getScreen().setProgress((++Game.taskComplete) * 50);
+	}
+
+	public static void addTexture(Texture t) {
+		textures.put(t.getName(), t);
+		System.out.println(t.getName() + " Added");
+	}
+	
+}

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import game.render.textures.Texture;
+import game.utils.init.InitTextures;
 
 public class Tile {
 	

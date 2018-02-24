@@ -24,7 +24,7 @@ public class InitAudio implements Runnable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		Game.driver.getScreen().setProgress((++Game.taskComplete) * 33);
+		Game.driver.getScreen().setProgress((++Game.taskComplete) * 25);
 	}
 	
 }

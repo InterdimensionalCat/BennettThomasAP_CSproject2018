@@ -1,5 +1,7 @@
 package game.entity;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -8,9 +10,11 @@ import game.Game;
 import game.input.KeyInput;
 import game.render.textures.Animation;
 import game.render.textures.Texture;
+import game.utils.Fonts;
 import game.utils.init.InitAnimations;
 import game.utils.init.InitAudio;
 import game.utils.init.InitLevels;
+import game.utils.init.InitTextures;
 import game.world.TileMap;
 
 public class Player extends Mob {
@@ -23,6 +27,8 @@ public class Player extends Mob {
 	private ActionState playerActionState;
 	protected boolean turnRunRight;
 	protected boolean turnRunLeft;
+	private int deathCount = InitAnimations.playerDeath;
+	private int score = InitAnimations.playerScore;
 
 	public Player(double x, double y, TileMap tileMap) {
 		super(new Texture(new Texture("PlayerIdleMap"), 1, 1, 64), x, y, tileMap, new Rectangle());
@@ -38,6 +44,8 @@ public class Player extends Mob {
 	@Override
 	public void render(Graphics2D g, int offsetX, int offsetY) {
 		idle.render(g, x + offsetX, y + offsetY);
+		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Deaths: " + deathCount, 10, 30);
+		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Score: " + score, 10, 60);
 	}
 
 	@Override
@@ -45,6 +53,9 @@ public class Player extends Mob {
 
 		turnRunRight = false;
 		turnRunLeft = false;
+		
+		InitAnimations.playerDeath = deathCount;
+		InitAnimations.playerScore = score;
 		
 		if(KeyInput.isDown(KeyEvent.VK_A)) {
 			moving = true;
@@ -219,8 +230,20 @@ public class Player extends Mob {
 		System.out.println("You Died!");
 		//tileMap.setEntityList(PreloadLevels.levelEntities.get(Game.INSTANCE.getStateManager().getCurrentLevel()));
 		Game.fxmanager.playSound("PlayerDead");
+		if(++deathCount > 5) {
+			System.err.println("Game Over!");
+			try {
+				Thread.sleep(1500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.exit(0);
+		}
+		Game.pauseTime+= 100;
 		x = playerSpawnX;
-		y = playerSpawnY;	
+		y = playerSpawnY;
+		motionX = 0;
+		motionY = 0;
 	}
 	
 	public int getPlayerSpawnX() {
@@ -237,6 +260,10 @@ public class Player extends Mob {
 	
 	public void setPlayerSpawnY(int y) {
 		playerSpawnY = y;
+	}
+	
+	public void score() {
+		score++;
 	}
 
 }

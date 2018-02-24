@@ -15,12 +15,14 @@ public class InitTextures implements Runnable {
 	public void run() {
 		System.out.println("Loading Textures");
 		
+		addTexture(new Texture("SpriteMap1"));
+		addTexture(new Texture("PlayerIdleMap"));
 		addTexture(new Texture("background12"));
 		addTexture(new Texture("background2"));
 		addTexture(new Texture("background3"));
 		
 		System.out.println("Textures Loaded");
-		Game.taskComplete++;
+		Game.driver.getScreen().setProgress((++Game.taskComplete) * 25);
 	}
 
 	public static void addTexture(Texture t) {

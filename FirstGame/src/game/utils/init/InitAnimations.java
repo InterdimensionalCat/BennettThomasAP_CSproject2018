@@ -11,6 +11,8 @@ public class InitAnimations implements Runnable {
 	
 	public static volatile HashMap<String, Animation> animations = new HashMap<String, Animation>();
 	public static volatile ArrayList<String> dashSongs = new ArrayList<String>();
+	public static volatile int playerDeath;
+	public static volatile int playerScore;
 
 	@Override
 	public void run() {
@@ -41,11 +43,11 @@ public class InitAnimations implements Runnable {
 		
 		System.out.println("Animations Loaded");
 		try {
-			Thread.sleep(100);
+			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		Game.driver.getScreen().setProgress((++Game.taskComplete) * 33);
+		Game.driver.getScreen().setProgress((++Game.taskComplete) * 25);
 	}
 
 }

@@ -28,6 +28,7 @@ import game.utils.Util;
 import game.utils.init.InitAnimations;
 import game.utils.init.InitAudio;
 import game.utils.init.InitLevels;
+import game.utils.init.InitTextures;
 import game.world.Tile;
 
 public class Game extends Canvas implements Runnable {
@@ -43,9 +44,12 @@ public class Game extends Canvas implements Runnable {
 	public static volatile SplashScreenDriver driver;
 	public static volatile int taskComplete;
 	public static volatile SoundFXManager fxmanager;
+	public static int pauseTime;
+	public static KeyInput keyInput;
 	
 	public Game() {
-		addKeyListener(new KeyInput());
+		keyInput = new KeyInput();
+		addKeyListener(keyInput);
 		MouseInput mi = new MouseInput();
 		addMouseListener(mi);
 		addMouseMotionListener(mi);
@@ -116,7 +120,12 @@ public class Game extends Canvas implements Runnable {
 			lastTime = now;
 			
 			if(unprocessed >= 1.0) {
-				tick();
+				if(pauseTime <= 0) {
+					tick();
+				} else {
+					pauseTime--;
+					keyInput.clear();
+				}
 				KeyInput.update();
 				MouseInput.update();
 				unprocessed--;
@@ -145,20 +154,20 @@ public class Game extends Canvas implements Runnable {
 				tps = 0;
 			}
 		}
-		
 		System.exit(0);
 	}
 	
 	public static void main(String[] args) {
 		driver = new SplashScreenDriver();
 		ThreadPool pool = new ThreadPool(3);
+		pool.runTask(new InitTextures());
 		pool.runTask(new InitAnimations());
 		pool.runTask(new InitLevels());
 		pool.runTask(new InitAudio());
 		//pool.join();
 		
 		System.out.println("Running on OS: " + Util.getOSName());
-		while(taskComplete < 3) {
+		while(taskComplete < 4) {
 			try {
 				//driver.getScreen().setProgress((taskComplete + 1) * 33);
 				Thread.sleep(5);
@@ -192,7 +201,7 @@ public class Game extends Canvas implements Runnable {
 		
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-		MusicPlayer player = new MusicPlayer("AngelFalse", "Irondust"); //music player playlist initialization
+		MusicPlayer player = new MusicPlayer("FlatZone"); //music player playlist initialization
 		fxmanager = new SoundFXManager(5);
 		pool.runTask(player);
 		pool.runTask(game);

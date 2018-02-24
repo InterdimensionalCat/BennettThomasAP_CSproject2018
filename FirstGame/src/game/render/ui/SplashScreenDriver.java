@@ -7,7 +7,7 @@ public class SplashScreenDriver {
 	private SplashScreen screen;
 	
 	public SplashScreenDriver() {
-		screen = new SplashScreen(new Texture("PlayerLarge"));
+		screen = new SplashScreen(new Texture("SplashScreen"));
 		screen.setLocationRelativeTo(null);
 		screen.setMaxProgress(100);
 		screen.setVisible(true);

@@ -52,6 +52,7 @@ public class EntityBoop extends Mob {
 	public void onKillHit(Player player) {
 		player.setMotionY(-10.0);
 		Game.fxmanager.playSound("BoopDeath");
+		player.score();
 		this.setDead();
 	}
 	

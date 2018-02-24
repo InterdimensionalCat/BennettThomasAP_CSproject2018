@@ -13,14 +13,12 @@ import javax.imageio.ImageIO;
 import game.Game;
 import game.entity.Entity;
 import game.entity.EntityBoop;
-import game.entity.EntityGoal;
 import game.entity.EntityMovingTile;
 import game.entity.Mob;
 import game.entity.PlatformType;
 import game.entity.Player;
 import game.render.ParallaxEngine;
 import game.render.ParallaxLayer;
-import game.entity.EntityMovingTile;
 import game.render.textures.Texture;
 
 public class TileMap {
