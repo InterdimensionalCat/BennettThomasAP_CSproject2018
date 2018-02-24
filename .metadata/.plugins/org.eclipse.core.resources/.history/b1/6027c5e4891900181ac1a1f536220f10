@@ -17,9 +17,9 @@ public class InitTextures implements Runnable {
 		
 		addTexture(new Texture("SpriteMap1"));
 		addTexture(new Texture("PlayerIdleMap"));
-		addTexture(new Texture("background13"));
+		addTexture(new Texture("background12"));
 		addTexture(new Texture("background2"));
-		addTexture(new Texture("background32"));
+		addTexture(new Texture("background3"));
 		
 		System.out.println("Textures Loaded");
 		Game.driver.getScreen().setProgress((++Game.taskComplete) * 25);

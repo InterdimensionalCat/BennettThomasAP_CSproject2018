@@ -38,9 +38,9 @@ public class TileMap {
 
 	public TileMap(String name) {
 		entities = new ArrayList<Entity>();
-		ParallaxLayer layer1 = new ParallaxLayer(new Texture("background13"), (int)((16 * 0.25) * -0.23));
+		ParallaxLayer layer1 = new ParallaxLayer(new Texture("background12"), (int)((16 * 0.25) * -0.23));
 		ParallaxLayer layer2 = new ParallaxLayer(new Texture("background2"), (int)((16 * 0.25) * -0.3));
-		ParallaxLayer layer3 = new ParallaxLayer(new Texture("background32"), (int)((16 * 0.25) * -0.6));
+		ParallaxLayer layer3 = new ParallaxLayer(new Texture("background3"), (int)((16 * 0.25) * -0.6));
 		this.parallaxEngine = new ParallaxEngine(layer1, layer2, layer3);
 		load(name);
 	}
