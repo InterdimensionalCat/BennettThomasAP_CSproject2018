@@ -364,16 +364,25 @@ public class TileMap {
 	
 	public void wallCollision(Rectangle AABB, double posX, double posY, double motionX, double motionY, double cornerX, double cornerY, double offset) {
 		if(getTile(pixelsToTiles((int)cornerX), pixelsToTiles((int)cornerY)) != null) {    //attempts to grab the tile at the given X and Y coordinates, intended to be a corner, pixelsToTiles scales these coordinates down to the tilemap image reading size ( 64x smaller than the window size) this is done because the individual tile coordinates cannot be reference directly
-			Tile tile = getTile(pixelsToTiles((int)cornerX), pixelsToTiles((int)cornerY + 1)); //sets a pointer variable to said tile, not necessasary now but will be in the future
-			if (tile.type == TileType.SOLID)   {                                                //checks the type of tile, again not necessasary at this time
 				newX = tilesToPixels(pixelsToTiles((int)AABB.getMaxX())) + offset;                  //the first index of this array should always be the player's intended next position, this sets that position to the point closest to but not inside the wall
 				player.setX(newX);                                                           //actually sets the player's x coordinate
 				AABB.setBounds((int)player.adjustXforCollision(newX), (int)player.adjustYforCollision(posY), AABB.width, AABB.height); //updates the player's hitbox, the adjust for collision method goes from player coordinate to hitbox coordinate
 				player.setMotionX(0);                                                          //if the player has hit something, they arent moving, so the X motion stops
 				player.setMoving(false);                                                       //same as above
-				
-
-			}
+		}
+	}
+	
+	public void ceilingCollision(Rectangle AABB, double motionY, double cornerX, double cornerY) {
+		if(getTile(pixelsToTiles((int)cornerX), pixelsToTiles((int)cornerY)) != null) {
+			player.setMotionY(motionY / 4);
+		}
+	}
+	
+	public void floorCollision(Rectangle AABB, double posY, double cornerX, double cornerY) {
+		if(getTile(pixelsToTiles((int)cornerX), pixelsToTiles((int)cornerY)) != null) {
+				player.setY(tilesToPixels(pixelsToTiles((int)player.adjustYforCollision(posY))));
+				player.setMotionY(0);
+				player.setAirBorne(false);
 		}
 	}
 	
@@ -409,69 +418,11 @@ public class TileMap {
 		
 		AABB.setBounds((int)player.adjustXforCollision(newX), (int)player.adjustYforCollision(toY), AABB.width, AABB.height);
 		
-		if(getTile(pixelsToTiles((int)AABB.getMaxX() - 1), pixelsToTiles((int)AABB.getMinY())) != null) { // this is the top right corner
-			player.setMotionY(motionY / 4);
-			
-			if(Game.debug) {
-				System.out.println("Collided top left vertically");
-			}
-			
-		}
-			
-		if(getTile(pixelsToTiles((int)AABB.getMinX() + 1), pixelsToTiles((int)AABB.getMinY())) != null) { // this is the top left corner
-			player.setMotionY(motionY / 4);
-			
-			if(Game.debug) {
-				System.out.println("Collided top right vertically");
-			}
-			
-		}
+		ceilingCollision(AABB, motionY, AABB.getMaxX() - 1, AABB.getMinY()); //this is the top right corner
+		ceilingCollision(AABB, motionY, AABB.getMinX() + 1, AABB.getMinY()); //this is the top left corner
 		
-		
-		if(getTile(pixelsToTiles((int)AABB.getMaxX() - 1), pixelsToTiles((int)AABB.getMaxY())) != null && !isOnMovingTile) { // this is the bottom right corner
-			Tile tile = getTile(pixelsToTiles((int)AABB.getMaxX() - 1), pixelsToTiles((int)AABB.getMaxY()));
-			if(tile.type == TileType.SOLID) {
-				player.setY(tilesToPixels(pixelsToTiles((int)player.adjustYforCollision(posY))));
-				player.setMotionY(0);
-				player.setAirBorne(false);
-				
-				if(Game.debug) {
-					System.out.println("Collided bottom right vertically");
-				}
-			} else {
-				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
-					//player.setY(tilesToPixels(pixelsToTiles((int)(int)player.ajustYforCollision(posY))) - 64 + toX % 64);
-					player.setY(tilesToPixels(pixelsToTiles((int)(int)player.adjustYforCollision(posY))) + (64 - toX % 64));
-					player.setMotionY(0);
-					player.setAirBorne(false);
-					if(Game.debug) {
-						System.out.println("Still walking up a slope");
-					}
-				}
-			}
-		}
-		
-		if(getTile(pixelsToTiles((int)AABB.getMinX() + 1), pixelsToTiles((int)AABB.getMaxY())) != null) { // this is the bottom left corner
-			Tile tile = getTile(pixelsToTiles((int)AABB.getMinX() + 1), pixelsToTiles((int)AABB.getMaxY()));
-			if(tile.type == TileType.SOLID) {
-				player.setY(tilesToPixels(pixelsToTiles((int)(int)player.adjustYforCollision(posY))));
-				player.setMotionY(0);
-				player.setAirBorne(false);
-				if(Game.debug) {
-					System.out.println("Collided bottom left vertically");
-				}
-			} else {
-				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
-					//player.setY(tilesToPixels(pixelsToTiles((int)(int)player.ajustYforCollision(posY))) - 64 + toX % 64);
-					player.setY(tilesToPixels(pixelsToTiles((int)(int)player.adjustYforCollision(posY))) + (64 - toX % 64));
-					player.setMotionY(0);
-					player.setAirBorne(false);
-					if(Game.debug) {
-						System.out.println("Still walking up a slope");
-					}
-				}
-			}
-		}
+		floorCollision(AABB, posY, AABB.getMaxX() - 1, AABB.getMaxY()); //this is the bottom right corner
+		floorCollision(AABB, posY, AABB.getMinX() + 1, AABB.getMaxY()); //this is the bottom left corner
 
 		isOnMovingTile = false;
 		
