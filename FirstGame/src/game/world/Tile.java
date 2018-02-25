@@ -20,6 +20,8 @@ public class Tile {
 	public static final Tile tile1 = new Tile(0xFF000000, new Texture(terrain, 3, 1 , 64 , 64), TileType.SOLID);
 	public static final Tile tile2 = new Tile(0xFFFF0000, new Texture(terrain, 2, 1 , 64, 64), TileType.SOLID /*TileType.SLOPE_RIGHT_64_00*/);
 	public static final Tile tile3 = new Tile(0xFFFFFFFF, new Texture(terrain, 4, 1 , 64, 64), TileType.SOLID);
+	public static final Tile tile4 = new Tile(0xFF0000FF, new Texture(terrain, 1, 2 , 64, 64), TileType.SOLID);
+	public static final Tile tile5 = new Tile(0xFF00FF00, new Texture(terrain, 2, 2 , 64, 64), TileType.SOLID);
 	
 	private Tile(int id, Texture sprite, TileType type) {
 		this.id = id;

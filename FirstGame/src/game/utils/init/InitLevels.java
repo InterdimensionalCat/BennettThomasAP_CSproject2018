@@ -50,8 +50,8 @@ public class InitLevels implements Runnable {
 		
 		levels.add("enemyTest");
 		levelEntities.put("enemyTest", entityLevel0);
-		levels.add("level_4");
-		levelEntities.put("level_4", entityLevel1);
+		levels.add("Level_5");
+		levelEntities.put("Level_5", entityLevel1);
 		
 		levels.add("level_3");
 
