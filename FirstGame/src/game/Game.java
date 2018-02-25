@@ -164,7 +164,13 @@ public class Game extends Canvas implements Runnable {
 	public static void main(String[] args) {
 		driver = new SplashScreenDriver();
 		System.out.println("Avalible Processors: " + Runtime.getRuntime().availableProcessors());
-		ThreadPool pool = new ThreadPool(3);
+		ThreadPool pool;
+		if(Runtime.getRuntime().availableProcessors() > 4) {
+			pool = new ThreadPool(3);
+		} else {
+			System.err.println("Game is running in low performance mode, initial loading time will be increased");
+			pool = new ThreadPool(2);
+		}
 		pool.runTask(new InitTextures());
 		pool.runTask(new InitAnimations());
 		pool.runTask(new InitLevels());
@@ -207,7 +213,12 @@ public class Game extends Canvas implements Runnable {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		MusicPlayer player = new MusicPlayer("FlatZone"); //music player playlist initialization
-		fxmanager = new SoundFXManager(3);
+		if(Runtime.getRuntime().availableProcessors() > 4) {
+			fxmanager = new SoundFXManager(3);
+		} else {
+			System.err.println("Game is running in low sound mode, this will increase performance but sound may fail to play");
+			fxmanager = new SoundFXManager(2);
+		}
 		pool.runTask(player);
 		pool.runTask(game);
 		//game.start(); commented out for multithreading

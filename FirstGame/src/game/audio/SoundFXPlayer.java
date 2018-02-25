@@ -9,7 +9,11 @@ public class SoundFXPlayer implements Runnable {
 	private ThreadPool pool;
 	
 	public SoundFXPlayer(String... files) {
-		pool = new ThreadPool(2);
+		if(Runtime.getRuntime().availableProcessors() > 4) {
+			pool = new ThreadPool(2);
+		} else {
+			pool = new ThreadPool(1);
+		}
 	}
 
 	@Override
