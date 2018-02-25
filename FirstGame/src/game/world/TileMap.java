@@ -488,9 +488,7 @@ public class TileMap {
 				mob.getAABB().setBounds((int)newX, (int)posY, mob.getAABB().width, mob.getAABB().height);
 				mob.setMotionX(0);
 				mob.setMoving(false);
-				if(Game.debug) {
-					System.out.println("Collided top right horizontally");
-				}
+
 				
 				return true;
 				
@@ -512,10 +510,6 @@ public class TileMap {
 				mob.getAABB().setBounds((int)newX, (int)posY, mob.getAABB().width, mob.getAABB().height);
 				mob.setMotionX(0);
 				mob.setMoving(false);
-				if(Game.debug) {
-					System.out.println("Collided bottom right horizontally");
-				}
-				
 				return true;
 				
 			} else {
@@ -532,10 +526,6 @@ public class TileMap {
 			mob.setMotionX(0);
 			mob.setMoving(false);
 			
-			if(Game.debug) {
-				System.out.println("Collided top left horizontally");
-			}
-			
 			return true;
 			
 		}
@@ -546,10 +536,6 @@ public class TileMap {
 			mob.getAABB().setBounds((int)newX, (int)posY, mob.getAABB().width, mob.getAABB().height);
 			mob.setMotionX(0);
 			mob.setMoving(false);
-			
-			if(Game.debug) {
-				System.out.println("Collided bottom left horizontally");
-			}
 			
 			return true;
 			
@@ -577,19 +563,13 @@ public class TileMap {
 		
 		if(getTile(pixelsToTiles((int)mob.getAABB().getMaxX() - 1), pixelsToTiles((int)mob.getAABB().getMinY())) != null) { // this is the top right corner
 			mob.setMotionY(motionY / 4);
-			
-			if(Game.debug) {
-				System.out.println("Collided top left vertically");
-			}
+
 			
 		}
 			
 		if(getTile(pixelsToTiles((int)mob.getAABB().getMinX() + 1), pixelsToTiles((int)mob.getAABB().getMinY())) != null) { // this is the top left corner
 			mob.setMotionY(motionY / 4);
-			
-			if(Game.debug) {
-				System.out.println("Collided top right vertically");
-			}
+
 			
 		}
 		
@@ -600,10 +580,6 @@ public class TileMap {
 				mob.setY(tilesToPixels(pixelsToTiles((int)posY + 10)));
 				mob.setMotionY(0);
 				mob.setAirBorne(false);
-				
-				if(Game.debug) {
-					System.out.println("Collided bottom right vertically");
-				}
 			} else {
 				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
 
@@ -617,9 +593,6 @@ public class TileMap {
 				mob.setY(tilesToPixels(pixelsToTiles((int)posY + 10)));
 				mob.setMotionY(0);
 				mob.setAirBorne(false);
-				if(Game.debug) {
-					System.out.println("Collided bottom left vertically");
-				}
 			} else {
 				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
 					
@@ -656,9 +629,6 @@ public class TileMap {
 						//player.setMotionY(movingTile.getMotionY());
 					}
 
-					if (Game.debug) {
-						System.out.println("Collided bottom left with an entity vertically");
-					}
 
 				} else {
 					if (mob.getAABB().getMaxY() > movingTile.getAABB().getMinY()
@@ -682,9 +652,7 @@ public class TileMap {
 							mob.setMotionY(movingTile.getMotionY());
 						}
 
-						if (Game.debug) {
-							System.out.println("Collided bottom right with an entity vertically");
-						}
+
 					}
 				}
 			} else {
