@@ -383,7 +383,31 @@ public class TileMap {
 				player.setY(tilesToPixels(pixelsToTiles((int)player.adjustYforCollision(posY))));
 				player.setMotionY(0);
 				player.setAirBorne(false);
+				AABB.setBounds((int)player.adjustXforCollision(player.getX()), (int)player.adjustYforCollision(player.getY()), AABB.width, AABB.height);
 		}
+	}
+	
+	public boolean movingTileCollision(EntityMovingTile movingTile, double cornerX, double cornerY) {
+		double tileLeftX = movingTile.getAABB().getMinX();
+		double tileRightX = movingTile.getAABB().getMaxX();
+		double tileTop = movingTile.getAABB().getMinY();
+		double tileBottom = movingTile.getAABB().getMaxY(); 
+		//These 4 variables are purely to make the code more understandable, as calling these functions each time is very messy
+		
+		if (cornerY > tileTop //the corner y position checked is within the bounds of the hitbox (remember that higher y value is reletively lower in the map)
+				&& cornerY < tileBottom 
+				&& cornerX > tileLeftX //the corner x position checked is within the left and right bounds of the hitbox
+				&& cornerX < tileRightX
+				&& player.getY() + 60 <= tileTop) {
+
+			player.setY(movingTile.getAABB().getMinY() - 62); //sets the y value to 2 pixels inside the platform, this is to prevent the player from "falling" while they are moving on a vertical platform
+			player.setMotionY(0); //while on a platform the Y motion is controlled by the platform itself, so player motion y must be 0
+			player.setAirBorne(false); //player isn't in the air if it is on a platform
+			movingTile.setCollided(true); //causes the platform to fall if it is a falling platform
+			player.getAABB().setBounds((int)player.adjustXforCollision(player.getX()), (int)player.adjustYforCollision(player.getY()), player.getAABB().width, player.getAABB().height); //updates the hitbox position
+			return true; //method returns true if collision occured
+		}
+		return false; //and false if it didn't
 	}
 	
 	public void calculateCollision(Rectangle AABB, double posX, double posY, double motionX, double motionY, boolean b) {
@@ -429,65 +453,20 @@ public class TileMap {
 		//Entity Collision
 		for (Entity e : entities) {
 			if (e instanceof EntityMovingTile) {
-				EntityMovingTile movingTile = (EntityMovingTile)e;
 				
-				if (player.getAABB().getMaxY() > movingTile.getAABB().getMinY()
-						&& player.getAABB().getMaxY() < movingTile.getAABB().getMaxY()
-						&& player.getAABB().getMaxX() > movingTile.getAABB().getMinX()
-						&& player.getAABB().getMaxX() < movingTile.getAABB().getMaxX()
-						&& player.getY() + 60 <= movingTile.getAABB().getMinY()) { // this is the bottom right corner
-
-					player.setY(movingTile.getAABB().getMinY() - 62);
-					player.setMotionY(0);
-					player.setAirBorne(false);
-					movingTile.setCollided(true);
-					isOnMovingTile = true;
+				EntityMovingTile movingTile = (EntityMovingTile)e;
+				if (movingTileCollision(movingTile, player.getAABB().getMaxX(), player.getAABB().getMaxY()) || //this is the bottom right corner
+				    movingTileCollision(movingTile, player.getAABB().getMinX(), player.getAABB().getMaxY())) { //this is the bottom left corner
 					
-					if(movingTile.getMotionY()  > 0) {
-						player.setY(movingTile.getAABB().getMinY() - 62);
-					}
-					
-					if(!player.isMoving()/* && movingTile.getPlatformType() == PlatformType.HORIZONTAL_MOVING*/) {
-						//player.setMotionX(movingTile.getMotionX()*2.4); //2.4 is a constant that prevents traction from slowing down the player
+					if (!player.isMoving()) { //if player is not moving horizontally, this updates the players X position to follow the moving tile
 						player.setX(player.getX() + movingTile.getMotionX());
-						//player.setMotionY(movingTile.getMotionY());
 					}
-
-					if (Game.debug) {
-						System.out.println("Collided bottom left with an entity vertically");
-					}
-
-				} else {
-					if (player.getAABB().getMaxY() > movingTile.getAABB().getMinY()
-							&& player.getAABB().getMaxY() < movingTile.getAABB().getMaxY()
-							&& player.getAABB().getMinX() < movingTile.getAABB().getMaxX()
-							&& player.getAABB().getMinX() > movingTile.getAABB().getMinX()
-							&& player.getY() + 60 <= movingTile.getAABB().getMinY()) { // this is the bottom left corner
-
-						player.setY(movingTile.getAABB().getMinY() - 62);
-						player.setMotionY(0);
-						player.setAirBorne(false);
-						movingTile.setCollided(true);
-						isOnMovingTile = true;
-						
-						if(movingTile.getMotionY()  > 0) {
-							player.setY(movingTile.getAABB().getMinY() - 62);
-						}
-						
-						if(!player.isMoving()/* && movingTile.getPlatformType() == PlatformType.HORIZONTAL_MOVING*/) {
-							player.setMotionX(movingTile.getMotionX()*2.4); //2.4 is a constant that prevents traction from slowing down the player
-							player.setMotionY(movingTile.getMotionY());
-						}
-						
-						if(movingTile.getPlatformType() == PlatformType.FALLING) {
-							//player.setY(movingTile.getY() + movingTile.getMotionY());
-							player.setMotionY(movingTile.getMotionY());
-						}
-
-						if (Game.debug) {
-							System.out.println("Collided bottom right with an entity vertically");
-						}
-					}
+					
+					ceilingCollision(AABB, motionY, AABB.getMaxX() - 1, AABB.getMinY());
+					ceilingCollision(AABB, motionY, AABB.getMinX() + 1, AABB.getMinY());
+					
+					floorCollision(AABB, player.getY(), AABB.getMaxX() - 1, AABB.getMaxY()); 
+					floorCollision(AABB, player.getY(), AABB.getMinX() + 1, AABB.getMaxY()); 
 				}
 			}
 		}

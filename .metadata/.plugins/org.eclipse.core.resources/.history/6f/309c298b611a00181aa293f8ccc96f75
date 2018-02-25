@@ -207,7 +207,7 @@ public class Game extends Canvas implements Runnable {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		MusicPlayer player = new MusicPlayer("FlatZone"); //music player playlist initialization
-		fxmanager = new SoundFXManager(3);
+		fxmanager = new SoundFXManager(2);
 		pool.runTask(player);
 		pool.runTask(game);
 		//game.start(); commented out for multithreading
