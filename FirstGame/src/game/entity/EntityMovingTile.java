@@ -15,13 +15,13 @@ public class EntityMovingTile extends Mob {
 	private boolean falling;
 	
 
-	public EntityMovingTile(Texture texture, double x, double y, TileMap tileMap, Rectangle AABB, double range, PlatformType type) {
-		super(texture, x, y, tileMap, AABB);
+	public EntityMovingTile(Texture texture, double x, double y, TileMap tileMap, double range, PlatformType type) {
+		super(texture, x, y, tileMap, new Rectangle((int)x, (int)y, 128, 20));
 		this.type = type;
 		if(this.type == PlatformType.VERTICAL_MOVING) {
 			this.min = x;
 			this.max = x + range;
-			motionX = 0.7;
+			motionX = 1.5;
 		} else {
 			if(this.type == PlatformType.HORIZONTAL_MOVING) {
 				this.min = y;

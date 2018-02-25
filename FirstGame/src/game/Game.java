@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import game.audio.MusicPlayer;
 import game.audio.SoundFXManager;
 import game.audio.SoundFXPlayer;
+import game.entity.Player;
 import game.input.KeyInput;
 import game.input.MouseInput;
 import game.render.textures.Texture;
@@ -47,6 +48,7 @@ public class Game extends Canvas implements Runnable {
 	public static volatile SoundFXManager fxmanager;
 	public static int pauseTime;
 	public static KeyInput keyInput;
+	private static ThreadPool pool;
 	
 	public Game() {
 		keyInput = new KeyInput();
@@ -69,6 +71,10 @@ public class Game extends Canvas implements Runnable {
 		}
 		if (KeyInput.wasPressed(KeyEvent.VK_M)) {
 			showTileMap = !showTileMap;
+		}
+		
+		if(KeyInput.wasPressed(KeyEvent.VK_R)) {
+			new InitLevels().reload();
 		}
 	}
 	
@@ -127,6 +133,10 @@ public class Game extends Canvas implements Runnable {
 				if(pauseTime <= 0) {
 					tick();
 				} else {
+					if(Player.playerDead) {
+						new InitLevels().reload();
+						Player.playerDead = false;
+					}
 					pauseTime--;
 					keyInput.clear();
 				}
@@ -164,7 +174,6 @@ public class Game extends Canvas implements Runnable {
 	public static void main(String[] args) {
 		driver = new SplashScreenDriver();
 		System.out.println("Avalible Processors: " + Runtime.getRuntime().availableProcessors());
-		ThreadPool pool;
 		if(Runtime.getRuntime().availableProcessors() > 4) {
 			pool = new ThreadPool(3);
 		} else {

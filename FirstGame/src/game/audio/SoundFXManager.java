@@ -19,6 +19,6 @@ public class SoundFXManager {
 				return;
 			}
 		}
-		System.out.println("No Players Avalible");
+		System.err.println("No Players Avalible");
 	}
 }

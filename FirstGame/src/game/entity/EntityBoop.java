@@ -10,6 +10,7 @@ import game.render.textures.Animation;
 import game.render.textures.Texture;
 import game.utils.Fonts;
 import game.utils.init.InitAnimations;
+import game.utils.init.InitAudio;
 import game.world.TileMap;
 
 public class EntityBoop extends Mob {
@@ -20,21 +21,25 @@ public class EntityBoop extends Mob {
 	private boolean dead;
 	private boolean displaced;
 	private Animation currentState;
+	private boolean jumper;
 
-	public EntityBoop(double x, double y, TileMap tileMap, double speed, double displacement) {
+	public EntityBoop(double x, double y, TileMap tileMap, double speed, double displacement, boolean jumper) {
 		super(new Texture("BoopWalk1"), x, y, tileMap, new Rectangle((int)x, (int)y, 64, 64));
 		this.motionX = speed;
 		this.speed = speed;
 		this.spawnPointX = x;
 		this.displacement = displacement;
 		this.currentState = InitAnimations.animations.get("Boop_walk");
+		this.jumper = jumper;
+	}
+	
+	public EntityBoop(double x, double y, TileMap tileMap, double speed, double displacement, boolean jumper, double gravity) {
+		this(x, y, tileMap, speed, displacement, jumper);
+		this.gravity = gravity;
 	}
 
 	@Override
 	public void setDead() {
-		//this.AABB = null;
-/*		this.texture = null;
-		tileMap.killEntity(this);*/
 		dead = true;
 		this.x = -100;
 		AABB.setLocation((int)x, (int)y);
@@ -49,8 +54,17 @@ public class EntityBoop extends Mob {
 				this.speed = -speed;
 				displaced = false;
 			}
+			
+
+			
 			currentState.run();
 			super.tick();
+			if(motionY != 0) {
+				isAirBorne = true;
+			}
+			if(!isAirBorne&&jumper) {
+				jump(15);
+			}
 		}
 	}
 	
@@ -60,7 +74,11 @@ public class EntityBoop extends Mob {
 	
 	public void onKillHit(Player player) {
 		player.setMotionY(-10.0);
-		Game.fxmanager.playSound("BoopDeath");
+		if(!InitAudio.musicFiles.get("BoopDeath").isPlaying()) {
+			Game.fxmanager.playSound("BoopDeath");
+		} else {
+			Game.fxmanager.playSound("BoopDeath2");
+		}
 		player.score();
 		this.setDead();
 	}

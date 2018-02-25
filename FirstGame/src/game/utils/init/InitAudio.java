@@ -8,7 +8,7 @@ import game.audio.AudioFile;
 public class InitAudio implements Runnable {
 
 	public static volatile HashMap<String, AudioFile> musicFiles = new HashMap<String, AudioFile>();
-	public static volatile String[] audioFileNames = {"PlayerDash1" , "PlayerDash2" , "PlayerDash3" , "PlayerDash4", "PlayerDead", "PlayerFall1", "PlayerJump1", "PlayerJump2", "BoopDeath", "PlayerWin" };
+	public static volatile String[] audioFileNames = {"PlayerDash1" , "PlayerDash2" , "PlayerDash3" , "PlayerDash4", "PlayerDead", "PlayerFall1", "PlayerJump1", "PlayerJump2", "BoopDeath", "BoopDeath2", "PlayerWin" };
 
 	@Override
 	public void run() {

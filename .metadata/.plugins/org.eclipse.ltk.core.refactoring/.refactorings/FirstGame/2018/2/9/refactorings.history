@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;FirstGame/src/assets/audio/Wave23.wav&apos; to &apos;BoopDeath2.wav&apos;" description="Rename resource &apos;Wave23.wav&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/assets/audio/Wave23.wav" name="BoopDeath2.wav" stamp="1519598061740" updateReferences="true"/>
+</session>

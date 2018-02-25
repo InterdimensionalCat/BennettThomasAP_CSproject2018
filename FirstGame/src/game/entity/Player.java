@@ -29,6 +29,8 @@ public class Player extends Mob {
 	protected boolean turnRunLeft;
 	private int deathCount = InitAnimations.playerDeath;
 	private int score = InitAnimations.playerScore;
+	public static volatile boolean playerDead;
+	private int invincibleTime = 0;
 
 	public Player(double x, double y, TileMap tileMap) {
 		super(new Texture(new Texture("PlayerIdleMap"), 1, 1, 64), x, y, tileMap, new Rectangle());
@@ -53,7 +55,9 @@ public class Player extends Mob {
 
 		turnRunRight = false;
 		turnRunLeft = false;
-		
+		if (invincibleTime > 0) {
+			invincibleTime--;
+		}
 		InitAnimations.playerDeath = deathCount;
 		InitAnimations.playerScore = score;
 		
@@ -99,6 +103,11 @@ public class Player extends Mob {
 		
 		if(KeyInput.wasPressed(KeyEvent.VK_SPACE)) {
 			jump(15.0);
+		}
+		
+		if(KeyInput.wasPressed(KeyEvent.VK_1)) {
+			Game.pauseTime+= 100;
+			Game.level.nextLevel();
 		}
 		
 		if(KeyInput.wasReleased(KeyEvent.VK_A)||KeyInput.wasReleased(KeyEvent.VK_D)) {
@@ -227,23 +236,26 @@ public class Player extends Mob {
 	}
 	
 	public void setDead() {
-		System.out.println("You Died!");
-		//tileMap.setEntityList(PreloadLevels.levelEntities.get(Game.INSTANCE.getStateManager().getCurrentLevel()));
-		Game.fxmanager.playSound("PlayerDead");
-		if(++deathCount > 5) {
-			System.err.println("Game Over!");
-			try {
-				Thread.sleep(1500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		if (invincibleTime <= 0) {
+			System.out.println("You Died!");
+			playerDead = true;
+			Game.fxmanager.playSound("PlayerDead");
+			if (++deathCount > 5) {
+				System.err.println("Game Over!");
+				try {
+					Thread.sleep(1500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				System.exit(0);
 			}
-			System.exit(0);
+			Game.pauseTime += 20;
+			x = playerSpawnX;
+			y = playerSpawnY;
+			motionX = 0;
+			motionY = 0;
+			invincibleTime = 180;
 		}
-		Game.pauseTime+= 100;
-		x = playerSpawnX;
-		y = playerSpawnY;
-		motionX = 0;
-		motionY = 0;
 	}
 	
 	public int getPlayerSpawnX() {

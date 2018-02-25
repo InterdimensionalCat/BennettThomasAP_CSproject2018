@@ -1,6 +1,5 @@
 package game.states;
 
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 import java.util.Map;

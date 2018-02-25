@@ -8,8 +8,8 @@ import game.world.TileMap;
 
 public class EntityGoal extends Entity {
 
-	public EntityGoal(double x, double y, TileMap tileMap, Rectangle AABB) {
-		super(new Texture("EntityGoal"), x, y, tileMap, AABB);
+	public EntityGoal(double x, double y, TileMap tileMap) {
+		super(new Texture("EntityGoal"), x, y, tileMap, new Rectangle((int)x, (int)y ,64, 64));
 	}
 
 	@Override
