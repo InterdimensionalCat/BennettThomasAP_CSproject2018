@@ -84,7 +84,6 @@ public class TileMap {
 	}
 	
 	public void render(Graphics2D g2d, int screenWidth, int screenHeight) {
-
 		int mapWidth = tilesToPixels(width);
 		int mapHeight = tilesToPixels(height);
 		int offsetX =(int)(screenWidth/2 - player.getX() - TILE_SIZE /2);
@@ -106,10 +105,6 @@ public class TileMap {
 				Tile t = getTile(x , y);
 				if (t != null) {
 					t.render(g2d, tilesToPixels(x) + offsetX, tilesToPixels(y) + offsetY);
-				}
-				if (Game.showTileMap) {
-					g2d.setColor(Color.RED);
-					g2d.drawRect(tilesToPixels(x) + offsetX, tilesToPixels(y) + offsetY, 64, 64);
 				}
 			}	
 		}

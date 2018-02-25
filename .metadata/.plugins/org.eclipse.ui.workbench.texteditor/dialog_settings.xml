@@ -2,12 +2,19 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="Paral" key="selection"/>
+		<item value="VK" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="vk"/>
+			<item value="VK"/>
+			<item value="debug"/>
+			<item value="render"/>
+			<item value="[]"/>
+			<item value="ter"/>
+			<item value="setDead"/>
 			<item value="Paral"/>
 			<item value="layer"/>
 			<item value="--"/>
@@ -15,14 +22,7 @@
 			<item value="addKeyListener"/>
 			<item value="tick"/>
 			<item value="SetDead"/>
-			<item value="render"/>
-			<item value="setDead"/>
 			<item value="NPC"/>
-			<item value="Entity e"/>
-			<item value="falling"/>
-			<item value="para"/>
-			<item value="paral"/>
-			<item value="background"/>
 		</list>
 		<list key="replacehistory">
 			<item value="movingTile.getAABB()"/>

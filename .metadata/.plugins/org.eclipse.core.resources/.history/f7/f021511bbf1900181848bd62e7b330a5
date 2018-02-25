@@ -103,13 +103,11 @@ public class TileMap {
 		
 		for(int y = firstY; y <= lastY; y++) {
 			for(int x = firstX; x <= lastX; x++) {
+				g2d.setColor(Color.RED);
+				g2d.drawRect(tilesToPixels(x)+offsetX, tilesToPixels(y)+offsetY, 64, 64);
 				Tile t = getTile(x , y);
 				if (t != null) {
 					t.render(g2d, tilesToPixels(x) + offsetX, tilesToPixels(y) + offsetY);
-				}
-				if (Game.showTileMap) {
-					g2d.setColor(Color.RED);
-					g2d.drawRect(tilesToPixels(x) + offsetX, tilesToPixels(y) + offsetY, 64, 64);
 				}
 			}	
 		}

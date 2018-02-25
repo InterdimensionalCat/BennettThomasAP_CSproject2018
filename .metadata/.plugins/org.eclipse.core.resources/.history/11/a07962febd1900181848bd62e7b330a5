@@ -23,7 +23,6 @@ public class InitTextures implements Runnable {
 		addTexture(new Texture("BoopWalk1"));
 		addTexture(new Texture("BoopWalk2"));
 		addTexture(new Texture("BoopWalk3"));
-		addTexture(new Texture("EntityGoal"));
 		
 		System.out.println("Textures Loaded");
 		Game.driver.getScreen().setProgress((++Game.taskComplete) * 25);
