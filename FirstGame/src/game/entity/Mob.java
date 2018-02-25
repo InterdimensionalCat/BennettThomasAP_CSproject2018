@@ -54,7 +54,7 @@ public abstract class Mob extends Entity { //LMAO MOBile entity
 	
 	public void move() {
 
-		tileMap.calculateCollision(AABB, x, y, motionX, motionY);
+		tileMap.calculateCollision(AABB, x, y, motionX, motionY, true);
 		y+= getMotionY();
 		x+= getMotionX();
 	}

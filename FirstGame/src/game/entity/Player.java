@@ -196,11 +196,11 @@ public class Player extends Mob {
 		return x + 5;
 	}
 	
-	public double ajustXforCollision(double x) {
+	public double adjustXforCollision(double x) {
 		return x + 5;
 	}
 	
-	public double ajustYforCollision(double y) {
+	public double adjustYforCollision(double y) {
 		return y + 10;
 	}
 	

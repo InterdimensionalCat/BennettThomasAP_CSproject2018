@@ -2,12 +2,17 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="VK" key="selection"/>
+		<item value="toX" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="toX"/>
+			<item value="arr[1]"/>
+			<item value="calculate"/>
+			<item value="aj"/>
+			<item value="manager"/>
 			<item value="vk"/>
 			<item value="VK"/>
 			<item value="debug"/>
@@ -18,11 +23,6 @@
 			<item value="Paral"/>
 			<item value="layer"/>
 			<item value="--"/>
-			<item value="=="/>
-			<item value="addKeyListener"/>
-			<item value="tick"/>
-			<item value="SetDead"/>
-			<item value="NPC"/>
 		</list>
 		<list key="replacehistory">
 			<item value="movingTile.getAABB()"/>
@@ -32,10 +32,10 @@
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="336" key="DIALOG_WIDTH"/>
-		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|5|0|Segoe UI" key="DIALOG_FONT_NAME"/>
-		<item value="454" key="DIALOG_HEIGHT"/>
-		<item value="55" key="DIALOG_X_ORIGIN"/>
-		<item value="566" key="DIALOG_Y_ORIGIN"/>
+		<item value="277" key="DIALOG_WIDTH"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-24|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="370" key="DIALOG_HEIGHT"/>
+		<item value="5" key="DIALOG_X_ORIGIN"/>
+		<item value="590" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

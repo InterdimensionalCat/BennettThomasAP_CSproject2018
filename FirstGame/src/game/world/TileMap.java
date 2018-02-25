@@ -29,6 +29,7 @@ public class TileMap {
 	
 	private static final int TILE_SIZE = 64;
 	private static final int TILE_SIZE_BITS = 6;
+	private double newX;
 
 	private Player player;
 	private ParallaxEngine parallaxEngine;
@@ -132,7 +133,7 @@ public class TileMap {
 		double toX = posX + motionX;
 		double toY = posY + motionY;
 		double newX = -1.0;
-		AABB.setBounds((int)player.ajustXforCollision(toX), (int)player.ajustYforCollision(posY), AABB.width, AABB.height);
+		AABB.setBounds((int)player.adjustXforCollision(toX), (int)player.adjustYforCollision(posY), AABB.width, AABB.height);
 		
 		
 		
@@ -141,7 +142,7 @@ public class TileMap {
 			if (tile.type == TileType.SOLID) { 
 				newX = tilesToPixels(pixelsToTiles((int)AABB.getMaxX())) - AABB.getWidth() - 1 - 5;
 				player.setX(newX);
-				AABB.setBounds((int)player.ajustXforCollision(newX), (int)player.ajustYforCollision(posY), AABB.width, AABB.height);
+				AABB.setBounds((int)player.adjustXforCollision(newX), (int)player.adjustYforCollision(posY), AABB.width, AABB.height);
 				player.setMotionX(0);
 				player.setMoving(false);
 				
@@ -163,7 +164,7 @@ public class TileMap {
 			if (tile.type == TileType.SOLID) {
 				newX = tilesToPixels(pixelsToTiles((int) AABB.getMaxX())) - AABB.getWidth() - 1 - 5;
 				player.setX(newX);
-				AABB.setBounds((int) player.ajustXforCollision(newX), (int) player.ajustYforCollision(posY), AABB.width,
+				AABB.setBounds((int) player.adjustXforCollision(newX), (int) player.adjustYforCollision(posY), AABB.width,
 						AABB.height);
 				player.setMotionX(0);
 				player.setMoving(false);
@@ -175,7 +176,7 @@ public class TileMap {
 					newX = toX;
 					//double bottomSlope = tilesToPixels(pixelsToTiles((int) AABB.getMaxX()));
 					
-					player.setY(tilesToPixels(pixelsToTiles((int)(int)player.ajustYforCollision(posY) - 1)) + (64 - toX % 64));
+					player.setY(tilesToPixels(pixelsToTiles((int)(int)player.adjustYforCollision(posY) - 1)) + (64 - toX % 64));
 					if(Game.debug) {
 						System.out.println("Walking up a slope");
 					}
@@ -186,7 +187,7 @@ public class TileMap {
 		if(getTile(pixelsToTiles((int)AABB.getMinX()), pixelsToTiles((int)AABB.getMinY() + 1)) != null) { //this is the top left corner
 			newX = tilesToPixels(pixelsToTiles((int)AABB.getMaxX())) - 5/*this is the offset from AABB hitbox to texture*/ ;
 			player.setX(newX);
-			AABB.setBounds((int)player.ajustXforCollision(newX), (int)player.ajustYforCollision(posY), AABB.width, AABB.height);
+			AABB.setBounds((int)player.adjustXforCollision(newX), (int)player.adjustYforCollision(posY), AABB.width, AABB.height);
 			player.setMotionX(0);
 			player.setMoving(false);
 			
@@ -199,7 +200,7 @@ public class TileMap {
 		if(getTile(pixelsToTiles((int)AABB.getMinX()), pixelsToTiles((int)AABB.getMaxY()  - 1)) != null && !isOnMovingTile) { //this is the bottom left corner
 			newX = tilesToPixels(pixelsToTiles((int)AABB.getMaxX())) - 5/*this is the offset from AABB hitbox to texture*/ ;
 			player.setX(newX);
-			AABB.setBounds((int)player.ajustXforCollision(newX), (int)player.ajustYforCollision(posY), AABB.width, AABB.height);
+			AABB.setBounds((int)player.adjustXforCollision(newX), (int)player.adjustYforCollision(posY), AABB.width, AABB.height);
 			player.setMotionX(0);
 			player.setMoving(false);
 			
@@ -226,7 +227,7 @@ public class TileMap {
 		
 		//horz is first, now vert;
 		
-		AABB.setBounds((int)player.ajustXforCollision(newX), (int)player.ajustYforCollision(toY), AABB.width, AABB.height);
+		AABB.setBounds((int)player.adjustXforCollision(newX), (int)player.adjustYforCollision(toY), AABB.width, AABB.height);
 		
 		if(getTile(pixelsToTiles((int)AABB.getMaxX() - 1), pixelsToTiles((int)AABB.getMinY())) != null) { // this is the top right corner
 			player.setMotionY(motionY / 4);
@@ -250,7 +251,7 @@ public class TileMap {
 		if(getTile(pixelsToTiles((int)AABB.getMaxX() - 1), pixelsToTiles((int)AABB.getMaxY())) != null && !isOnMovingTile) { // this is the bottom right corner
 			Tile tile = getTile(pixelsToTiles((int)AABB.getMaxX() - 1), pixelsToTiles((int)AABB.getMaxY()));
 			if(tile.type == TileType.SOLID) {
-				player.setY(tilesToPixels(pixelsToTiles((int)player.ajustYforCollision(posY))));
+				player.setY(tilesToPixels(pixelsToTiles((int)player.adjustYforCollision(posY))));
 				player.setMotionY(0);
 				player.setAirBorne(false);
 				
@@ -260,7 +261,7 @@ public class TileMap {
 			} else {
 				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
 					//player.setY(tilesToPixels(pixelsToTiles((int)(int)player.ajustYforCollision(posY))) - 64 + toX % 64);
-					player.setY(tilesToPixels(pixelsToTiles((int)(int)player.ajustYforCollision(posY))) + (64 - toX % 64));
+					player.setY(tilesToPixels(pixelsToTiles((int)(int)player.adjustYforCollision(posY))) + (64 - toX % 64));
 					player.setMotionY(0);
 					player.setAirBorne(false);
 					if(Game.debug) {
@@ -273,7 +274,7 @@ public class TileMap {
 		if(getTile(pixelsToTiles((int)AABB.getMinX() + 1), pixelsToTiles((int)AABB.getMaxY())) != null) { // this is the bottom left corner
 			Tile tile = getTile(pixelsToTiles((int)AABB.getMinX() + 1), pixelsToTiles((int)AABB.getMaxY()));
 			if(tile.type == TileType.SOLID) {
-				player.setY(tilesToPixels(pixelsToTiles((int)(int)player.ajustYforCollision(posY))));
+				player.setY(tilesToPixels(pixelsToTiles((int)(int)player.adjustYforCollision(posY))));
 				player.setMotionY(0);
 				player.setAirBorne(false);
 				if(Game.debug) {
@@ -282,7 +283,187 @@ public class TileMap {
 			} else {
 				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
 					//player.setY(tilesToPixels(pixelsToTiles((int)(int)player.ajustYforCollision(posY))) - 64 + toX % 64);
-					player.setY(tilesToPixels(pixelsToTiles((int)(int)player.ajustYforCollision(posY))) + (64 - toX % 64));
+					player.setY(tilesToPixels(pixelsToTiles((int)(int)player.adjustYforCollision(posY))) + (64 - toX % 64));
+					player.setMotionY(0);
+					player.setAirBorne(false);
+					if(Game.debug) {
+						System.out.println("Still walking up a slope");
+					}
+				}
+			}
+		}
+
+		isOnMovingTile = false;
+		
+		//Entity Collision
+		for (Entity e : entities) {
+			if (e instanceof EntityMovingTile) {
+				EntityMovingTile movingTile = (EntityMovingTile)e;
+				
+				if (player.getAABB().getMaxY() > movingTile.getAABB().getMinY()
+						&& player.getAABB().getMaxY() < movingTile.getAABB().getMaxY()
+						&& player.getAABB().getMaxX() > movingTile.getAABB().getMinX()
+						&& player.getAABB().getMaxX() < movingTile.getAABB().getMaxX()
+						&& player.getY() + 60 <= movingTile.getAABB().getMinY()) { // this is the bottom right corner
+
+					player.setY(movingTile.getAABB().getMinY() - 62);
+					player.setMotionY(0);
+					player.setAirBorne(false);
+					movingTile.setCollided(true);
+					isOnMovingTile = true;
+					
+					if(movingTile.getMotionY()  > 0) {
+						player.setY(movingTile.getAABB().getMinY() - 62);
+					}
+					
+					if(!player.isMoving()/* && movingTile.getPlatformType() == PlatformType.HORIZONTAL_MOVING*/) {
+						//player.setMotionX(movingTile.getMotionX()*2.4); //2.4 is a constant that prevents traction from slowing down the player
+						player.setX(player.getX() + movingTile.getMotionX());
+						//player.setMotionY(movingTile.getMotionY());
+					}
+
+					if (Game.debug) {
+						System.out.println("Collided bottom left with an entity vertically");
+					}
+
+				} else {
+					if (player.getAABB().getMaxY() > movingTile.getAABB().getMinY()
+							&& player.getAABB().getMaxY() < movingTile.getAABB().getMaxY()
+							&& player.getAABB().getMinX() < movingTile.getAABB().getMaxX()
+							&& player.getAABB().getMinX() > movingTile.getAABB().getMinX()
+							&& player.getY() + 60 <= movingTile.getAABB().getMinY()) { // this is the bottom left corner
+
+						player.setY(movingTile.getAABB().getMinY() - 62);
+						player.setMotionY(0);
+						player.setAirBorne(false);
+						movingTile.setCollided(true);
+						isOnMovingTile = true;
+						
+						if(movingTile.getMotionY()  > 0) {
+							player.setY(movingTile.getAABB().getMinY() - 62);
+						}
+						
+						if(!player.isMoving()/* && movingTile.getPlatformType() == PlatformType.HORIZONTAL_MOVING*/) {
+							player.setMotionX(movingTile.getMotionX()*2.4); //2.4 is a constant that prevents traction from slowing down the player
+							player.setMotionY(movingTile.getMotionY());
+						}
+						
+						if(movingTile.getPlatformType() == PlatformType.FALLING) {
+							//player.setY(movingTile.getY() + movingTile.getMotionY());
+							player.setMotionY(movingTile.getMotionY());
+						}
+
+						if (Game.debug) {
+							System.out.println("Collided bottom right with an entity vertically");
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public void wallCollision(Rectangle AABB, double posX, double posY, double motionX, double motionY, double cornerX, double cornerY, double offset) {
+		if(getTile(pixelsToTiles((int)cornerX), pixelsToTiles((int)cornerY)) != null) {    //attempts to grab the tile at the given X and Y coordinates, intended to be a corner, pixelsToTiles scales these coordinates down to the tilemap image reading size ( 64x smaller than the window size) this is done because the individual tile coordinates cannot be reference directly
+			Tile tile = getTile(pixelsToTiles((int)cornerX), pixelsToTiles((int)cornerY + 1)); //sets a pointer variable to said tile, not necessasary now but will be in the future
+			if (tile.type == TileType.SOLID)   {                                                //checks the type of tile, again not necessasary at this time
+				newX = tilesToPixels(pixelsToTiles((int)AABB.getMaxX())) + offset;                  //the first index of this array should always be the player's intended next position, this sets that position to the point closest to but not inside the wall
+				player.setX(newX);                                                           //actually sets the player's x coordinate
+				AABB.setBounds((int)player.adjustXforCollision(newX), (int)player.adjustYforCollision(posY), AABB.width, AABB.height); //updates the player's hitbox, the adjust for collision method goes from player coordinate to hitbox coordinate
+				player.setMotionX(0);                                                          //if the player has hit something, they arent moving, so the X motion stops
+				player.setMoving(false);                                                       //same as above
+				
+
+			}
+		}
+	}
+	
+	public void calculateCollision(Rectangle AABB, double posX, double posY, double motionX, double motionY, boolean b) {
+		double toX = posX + motionX;
+		double toY = posY + motionY;
+		newX = -1.0;
+		AABB.setBounds((int)player.adjustXforCollision(toX), (int)player.adjustYforCollision(posY), AABB.width, AABB.height);
+		//double[] arr = {newX , toX};
+		
+		wallCollision(AABB, posX, posY, motionX, motionY, AABB.getMaxX(), AABB.getMinY() + 1, - AABB.getWidth() - 1 - 5); //this is the top right corner
+		wallCollision(AABB, posX, posY, motionX, motionY, AABB.getMaxX(), AABB.getMaxY() - 1, - AABB.getWidth() - 1 - 5); //this is the bottom right corner
+		wallCollision(AABB, posX, posY, motionX, motionY, AABB.getMinX(), AABB.getMinY() + 1, - 5); //this is the top left corner
+		wallCollision(AABB, posX, posY, motionX, motionY, AABB.getMinX(), AABB.getMaxY() - 1, - 5); // this is the bottom left corner
+		
+		if (newX == -1.0) {
+			newX = toX;
+		}
+		
+		if((int)newX < 0) { //colliding with the map boundry
+			player.setX(1);
+			player.setMotionX(0);
+			player.setMoving(false);
+		}
+		
+		if((int)newX + 64 > tilesToPixels(this.width)) {
+			player.setX(tilesToPixels(this.width) - 64); // must change this
+			player.setMotionX(0);
+			player.setMoving(false);
+		}
+		
+		//horz is first, now vert;
+		
+		AABB.setBounds((int)player.adjustXforCollision(newX), (int)player.adjustYforCollision(toY), AABB.width, AABB.height);
+		
+		if(getTile(pixelsToTiles((int)AABB.getMaxX() - 1), pixelsToTiles((int)AABB.getMinY())) != null) { // this is the top right corner
+			player.setMotionY(motionY / 4);
+			
+			if(Game.debug) {
+				System.out.println("Collided top left vertically");
+			}
+			
+		}
+			
+		if(getTile(pixelsToTiles((int)AABB.getMinX() + 1), pixelsToTiles((int)AABB.getMinY())) != null) { // this is the top left corner
+			player.setMotionY(motionY / 4);
+			
+			if(Game.debug) {
+				System.out.println("Collided top right vertically");
+			}
+			
+		}
+		
+		
+		if(getTile(pixelsToTiles((int)AABB.getMaxX() - 1), pixelsToTiles((int)AABB.getMaxY())) != null && !isOnMovingTile) { // this is the bottom right corner
+			Tile tile = getTile(pixelsToTiles((int)AABB.getMaxX() - 1), pixelsToTiles((int)AABB.getMaxY()));
+			if(tile.type == TileType.SOLID) {
+				player.setY(tilesToPixels(pixelsToTiles((int)player.adjustYforCollision(posY))));
+				player.setMotionY(0);
+				player.setAirBorne(false);
+				
+				if(Game.debug) {
+					System.out.println("Collided bottom right vertically");
+				}
+			} else {
+				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
+					//player.setY(tilesToPixels(pixelsToTiles((int)(int)player.ajustYforCollision(posY))) - 64 + toX % 64);
+					player.setY(tilesToPixels(pixelsToTiles((int)(int)player.adjustYforCollision(posY))) + (64 - toX % 64));
+					player.setMotionY(0);
+					player.setAirBorne(false);
+					if(Game.debug) {
+						System.out.println("Still walking up a slope");
+					}
+				}
+			}
+		}
+		
+		if(getTile(pixelsToTiles((int)AABB.getMinX() + 1), pixelsToTiles((int)AABB.getMaxY())) != null) { // this is the bottom left corner
+			Tile tile = getTile(pixelsToTiles((int)AABB.getMinX() + 1), pixelsToTiles((int)AABB.getMaxY()));
+			if(tile.type == TileType.SOLID) {
+				player.setY(tilesToPixels(pixelsToTiles((int)(int)player.adjustYforCollision(posY))));
+				player.setMotionY(0);
+				player.setAirBorne(false);
+				if(Game.debug) {
+					System.out.println("Collided bottom left vertically");
+				}
+			} else {
+				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
+					//player.setY(tilesToPixels(pixelsToTiles((int)(int)player.ajustYforCollision(posY))) - 64 + toX % 64);
+					player.setY(tilesToPixels(pixelsToTiles((int)(int)player.adjustYforCollision(posY))) + (64 - toX % 64));
 					player.setMotionY(0);
 					player.setAirBorne(false);
 					if(Game.debug) {

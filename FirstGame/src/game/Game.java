@@ -163,6 +163,7 @@ public class Game extends Canvas implements Runnable {
 	
 	public static void main(String[] args) {
 		driver = new SplashScreenDriver();
+		System.out.println("Avalible Processors: " + Runtime.getRuntime().availableProcessors());
 		ThreadPool pool = new ThreadPool(3);
 		pool.runTask(new InitTextures());
 		pool.runTask(new InitAnimations());
@@ -206,7 +207,7 @@ public class Game extends Canvas implements Runnable {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		MusicPlayer player = new MusicPlayer("FlatZone"); //music player playlist initialization
-		fxmanager = new SoundFXManager(5);
+		fxmanager = new SoundFXManager(Runtime.getRuntime().availableProcessors() - 1);
 		pool.runTask(player);
 		pool.runTask(game);
 		//game.start(); commented out for multithreading
