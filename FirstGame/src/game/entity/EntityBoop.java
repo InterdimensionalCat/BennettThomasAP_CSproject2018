@@ -1,14 +1,12 @@
 package game.entity;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import game.Game;
 import game.render.textures.Animation;
 import game.render.textures.Texture;
-import game.utils.Fonts;
 import game.utils.init.InitAnimations;
 import game.utils.init.InitAudio;
 import game.world.TileMap;

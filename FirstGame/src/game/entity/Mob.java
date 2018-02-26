@@ -1,13 +1,12 @@
 package game.entity;
 
-import java.awt.Graphics2D;
+
 import java.awt.Rectangle;
 
-import game.render.textures.Animation;
 import game.render.textures.Texture;
 import game.world.TileMap;
 
-public abstract class Mob extends Entity { //LMAO MOBile entity
+public abstract class Mob extends Entity { //It means MOBile entity
 
 	protected double motionX;
 	protected double motionY;

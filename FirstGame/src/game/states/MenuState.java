@@ -88,6 +88,7 @@ public class MenuState implements State {
 			
 		case 1:
 			System.out.println("Options");
+			stateManager.setState("OPTIONS");
 			break;
 			
 		case 2:

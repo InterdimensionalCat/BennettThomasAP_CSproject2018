@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class SoundFXManager {
 
 	public volatile ArrayList<SoundFXPlayer> players = new ArrayList<SoundFXPlayer>();
+	public volatile int globalFXVolume = -20;
 	
 	public SoundFXManager(int num) {
 		for(int i = 0; i < num; i++) {
@@ -15,7 +16,7 @@ public class SoundFXManager {
 	public void playSound(String fx) {
 		for(SoundFXPlayer p : players) {
 			if(!p.running) {
-  				p.playSound(fx);
+  				p.playSound(fx, globalFXVolume);
 				return;
 			}
 		}

@@ -13,7 +13,7 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
-import game.audio.MusicPlayer;
+import game.audio.SoundBGMPlayer;
 import game.audio.SoundFXManager;
 import game.audio.SoundFXPlayer;
 import game.entity.Player;
@@ -23,6 +23,7 @@ import game.render.textures.Texture;
 import game.render.ui.SplashScreenDriver;
 import game.states.GameState;
 import game.states.MenuState;
+import game.states.Options;
 import game.states.StateManager;
 import game.utils.ThreadPool;
 import game.utils.Util;
@@ -59,6 +60,7 @@ public class Game extends Canvas implements Runnable {
 		setStateManager(new StateManager());
 		
 		stateManager.addState(new MenuState());
+		stateManager.addState(new Options());
 		stateManager.addState(new GameState());
 		
 		INSTANCE = this;
@@ -221,7 +223,7 @@ public class Game extends Canvas implements Runnable {
 		
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-		MusicPlayer player = new MusicPlayer("FlatZone"); //music player playlist initialization
+		SoundBGMPlayer player = new SoundBGMPlayer("FlatZone"); //music player playlist initialization
 		if(Runtime.getRuntime().availableProcessors() > 4) {
 			fxmanager = new SoundFXManager(3);
 		} else {

@@ -7,6 +7,7 @@ public class SoundFXPlayer implements Runnable {
 	private String currentSong;
 	protected boolean running;
 	private ThreadPool pool;
+	private int globalFXVolume = -20;
 	
 	public SoundFXPlayer(String... files) {
 		if(Runtime.getRuntime().availableProcessors() > 4) {
@@ -20,7 +21,7 @@ public class SoundFXPlayer implements Runnable {
 	public void run() {
 		running = true;
 		AudioFile song = InitAudio.musicFiles.get(currentSong);
-		song.play();
+		song.play(globalFXVolume);
 		while (running) {
 			if(!song.isPlaying()) {
 				running = false;
@@ -37,5 +38,10 @@ public class SoundFXPlayer implements Runnable {
 	public void playSound(String fx) {
 		this.currentSong = fx;
 		pool.runTask(this);
+	}
+	
+	public void playSound(String fx, int volume) {
+		globalFXVolume = volume;
+		playSound(fx);
 	}
 }

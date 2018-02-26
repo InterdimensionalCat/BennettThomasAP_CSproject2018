@@ -21,10 +21,9 @@ public class Player extends Mob {
 	
 	private int playerSpawnX;
 	private int playerSpawnY;
-	private TileMap tileMap;
 	private double maxMotionX;
 	private Animation idle;
-	private ActionState playerActionState;
+	//private ActionState playerActionState;
 	protected boolean turnRunRight;
 	protected boolean turnRunLeft;
 	private int deathCount = InitAnimations.playerDeath;
@@ -110,6 +109,14 @@ public class Player extends Mob {
 			Game.level.nextLevel();
 		}
 		
+		if(KeyInput.wasPressed(KeyEvent.VK_O)) {
+			deathCount--;
+		}
+		
+		if(KeyInput.wasPressed(KeyEvent.VK_P)) {
+			deathCount++;
+		}
+		
 		if(KeyInput.wasReleased(KeyEvent.VK_A)||KeyInput.wasReleased(KeyEvent.VK_D)) {
 			//motionX /= 4;
 			moving = false;
@@ -138,6 +145,47 @@ public class Player extends Mob {
 			}
 		}
 		
+		animate();
+		
+		super.tick();
+	}
+	
+	public void setDead() {
+		if (invincibleTime <= 0) {
+			System.out.println("You Died!");
+			playerDead = true;
+			Game.fxmanager.playSound("PlayerDead");
+			if (++deathCount > 5) {
+				System.err.println("Game Over!");
+				try {
+					Thread.sleep(1500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				System.exit(0);
+			}
+			Game.pauseTime += 20;
+			x = playerSpawnX;
+			y = playerSpawnY;
+			motionX = 0;
+			motionY = 0;
+			invincibleTime = 180;
+			this.idle = InitAnimations.animations.get("Player_idle");
+		}
+	}
+	
+	protected void jump(double velocityY) {
+		if(!isAirBorne) {
+			if(!InitAudio.musicFiles.get("PlayerJump1").isPlaying()) {
+				Game.fxmanager.playSound("PlayerJump1");
+			} else {
+				Game.fxmanager.playSound("PlayerJump2");
+			}
+		}
+		super.jump(velocityY);
+	}
+	
+	protected void animate() {
 		if(!moving && !isAirBorne) {
 			this.idle = InitAnimations.animations.get("Player_idle");
 			if (InitAnimations.animations.get("Player_run").getFlip() == true)  {
@@ -178,23 +226,8 @@ public class Player extends Mob {
 							}
 						}
 					}
-				}
-				
+				}	
 		}
-		
-		
-		super.tick();
-	}
-	
-	protected void jump(double velocityY) {
-		if(!isAirBorne) {
-			if(!InitAudio.musicFiles.get("PlayerJump1").isPlaying()) {
-				Game.fxmanager.playSound("PlayerJump1");
-			} else {
-				Game.fxmanager.playSound("PlayerJump2");
-			}
-		}
-		super.jump(velocityY);
 	}
 	
 	public int getCollisionWidth() {
@@ -233,29 +266,6 @@ public class Player extends Mob {
 
 	public Rectangle getAABB() {
 		return AABB;
-	}
-	
-	public void setDead() {
-		if (invincibleTime <= 0) {
-			System.out.println("You Died!");
-			playerDead = true;
-			Game.fxmanager.playSound("PlayerDead");
-			if (++deathCount > 5) {
-				System.err.println("Game Over!");
-				try {
-					Thread.sleep(1500);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				System.exit(0);
-			}
-			Game.pauseTime += 20;
-			x = playerSpawnX;
-			y = playerSpawnY;
-			motionX = 0;
-			motionY = 0;
-			invincibleTime = 180;
-		}
 	}
 	
 	public int getPlayerSpawnX() {

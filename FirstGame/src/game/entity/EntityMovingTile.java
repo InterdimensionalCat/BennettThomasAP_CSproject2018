@@ -3,7 +3,6 @@ package game.entity;
 import java.awt.Rectangle;
 
 import game.Game;
-import game.render.textures.Animation;
 import game.render.textures.Texture;
 import game.world.TileMap;
 
