@@ -1,19 +1,19 @@
 package game.audio;
 
-import game.utils.ThreadPool;
+import game.utils.ThreadManager;
 import game.utils.init.InitAudio;
 
 public class SoundFXPlayer implements Runnable {
 	private String currentSong;
 	protected boolean running;
-	private ThreadPool pool;
+	private ThreadManager pool;
 	private int globalFXVolume = -20;
 	
 	public SoundFXPlayer(String... files) {
 		if(Runtime.getRuntime().availableProcessors() > 4) {
-			pool = new ThreadPool(2);
+			pool = new ThreadManager(2);
 		} else {
-			pool = new ThreadPool(1);
+			pool = new ThreadManager(1);
 		}
 	}
 

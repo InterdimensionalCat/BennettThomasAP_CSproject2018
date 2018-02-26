@@ -59,11 +59,11 @@ public class TileMap {
 		tiles[x + y *width] = tile; //proper math?
 	}
 	
-	public static int pixelsToTiles(int pixel) {
+	public static int convertToTiles(int pixel) {
 		return (int)Math.round(pixel / 64); // this can be done with *return pixel >> TILE_SIZE_BITS;* but it will truncate as opposed to round, so this is better
 	}
 	
-	public static int tilesToPixels(int tile) {
+	public static int convertToPixels(int tile) {
 		return tile << TILE_SIZE_BITS;
 	}
 	
@@ -87,8 +87,8 @@ public class TileMap {
 	
 	public void render(Graphics2D g2d, int screenWidth, int screenHeight) {
 
-		int mapWidth = tilesToPixels(width);
-		int mapHeight = tilesToPixels(height);
+		int mapWidth = convertToPixels(width);
+		int mapHeight = convertToPixels(height);
 		int offsetX =(int)(screenWidth/2 - player.getX() - TILE_SIZE /2);
 		int offsetY =(int) (screenHeight/2 - player.getY() - TILE_SIZE /2);
 		offsetX = Math.min(offsetX, 0);
@@ -96,10 +96,10 @@ public class TileMap {
 		offsetY = Math.min(offsetY, 0);
 		offsetY = Math.max(offsetY, screenHeight - mapHeight);
 		
-		int firstX = pixelsToTiles(-offsetX);
-		int lastX = firstX + pixelsToTiles(screenWidth) + 1;
-		int firstY = pixelsToTiles(-offsetY);
-		int lastY = firstY + pixelsToTiles(screenHeight) + 1;
+		int firstX = convertToTiles(-offsetX);
+		int lastX = firstX + convertToTiles(screenWidth) + 1;
+		int firstY = convertToTiles(-offsetY);
+		int lastY = firstY + convertToTiles(screenHeight) + 1;
 		
 		parallaxEngine.render(g2d);
 		
@@ -107,11 +107,11 @@ public class TileMap {
 			for(int x = firstX; x <= lastX; x++) {
 				Tile t = getTile(x , y);
 				if (t != null) {
-					t.render(g2d, tilesToPixels(x) + offsetX, tilesToPixels(y) + offsetY);
+					t.render(g2d, convertToPixels(x) + offsetX, convertToPixels(y) + offsetY);
 				}
 				if (Game.showTileMap) {
 					g2d.setColor(Color.RED);
-					g2d.drawRect(tilesToPixels(x) + offsetX, tilesToPixels(y) + offsetY, 64, 64);
+					g2d.drawRect(convertToPixels(x) + offsetX, convertToPixels(y) + offsetY, 64, 64);
 				}
 			}	
 		}
@@ -138,10 +138,10 @@ public class TileMap {
 		
 		
 		
-		if(getTile(pixelsToTiles((int)AABB.getMaxX()), pixelsToTiles((int)AABB.getMinY() + 1)) != null) { //this is the top right corner
-			Tile tile = getTile(pixelsToTiles((int)AABB.getMaxX()), pixelsToTiles((int)AABB.getMinY() + 1));
+		if(getTile(convertToTiles((int)AABB.getMaxX()), convertToTiles((int)AABB.getMinY() + 1)) != null) { //this is the top right corner
+			Tile tile = getTile(convertToTiles((int)AABB.getMaxX()), convertToTiles((int)AABB.getMinY() + 1));
 			if (tile.type == TileType.SOLID) { 
-				newX = tilesToPixels(pixelsToTiles((int)AABB.getMaxX())) - AABB.getWidth() - 1 - 5;
+				newX = convertToPixels(convertToTiles((int)AABB.getMaxX())) - AABB.getWidth() - 1 - 5;
 				player.setX(newX);
 				AABB.setBounds((int)player.adjustXforCollision(newX), (int)player.adjustYforCollision(posY), AABB.width, AABB.height);
 				player.setMotionX(0);
@@ -160,10 +160,10 @@ public class TileMap {
 			}
 		}
 		
-		if(getTile(pixelsToTiles((int)AABB.getMaxX()), pixelsToTiles((int)AABB.getMaxY() - 1)) != null) { //this is the bottom right corner
-			Tile tile = getTile(pixelsToTiles((int)AABB.getMaxX()), pixelsToTiles((int)AABB.getMaxY() - 1));
+		if(getTile(convertToTiles((int)AABB.getMaxX()), convertToTiles((int)AABB.getMaxY() - 1)) != null) { //this is the bottom right corner
+			Tile tile = getTile(convertToTiles((int)AABB.getMaxX()), convertToTiles((int)AABB.getMaxY() - 1));
 			if (tile.type == TileType.SOLID) {
-				newX = tilesToPixels(pixelsToTiles((int) AABB.getMaxX())) - AABB.getWidth() - 1 - 5;
+				newX = convertToPixels(convertToTiles((int) AABB.getMaxX())) - AABB.getWidth() - 1 - 5;
 				player.setX(newX);
 				AABB.setBounds((int) player.adjustXforCollision(newX), (int) player.adjustYforCollision(posY), AABB.width,
 						AABB.height);
@@ -177,7 +177,7 @@ public class TileMap {
 					newX = toX;
 					//double bottomSlope = tilesToPixels(pixelsToTiles((int) AABB.getMaxX()));
 					
-					player.setY(tilesToPixels(pixelsToTiles((int)(int)player.adjustYforCollision(posY) - 1)) + (64 - toX % 64));
+					player.setY(convertToPixels(convertToTiles((int)(int)player.adjustYforCollision(posY) - 1)) + (64 - toX % 64));
 					if(Game.debug) {
 						System.out.println("Walking up a slope");
 					}
@@ -185,8 +185,8 @@ public class TileMap {
 			}
 		}
 		
-		if(getTile(pixelsToTiles((int)AABB.getMinX()), pixelsToTiles((int)AABB.getMinY() + 1)) != null) { //this is the top left corner
-			newX = tilesToPixels(pixelsToTiles((int)AABB.getMaxX())) - 5/*this is the offset from AABB hitbox to texture*/ ;
+		if(getTile(convertToTiles((int)AABB.getMinX()), convertToTiles((int)AABB.getMinY() + 1)) != null) { //this is the top left corner
+			newX = convertToPixels(convertToTiles((int)AABB.getMaxX())) - 5/*this is the offset from AABB hitbox to texture*/ ;
 			player.setX(newX);
 			AABB.setBounds((int)player.adjustXforCollision(newX), (int)player.adjustYforCollision(posY), AABB.width, AABB.height);
 			player.setMotionX(0);
@@ -198,8 +198,8 @@ public class TileMap {
 			
 		}
 		
-		if(getTile(pixelsToTiles((int)AABB.getMinX()), pixelsToTiles((int)AABB.getMaxY()  - 1)) != null && !isOnMovingTile) { //this is the bottom left corner
-			newX = tilesToPixels(pixelsToTiles((int)AABB.getMaxX())) - 5/*this is the offset from AABB hitbox to texture*/ ;
+		if(getTile(convertToTiles((int)AABB.getMinX()), convertToTiles((int)AABB.getMaxY()  - 1)) != null && !isOnMovingTile) { //this is the bottom left corner
+			newX = convertToPixels(convertToTiles((int)AABB.getMaxX())) - 5/*this is the offset from AABB hitbox to texture*/ ;
 			player.setX(newX);
 			AABB.setBounds((int)player.adjustXforCollision(newX), (int)player.adjustYforCollision(posY), AABB.width, AABB.height);
 			player.setMotionX(0);
@@ -220,8 +220,8 @@ public class TileMap {
 			player.setMoving(false);
 		}
 		
-		if((int)newX + 64 > tilesToPixels(this.width)) {
-			player.setX(tilesToPixels(this.width) - 64); // must change this
+		if((int)newX + 64 > convertToPixels(this.width)) {
+			player.setX(convertToPixels(this.width) - 64); // must change this
 			player.setMotionX(0);
 			player.setMoving(false);
 		}
@@ -230,7 +230,7 @@ public class TileMap {
 		
 		AABB.setBounds((int)player.adjustXforCollision(newX), (int)player.adjustYforCollision(toY), AABB.width, AABB.height);
 		
-		if(getTile(pixelsToTiles((int)AABB.getMaxX() - 1), pixelsToTiles((int)AABB.getMinY())) != null) { // this is the top right corner
+		if(getTile(convertToTiles((int)AABB.getMaxX() - 1), convertToTiles((int)AABB.getMinY())) != null) { // this is the top right corner
 			player.setMotionY(motionY / 4);
 			
 			if(Game.debug) {
@@ -239,7 +239,7 @@ public class TileMap {
 			
 		}
 			
-		if(getTile(pixelsToTiles((int)AABB.getMinX() + 1), pixelsToTiles((int)AABB.getMinY())) != null) { // this is the top left corner
+		if(getTile(convertToTiles((int)AABB.getMinX() + 1), convertToTiles((int)AABB.getMinY())) != null) { // this is the top left corner
 			player.setMotionY(motionY / 4);
 			
 			if(Game.debug) {
@@ -249,10 +249,10 @@ public class TileMap {
 		}
 		
 		
-		if(getTile(pixelsToTiles((int)AABB.getMaxX() - 1), pixelsToTiles((int)AABB.getMaxY())) != null && !isOnMovingTile) { // this is the bottom right corner
-			Tile tile = getTile(pixelsToTiles((int)AABB.getMaxX() - 1), pixelsToTiles((int)AABB.getMaxY()));
+		if(getTile(convertToTiles((int)AABB.getMaxX() - 1), convertToTiles((int)AABB.getMaxY())) != null && !isOnMovingTile) { // this is the bottom right corner
+			Tile tile = getTile(convertToTiles((int)AABB.getMaxX() - 1), convertToTiles((int)AABB.getMaxY()));
 			if(tile.type == TileType.SOLID) {
-				player.setY(tilesToPixels(pixelsToTiles((int)player.adjustYforCollision(posY))));
+				player.setY(convertToPixels(convertToTiles((int)player.adjustYforCollision(posY))));
 				player.setMotionY(0);
 				player.setAirBorne(false);
 				
@@ -262,7 +262,7 @@ public class TileMap {
 			} else {
 				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
 					//player.setY(tilesToPixels(pixelsToTiles((int)(int)player.ajustYforCollision(posY))) - 64 + toX % 64);
-					player.setY(tilesToPixels(pixelsToTiles((int)(int)player.adjustYforCollision(posY))) + (64 - toX % 64));
+					player.setY(convertToPixels(convertToTiles((int)(int)player.adjustYforCollision(posY))) + (64 - toX % 64));
 					player.setMotionY(0);
 					player.setAirBorne(false);
 					if(Game.debug) {
@@ -272,10 +272,10 @@ public class TileMap {
 			}
 		}
 		
-		if(getTile(pixelsToTiles((int)AABB.getMinX() + 1), pixelsToTiles((int)AABB.getMaxY())) != null) { // this is the bottom left corner
-			Tile tile = getTile(pixelsToTiles((int)AABB.getMinX() + 1), pixelsToTiles((int)AABB.getMaxY()));
+		if(getTile(convertToTiles((int)AABB.getMinX() + 1), convertToTiles((int)AABB.getMaxY())) != null) { // this is the bottom left corner
+			Tile tile = getTile(convertToTiles((int)AABB.getMinX() + 1), convertToTiles((int)AABB.getMaxY()));
 			if(tile.type == TileType.SOLID) {
-				player.setY(tilesToPixels(pixelsToTiles((int)(int)player.adjustYforCollision(posY))));
+				player.setY(convertToPixels(convertToTiles((int)(int)player.adjustYforCollision(posY))));
 				player.setMotionY(0);
 				player.setAirBorne(false);
 				if(Game.debug) {
@@ -284,7 +284,7 @@ public class TileMap {
 			} else {
 				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
 					//player.setY(tilesToPixels(pixelsToTiles((int)(int)player.ajustYforCollision(posY))) - 64 + toX % 64);
-					player.setY(tilesToPixels(pixelsToTiles((int)(int)player.adjustYforCollision(posY))) + (64 - toX % 64));
+					player.setY(convertToPixels(convertToTiles((int)(int)player.adjustYforCollision(posY))) + (64 - toX % 64));
 					player.setMotionY(0);
 					player.setAirBorne(false);
 					if(Game.debug) {
@@ -321,6 +321,8 @@ public class TileMap {
 						//player.setMotionX(movingTile.getMotionX()*2.4); //2.4 is a constant that prevents traction from slowing down the player
 						player.setX(player.getX() + movingTile.getMotionX());
 						//player.setMotionY(movingTile.getMotionY());
+					} else {
+						player.setMotionX(player.getMotionX() + movingTile.getMotionX());
 					}
 
 					if (Game.debug) {
@@ -364,8 +366,8 @@ public class TileMap {
 	}
 	
 	public void wallCollision(Rectangle AABB, double posX, double posY, double motionX, double motionY, double cornerX, double cornerY, double offset) {
-		if(getTile(pixelsToTiles((int)cornerX), pixelsToTiles((int)cornerY)) != null) {    //attempts to grab the tile at the given X and Y coordinates, intended to be a corner, pixelsToTiles scales these coordinates down to the tilemap image reading size ( 64x smaller than the window size) this is done because the individual tile coordinates cannot be reference directly
-				newX = tilesToPixels(pixelsToTiles((int)AABB.getMaxX())) + offset;                  //the first index of this array should always be the player's intended next position, this sets that position to the point closest to but not inside the wall
+		if(getTile(convertToTiles((int)cornerX), convertToTiles((int)cornerY)) != null) {    //attempts to grab the tile at the given X and Y coordinates, intended to be a corner, pixelsToTiles scales these coordinates down to the tilemap image reading size ( 64x smaller than the window size) this is done because the individual tile coordinates cannot be reference directly
+				newX = convertToPixels(convertToTiles((int)AABB.getMaxX())) + offset;                  //the first index of this array should always be the player's intended next position, this sets that position to the point closest to but not inside the wall
 				player.setX(newX);                                                           //actually sets the player's x coordinate
 				AABB.setBounds((int)player.adjustXforCollision(newX), (int)player.adjustYforCollision(posY), AABB.width, AABB.height); //updates the player's hitbox, the adjust for collision method goes from player coordinate to hitbox coordinate
 				player.setMotionX(0);                                                          //if the player has hit something, they arent moving, so the X motion stops
@@ -374,14 +376,14 @@ public class TileMap {
 	}
 	
 	public void ceilingCollision(Rectangle AABB, double motionY, double cornerX, double cornerY) {
-		if(getTile(pixelsToTiles((int)cornerX), pixelsToTiles((int)cornerY)) != null) {
+		if(getTile(convertToTiles((int)cornerX), convertToTiles((int)cornerY)) != null) {
 			player.setMotionY(motionY / 4);
 		}
 	}
 	
 	public void floorCollision(Rectangle AABB, double posY, double cornerX, double cornerY) {
-		if(getTile(pixelsToTiles((int)cornerX), pixelsToTiles((int)cornerY)) != null) {
-				player.setY(tilesToPixels(pixelsToTiles((int)player.adjustYforCollision(posY))));
+		if(getTile(convertToTiles((int)cornerX), convertToTiles((int)cornerY)) != null) {
+				player.setY(convertToPixels(convertToTiles((int)player.adjustYforCollision(posY))));
 				player.setMotionY(0);
 				player.setAirBorne(false);
 				AABB.setBounds((int)player.adjustXforCollision(player.getX()), (int)player.adjustYforCollision(player.getY()), AABB.width, AABB.height);
@@ -433,8 +435,8 @@ public class TileMap {
 			player.setMoving(false);
 		}
 		
-		if((int)newX + 64 > tilesToPixels(this.width)) {
-			player.setX(tilesToPixels(this.width) - 64); // must change this
+		if((int)newX + 64 > convertToPixels(this.width)) {
+			player.setX(convertToPixels(this.width) - 64); // must change this
 			player.setMotionX(0);
 			player.setMoving(false);
 		}
@@ -459,9 +461,17 @@ public class TileMap {
 				if (movingTileCollision(movingTile, player.getAABB().getMaxX(), player.getAABB().getMaxY()) || //this is the bottom right corner
 				    movingTileCollision(movingTile, player.getAABB().getMinX(), player.getAABB().getMaxY())) { //this is the bottom left corner
 					
-					if (!player.isMoving()) { //if player is not moving horizontally, this updates the players X position to follow the moving tile
+/*					if (!player.isMoving()) { //if player is not moving horizontally, this updates the players X position to follow the moving tile
 						player.setX(player.getX() + movingTile.getMotionX());
-					}
+					} else {
+						if((player.getMotionX() > 0 && movingTile.getMotionX() > 0)||(player.getMotionX() < 0 && movingTile.getMotionX() < 0)) {
+							player.setMotionX(player.getMotionX() + movingTile.getMotionX()/2);
+						} else {
+							player.setMotionX(player.getMotionX() - movingTile.getMotionX()/2);
+						}
+					}*/
+					player.setX(player.getX() + movingTile.getMotionX());
+					
 					
 					ceilingCollision(AABB, motionY, AABB.getMaxX() - 1, AABB.getMinY());
 					ceilingCollision(AABB, motionY, AABB.getMinX() + 1, AABB.getMinY());
@@ -482,10 +492,10 @@ public class TileMap {
 		
 		
 		
-		if(getTile(pixelsToTiles((int)mob.getAABB().getMaxX()), pixelsToTiles((int)mob.getAABB().getMinY() + 1)) != null) { //this is the top right corner
-			Tile tile = getTile(pixelsToTiles((int)mob.getAABB().getMaxX()), pixelsToTiles((int)mob.getAABB().getMinY() + 1));
+		if(getTile(convertToTiles((int)mob.getAABB().getMaxX()), convertToTiles((int)mob.getAABB().getMinY() + 1)) != null) { //this is the top right corner
+			Tile tile = getTile(convertToTiles((int)mob.getAABB().getMaxX()), convertToTiles((int)mob.getAABB().getMinY() + 1));
 			if (tile.type == TileType.SOLID) { 
-				newX = tilesToPixels(pixelsToTiles((int)mob.getAABB().getMaxX())) - mob.getAABB().getWidth() - 1 - 5;
+				newX = convertToPixels(convertToTiles((int)mob.getAABB().getMaxX())) - mob.getAABB().getWidth() - 1 - 5;
 				mob.setX(newX);
 				mob.getAABB().setBounds((int)newX, (int)posY, mob.getAABB().width, mob.getAABB().height);
 				mob.setMotionX(0);
@@ -504,10 +514,10 @@ public class TileMap {
 			}
 		}
 		
-		if(getTile(pixelsToTiles((int)mob.getAABB().getMaxX()), pixelsToTiles((int)mob.getAABB().getMaxY() - 1)) != null) { //this is the bottom right corner
-			Tile tile = getTile(pixelsToTiles((int)mob.getAABB().getMaxX()), pixelsToTiles((int)mob.getAABB().getMaxY() - 1));
+		if(getTile(convertToTiles((int)mob.getAABB().getMaxX()), convertToTiles((int)mob.getAABB().getMaxY() - 1)) != null) { //this is the bottom right corner
+			Tile tile = getTile(convertToTiles((int)mob.getAABB().getMaxX()), convertToTiles((int)mob.getAABB().getMaxY() - 1));
 			if (tile.type == TileType.SOLID) {
-				newX = tilesToPixels(pixelsToTiles((int) mob.getAABB().getMaxX())) - mob.getAABB().getWidth() - 1 - 5;
+				newX = convertToPixels(convertToTiles((int) mob.getAABB().getMaxX())) - mob.getAABB().getWidth() - 1 - 5;
 				mob.setX(newX);
 				mob.getAABB().setBounds((int)newX, (int)posY, mob.getAABB().width, mob.getAABB().height);
 				mob.setMotionX(0);
@@ -521,8 +531,8 @@ public class TileMap {
 			}
 		}
 		
-		if(getTile(pixelsToTiles((int)mob.getAABB().getMinX()), pixelsToTiles((int)mob.getAABB().getMinY() + 1)) != null) { //this is the top left corner
-			newX = tilesToPixels(pixelsToTiles((int)mob.getAABB().getMaxX())) - 5/*this is the offset from mob.getAABB() hitbox to texture*/ + 1;
+		if(getTile(convertToTiles((int)mob.getAABB().getMinX()), convertToTiles((int)mob.getAABB().getMinY() + 1)) != null) { //this is the top left corner
+			newX = convertToPixels(convertToTiles((int)mob.getAABB().getMaxX())) - 5/*this is the offset from mob.getAABB() hitbox to texture*/ + 1;
 			mob.setX(newX);
 			mob.getAABB().setBounds((int)newX, (int)posY, mob.getAABB().width, mob.getAABB().height);
 			mob.setMotionX(0);
@@ -532,8 +542,8 @@ public class TileMap {
 			
 		}
 		
-		if(getTile(pixelsToTiles((int)mob.getAABB().getMinX()), pixelsToTiles((int)mob.getAABB().getMaxY()  - 1)) != null && !isOnMovingTile) { //this is the bottom left corner
-			newX = tilesToPixels(pixelsToTiles((int)mob.getAABB().getMaxX())) - 5/*this is the offset from mob.getAABB() hitbox to texture*/ + 1;
+		if(getTile(convertToTiles((int)mob.getAABB().getMinX()), convertToTiles((int)mob.getAABB().getMaxY()  - 1)) != null && !isOnMovingTile) { //this is the bottom left corner
+			newX = convertToPixels(convertToTiles((int)mob.getAABB().getMaxX())) - 5/*this is the offset from mob.getAABB() hitbox to texture*/ + 1;
 			mob.setX(newX);
 			mob.getAABB().setBounds((int)newX, (int)posY, mob.getAABB().width, mob.getAABB().height);
 			mob.setMotionX(0);
@@ -554,8 +564,8 @@ public class TileMap {
 			returnType = true;
 		}
 		
-		if((int)newX + 64 > tilesToPixels(this.width)) {
-			mob.setX(tilesToPixels(this.width) - 64); // must change this
+		if((int)newX + 64 > convertToPixels(this.width)) {
+			mob.setX(convertToPixels(this.width) - 64); // must change this
 			mob.setMotionX(0);
 			mob.setMoving(false);
 			returnType = true;
@@ -565,23 +575,23 @@ public class TileMap {
 		
 		mob.getAABB().setBounds((int)newX, (int)toY, mob.getAABB().width, mob.getAABB().height);
 		
-		if(getTile(pixelsToTiles((int)mob.getAABB().getMaxX() - 1), pixelsToTiles((int)mob.getAABB().getMinY())) != null) { // this is the top right corner
+		if(getTile(convertToTiles((int)mob.getAABB().getMaxX() - 1), convertToTiles((int)mob.getAABB().getMinY())) != null) { // this is the top right corner
 			mob.setMotionY(motionY / 4);
 
 			
 		}
 			
-		if(getTile(pixelsToTiles((int)mob.getAABB().getMinX() + 1), pixelsToTiles((int)mob.getAABB().getMinY())) != null) { // this is the top left corner
+		if(getTile(convertToTiles((int)mob.getAABB().getMinX() + 1), convertToTiles((int)mob.getAABB().getMinY())) != null) { // this is the top left corner
 			mob.setMotionY(motionY / 4);
 
 			
 		}
 		
 		
-		if(getTile(pixelsToTiles((int)mob.getAABB().getMaxX() - 1), pixelsToTiles((int)mob.getAABB().getMaxY())) != null && !isOnMovingTile) { // this is the bottom right corner
-			Tile tile = getTile(pixelsToTiles((int)mob.getAABB().getMaxX() - 1), pixelsToTiles((int)mob.getAABB().getMaxY()));
+		if(getTile(convertToTiles((int)mob.getAABB().getMaxX() - 1), convertToTiles((int)mob.getAABB().getMaxY())) != null && !isOnMovingTile) { // this is the bottom right corner
+			Tile tile = getTile(convertToTiles((int)mob.getAABB().getMaxX() - 1), convertToTiles((int)mob.getAABB().getMaxY()));
 			if(tile.type == TileType.SOLID) {
-				mob.setY(tilesToPixels(pixelsToTiles((int)posY + 10)));
+				mob.setY(convertToPixels(convertToTiles((int)posY + 10)));
 				mob.setMotionY(0);
 				mob.setAirBorne(false);
 			} else {
@@ -591,10 +601,10 @@ public class TileMap {
 			}
 		}
 		
-		if(getTile(pixelsToTiles((int)mob.getAABB().getMinX() + 1), pixelsToTiles((int)mob.getAABB().getMaxY())) != null) { // this is the bottom left corner
-			Tile tile = getTile(pixelsToTiles((int)mob.getAABB().getMinX() + 1), pixelsToTiles((int)mob.getAABB().getMaxY()));
+		if(getTile(convertToTiles((int)mob.getAABB().getMinX() + 1), convertToTiles((int)mob.getAABB().getMaxY())) != null) { // this is the bottom left corner
+			Tile tile = getTile(convertToTiles((int)mob.getAABB().getMinX() + 1), convertToTiles((int)mob.getAABB().getMaxY()));
 			if(tile.type == TileType.SOLID) {
-				mob.setY(tilesToPixels(pixelsToTiles((int)posY + 10)));
+				mob.setY(convertToPixels(convertToTiles((int)posY + 10)));
 				mob.setMotionY(0);
 				mob.setAirBorne(false);
 			} else {
@@ -625,6 +635,8 @@ public class TileMap {
 					
 					if(movingTile.getMotionY()  > 0) {
 						mob.setY(movingTile.getAABB().getMinY() - 62);
+					} else {
+					    mob.setMotionX(mob.getMotionX() + movingTile.getMotionX());
 					}
 					
 					if(!mob.isMoving()/* && movingTile.getPlatformType() == PlatformType.HORIZONTAL_MOVING*/) {
@@ -694,18 +706,18 @@ public class TileMap {
 			for(int x = 0; x < width; x++) {
 				int id = pixels[x + y * width];
 				if(id == 0xFF0000FF) {
-					player = new Player(tilesToPixels(x), tilesToPixels(y), this);
-					player.setPlayerSpawnX(tilesToPixels(x));
-					player.setPlayerSpawnY(tilesToPixels(y));
+					player = new Player(convertToPixels(x), convertToPixels(y), this);
+					player.setPlayerSpawnX(convertToPixels(x));
+					player.setPlayerSpawnY(convertToPixels(y));
 				} else {
 					if(Tile.getFromID(id) != null) {
 						setTile(x, y, Tile.getFromID(id));
 					} else {
 						if(id == 0xFF010101) {
-							System.out.println("Goal is " + tilesToPixels(x) + " ," + tilesToPixels(y));
+							System.out.println("Goal is " + convertToPixels(x) + " ," + convertToPixels(y));
 						} else {
 							if(id == 0xFF000001) {
-								System.out.println(tilesToPixels(x) + " ," + tilesToPixels(y));
+								System.out.println(convertToPixels(x) + " ," + convertToPixels(y));
 							}
 						}
 					}

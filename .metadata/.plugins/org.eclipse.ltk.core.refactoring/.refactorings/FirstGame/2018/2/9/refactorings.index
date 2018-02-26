@@ -3,3 +3,8 @@
 1519607787282	Copy compilation unit
 1519614623885	Rename type 'MenuState'
 1519614753357	Rename local variable 'fm'
+1519684464325	Rename method 'tilesToPixels'
+1519684481415	Rename method 'pixelsToTiles'
+1519684574610	Rename type 'ThreadPool'
+1519684601218	Rename type 'PooledThread'
+1519684765786	Rename type 'ThreadGroup'

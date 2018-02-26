@@ -46,7 +46,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			//moving = false;
 		}
 
-		if(y > TileMap.tilesToPixels(this.tileMap.getHeight())) {
+		if(y > TileMap.convertToPixels(this.tileMap.getHeight())) {
 			this.setDead();
 		}
 		

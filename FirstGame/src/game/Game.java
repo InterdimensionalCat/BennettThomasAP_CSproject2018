@@ -25,7 +25,7 @@ import game.states.GameState;
 import game.states.Menu;
 import game.states.Options;
 import game.states.StateManager;
-import game.utils.ThreadPool;
+import game.utils.ThreadManager;
 import game.utils.Util;
 import game.utils.init.InitAnimations;
 import game.utils.init.InitAudio;
@@ -49,7 +49,7 @@ public class Game extends Canvas implements Runnable {
 	public static volatile SoundFXManager fxmanager;
 	public static int pauseTime;
 	public static KeyInput keyInput;
-	public static ThreadPool pool;
+	public static ThreadManager pool;
 	public static SoundBGMPlayer player;
 	
 	public Game() {
@@ -178,10 +178,10 @@ public class Game extends Canvas implements Runnable {
 		driver = new SplashScreenDriver();
 		System.out.println("Avalible Processors: " + Runtime.getRuntime().availableProcessors());
 		if(Runtime.getRuntime().availableProcessors() > 4) {
-			pool = new ThreadPool(3);
+			pool = new ThreadManager(3);
 		} else {
 			System.err.println("Game is running in low performance mode, initial loading time will be increased");
-			pool = new ThreadPool(2);
+			pool = new ThreadManager(2);
 		}
 		pool.runTask(new InitTextures());
 		pool.runTask(new InitAnimations());
