@@ -80,7 +80,7 @@ public class EntityMovingTile extends Mob {
 			falling = true;
 		}
 		collided = false;
-		if(this.y - 100 > Game.HEIGHT) {
+		if(this.y - 100 > tileMap.getHeight()*64) {
 			this.setDead();
 		}
 		

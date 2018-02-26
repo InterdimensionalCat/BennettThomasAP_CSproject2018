@@ -34,6 +34,9 @@ public class EntityBoop extends Mob {
 	public EntityBoop(double x, double y, TileMap tileMap, double speed, double displacement, boolean jumper, double gravity) {
 		this(x, y, tileMap, speed, displacement, jumper);
 		this.gravity = gravity;
+		if(gravity == 0.0) {
+			hasCollision = false;
+		}
 	}
 
 	@Override
@@ -41,7 +44,6 @@ public class EntityBoop extends Mob {
 		dead = true;
 		this.x = -100;
 		AABB.setLocation((int)x, (int)y);
-		System.out.println("ded");
 	}
 	
 	@Override

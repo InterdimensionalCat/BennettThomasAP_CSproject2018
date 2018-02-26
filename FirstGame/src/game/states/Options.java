@@ -25,16 +25,16 @@ public class Options implements State {
 		options = new Button[4];
 		options[0] = new Button("VOLUME", 200 + 0 *80, 
 				new Font("Arial", Font.PLAIN, 32), new Font("Arial", Font.BOLD, 48),
-				Color.WHITE, Color.YELLOW);
+				Color.WHITE, Color.GRAY);
 		options[1] = new Button("+", 200 + 1 *80, 
 				new Font("Arial", Font.PLAIN, 32), new Font("Arial", Font.BOLD, 48),
-				Color.WHITE, Color.YELLOW);
+				Color.WHITE, Color.GRAY);
 		options[2] = new Button("-", 200 + 2 *80, 
 				new Font("Arial", Font.PLAIN, 32), new Font("Arial", Font.BOLD, 48),
-				Color.WHITE, Color.YELLOW);
+				Color.WHITE, Color.GRAY);
 		options[3] = new Button("BACK", 200 + 3 *80, 
 				new Font("Arial", Font.PLAIN, 32), new Font("Arial", Font.BOLD, 48),
-				Color.WHITE, Color.YELLOW);
+				Color.WHITE, Color.GRAY);
 		
 	}
 
@@ -101,8 +101,8 @@ public class Options implements State {
 	public void render(Graphics2D g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
-		Fonts.drawString(g, new Font("Arial", Font.BOLD, 72) , Color.ORANGE, "Options", 80);
-		Fonts.drawString(g, new Font("Arial", Font.BOLD, 48) , Color.ORANGE, "Volume :" + Game.fxmanager.globalFXVolume, 200 + 4 *80);
+		Fonts.drawString(g, new Font("Arial", Font.BOLD, 72) , Color.WHITE, "Options", 80);
+		Fonts.drawString(g, new Font("Arial", Font.BOLD, 48) , Color.WHITE, "Volume :" + Game.fxmanager.globalFXVolume, 200 + 4 *80);
 		for(int i = 0; i < options.length; i++) {
 			if (i == currentSelection) {
 				options[i].setSelected(true);

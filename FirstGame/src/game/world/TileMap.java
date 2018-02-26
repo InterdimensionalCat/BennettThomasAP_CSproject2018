@@ -474,6 +474,7 @@ public class TileMap {
 	}
 	
 	public boolean calculateNPCCollision(Mob mob, double posX, double posY, double motionX, double motionY) {
+		boolean returnType = false;
 		double toX = posX + motionX;
 		double toY = posY + motionY;
 		double newX = -1.0;
@@ -491,7 +492,7 @@ public class TileMap {
 				mob.setMoving(false);
 
 				
-				return true;
+				returnType = true;
 				
 			} else {
 				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
@@ -511,7 +512,7 @@ public class TileMap {
 				mob.getAABB().setBounds((int)newX, (int)posY, mob.getAABB().width, mob.getAABB().height);
 				mob.setMotionX(0);
 				mob.setMoving(false);
-				return true;
+				returnType = true;
 				
 			} else {
 				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
@@ -527,7 +528,7 @@ public class TileMap {
 			mob.setMotionX(0);
 			mob.setMoving(false);
 			
-			return true;
+			returnType = true;
 			
 		}
 		
@@ -538,7 +539,7 @@ public class TileMap {
 			mob.setMotionX(0);
 			mob.setMoving(false);
 			
-			return true;
+			returnType = true;
 			
 		}
 		
@@ -550,12 +551,14 @@ public class TileMap {
 			mob.setX(1);
 			mob.setMotionX(0);
 			mob.setMoving(false);
+			returnType = true;
 		}
 		
 		if((int)newX + 64 > tilesToPixels(this.width)) {
 			mob.setX(tilesToPixels(this.width) - 64); // must change this
 			mob.setMotionX(0);
 			mob.setMoving(false);
+			returnType = true;
 		}
 		
 		//horz is first, now vert;
@@ -605,7 +608,7 @@ public class TileMap {
 		
 		//Entity Collision
 		for (Entity e : entities) {
-			if (e instanceof EntityMovingTile) {
+			if (e instanceof EntityMovingTile && mob.hasCollision) {
 				EntityMovingTile movingTile = (EntityMovingTile)e;
 				
 				if (mob.getAABB().getMaxY() > movingTile.getAABB().getMinY()
@@ -669,7 +672,7 @@ public class TileMap {
 				}
 			}
 		}
-		return false;
+		return returnType;
 	}
 	
 	public void load(String name) {

@@ -22,7 +22,7 @@ import game.input.MouseInput;
 import game.render.textures.Texture;
 import game.render.ui.SplashScreenDriver;
 import game.states.GameState;
-import game.states.MenuState;
+import game.states.Menu;
 import game.states.Options;
 import game.states.StateManager;
 import game.utils.ThreadPool;
@@ -60,7 +60,7 @@ public class Game extends Canvas implements Runnable {
 		addMouseMotionListener(mi);
 		setStateManager(new StateManager());
 		
-		stateManager.addState(new MenuState());
+		stateManager.addState(new Menu());
 		stateManager.addState(new Options());
 		stateManager.addState(new GameState());
 		

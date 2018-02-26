@@ -18,13 +18,14 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	protected boolean moving;
 	protected double lastMoveY;
 	protected Rectangle AABB;
+	public boolean hasCollision = true;
 	
 	public Mob(Texture texture, double x, double y, TileMap tileMap, Rectangle AABB) {
 		super(texture, x, y, tileMap, AABB);
 		gravity = 0.5;
 		maxMotionY = 10;
 		tickerAir = 0;
-		this.AABB = AABB; 
+		this.AABB = AABB;
 	}
 	
 	public abstract void setDead();

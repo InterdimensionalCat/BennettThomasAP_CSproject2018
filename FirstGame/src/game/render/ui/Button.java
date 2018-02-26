@@ -38,12 +38,12 @@ public class Button extends Rectangle{
 			Fonts.drawString(g, font, color, text, textY);
 		}
 		
-		FontMetrics fm = g.getFontMetrics();
-		this.x = (Game.WIDTH - fm.stringWidth(text)) / 2;
-		this.y = textY - fm.getHeight();
-		this.width = fm.stringWidth(text);
-		this.height = fm.getHeight();
-		g.drawRect(x, y, width, height);
+		FontMetrics metrics = g.getFontMetrics();
+		this.x = (Game.WIDTH - metrics.stringWidth(text)) / 2;
+		this.y = textY - metrics.getHeight();
+		this.width = metrics.stringWidth(text);
+		this.height = metrics.getHeight();
+		//g.drawRect(x, y, width, height);
 	}
 	
 }

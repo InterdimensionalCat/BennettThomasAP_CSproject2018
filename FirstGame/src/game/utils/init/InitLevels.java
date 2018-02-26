@@ -57,21 +57,39 @@ public class InitLevels implements Runnable {
 				(Entity)new EntityBoop(3840, 832, tileMap, 0.7, 64, true),
 				(Entity)new EntityBoop(5824, 832, tileMap, 0, 0, true),
 				(Entity)new EntityGoal(6272, 832, tileMap)
-				
-/*				(Entity)new EntityMovingTile(new Texture("movingTile"), 384, 192, tileMap, 200, PlatformType.FALLING),
-				(Entity)new EntityMovingTile(new Texture("movingTile"), 704, 192, tileMap, 200, PlatformType.FALLING),
-				(Entity)new EntityMovingTile(new Texture("movingTile"), 1024, 192, tileMap, 200, PlatformType.FALLING),
-	
-				(Entity)new EntityMovingTile(new Texture("movingTile"), 1408, 590, tileMap, 250, PlatformType.HORIZONTAL_MOVING),
-				(Entity)new EntityMovingTile(new Texture("movingTile"), 310, 448, tileMap, 640, PlatformType.VERTICAL_MOVING),
-				(Entity)new EntityGoal(1408, 128, tileMap),
-				(Entity)new EntityBoop(448, 1152, tileMap, 1.5, 128, false),
-				(Entity)new EntityBoop(448+64, 1152, tileMap, 1.5, 64, false),
-				(Entity)new EntityBoop(1216, 1152, tileMap, 1.5, 128, false)*/
 			};
 		
 		Entity[] entityLevel2 = {
-				(Entity)new EntityGoal(0.0, 0.0, tileMap)
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 832, 10240 - 640, tileMap, 640, PlatformType.HORIZONTAL_MOVING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 1152, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 1024, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 896, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 768, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 640, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 512, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 384, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 256, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 128, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 0, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityBoop(0, 9856 - 13, tileMap, 5.5, 64*20, false, 0),
+				(Entity)new EntityBoop(0, 9728 - 13, tileMap, 5.4, 64*20, false, 0),
+				(Entity)new EntityBoop(0, 9600 - 13, tileMap, 5.3, 64*20, false, 0),
+				(Entity)new EntityBoop(1152, 8512, tileMap, 0, 0, true),
+				(Entity)new EntityBoop(256, 8448, tileMap, 0, 0, false, 0),
+				(Entity)new EntityBoop(576, 8448, tileMap, 0, 0, false, 0),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 0, 8256 - 640, tileMap, 640, PlatformType.HORIZONTAL_MOVING),
+				(Entity)new EntityBoop(1088, 7552, tileMap, 0, 0, true),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 1152, 7616 - 640, tileMap, 640, PlatformType.HORIZONTAL_MOVING),
+				(Entity)new EntityBoop(960, 7040, tileMap, 5.0, 30, false, 0),
+				(Entity)new EntityBoop(832, 6976, tileMap, 5.0, 30, false, 0),
+				(Entity)new EntityBoop(640, 6912, tileMap, 5.0, 30, false, 0),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 384, 6848 - 320, tileMap, 320, PlatformType.HORIZONTAL_MOVING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 0, 6492 -640, tileMap, 640, PlatformType.HORIZONTAL_MOVING),
+				(Entity)new EntityBoop(896, 5440, tileMap, 0, 0, true),
+				(Entity)new EntityBoop(960, 2880, tileMap, 0, 0, false, 0),
+				(Entity)new EntityBoop(512, 448, tileMap, 0, 0, true, 0.1),
+				(Entity)new EntityGoal(1152, 64, tileMap)
+
 			};
 		
 		levels.add("LEVEL_F1");
@@ -79,9 +97,9 @@ public class InitLevels implements Runnable {
 		levels.add("LEVEL_F2");
 		levelEntities.put("LEVEL_F2", entityLevel1);
 		
-		levels.add("level_3");
+		levels.add("LEVEL_F3");
 
-		levelEntities.put("level_3", entityLevel2);
+		levelEntities.put("LEVEL_F3", entityLevel2);
 		
 		
 		System.out.println("Levels Loaded");

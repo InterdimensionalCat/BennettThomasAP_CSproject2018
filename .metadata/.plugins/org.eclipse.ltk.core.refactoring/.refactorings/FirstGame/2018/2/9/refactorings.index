@@ -1,3 +1,5 @@
 1519598061740	Rename resource 'Wave23.wav'
 1519606809891	Rename type 'MusicPlayer'
 1519607787282	Copy compilation unit
+1519614623885	Rename type 'MenuState'
+1519614753357	Rename local variable 'fm'

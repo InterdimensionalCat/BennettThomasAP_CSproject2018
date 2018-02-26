@@ -117,6 +117,15 @@ public class Player extends Mob {
 			deathCount++;
 		}
 		
+		if(KeyInput.wasPressed(KeyEvent.VK_G)) {
+			invincibleTime += 180;
+		}
+		
+		if(KeyInput.wasPressed(KeyEvent.VK_F)) {
+			playerSpawnX = (int)x;
+			playerSpawnY = (int)y;
+		}
+		
 		if(KeyInput.wasReleased(KeyEvent.VK_A)||KeyInput.wasReleased(KeyEvent.VK_D)) {
 			//motionX /= 4;
 			moving = false;
