@@ -2,27 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="boolean" key="selection"/>
+		<item value="Player" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="boolean"/>
-			<item value="Parall"/>
-			<item value="InitTextures"/>
-			<item value="parallax"/>
-			<item value="entities"/>
-			<item value="enitities"/>
-			<item value="entityboop"/>
-			<item value="entity"/>
-			<item value="swap"/>
-			<item value="switch"/>
-			<item value="toX"/>
-			<item value="arr[1]"/>
-			<item value="calculate"/>
-			<item value="aj"/>
-			<item value="manager"/>
+			<item value="player"/>
+			<item value="map"/>
+			<item value="add"/>
+			<item value="options"/>
+			<item value="MENU"/>
+			<item value="name"/>
+			<item value="setDead"/>
+			<item value="jump"/>
+			<item value="gravity"/>
+			<item value="height"/>
+			<item value="pauseTime"/>
+			<item value="boop"/>
+			<item value="playSound"/>
+			<item value="fxmanager"/>
+			<item value="NPC"/>
 		</list>
 		<list key="replacehistory">
 			<item value="movingTile.getAABB()"/>
@@ -32,9 +32,9 @@
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="277" key="DIALOG_WIDTH"/>
-		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-24|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
-		<item value="370" key="DIALOG_HEIGHT"/>
+		<item value="336" key="DIALOG_WIDTH"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|5|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="454" key="DIALOG_HEIGHT"/>
 		<item value="9" key="DIALOG_X_ORIGIN"/>
 		<item value="590" key="DIALOG_Y_ORIGIN"/>
 	</section>

@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="game.entity.EntityGoal"/>
+<fullyQualifiedTypeName name="game.entity.Player"/>
+<fullyQualifiedTypeName name="game.utils.init.InitAudio"/>
+<fullyQualifiedTypeName name="game.states.Options"/>
+</qualifiedTypeNameHistroy>

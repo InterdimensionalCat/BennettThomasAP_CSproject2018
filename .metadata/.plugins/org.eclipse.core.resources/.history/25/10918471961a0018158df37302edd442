@@ -49,8 +49,7 @@ public class Game extends Canvas implements Runnable {
 	public static volatile SoundFXManager fxmanager;
 	public static int pauseTime;
 	public static KeyInput keyInput;
-	public static ThreadPool pool;
-	public static SoundBGMPlayer player;
+	private static ThreadPool pool;
 	
 	public Game() {
 		keyInput = new KeyInput();
@@ -224,7 +223,7 @@ public class Game extends Canvas implements Runnable {
 		
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-		player = new SoundBGMPlayer("FlatZone"); //music player playlist initialization
+		SoundBGMPlayer player = new SoundBGMPlayer("FlatZone"); //music player playlist initialization
 		if(Runtime.getRuntime().availableProcessors() > 4) {
 			fxmanager = new SoundFXManager(3);
 		} else {

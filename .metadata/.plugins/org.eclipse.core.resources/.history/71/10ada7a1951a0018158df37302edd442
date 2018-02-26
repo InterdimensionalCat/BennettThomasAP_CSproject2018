@@ -40,7 +40,7 @@ public class Options implements State {
 
 	@Override
 	public void enter() {
-		Game.player.stop();
+		
 	}
 
 	public Options() {
@@ -85,13 +85,11 @@ public class Options implements State {
 			break;
 			
 		case 1:
-			Game.fxmanager.globalFXVolume++;
-			Game.player.globalBGMVolume++;
+			Game.fxmanager.globalFXVolume--;
 			break;
 			
 		case 2:
-			Game.fxmanager.globalFXVolume--;
-			Game.player.globalBGMVolume--;
+			Game.fxmanager.globalFXVolume++;
 			break;
 		case 3:
 			stateManager.setState("MENU");
@@ -102,7 +100,7 @@ public class Options implements State {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
 		Fonts.drawString(g, new Font("Arial", Font.BOLD, 72) , Color.ORANGE, "Options", 80);
-		Fonts.drawString(g, new Font("Arial", Font.BOLD, 48) , Color.ORANGE, "Volume :" + Game.fxmanager.globalFXVolume, 200 + 4 *80);
+		Fonts.drawString(g, new Font("Arial", Font.BOLD, 48) , Color.ORANGE, "Volume :" + Game.fxmanager.globalFXVolume, 200 + 3 *80);
 		for(int i = 0; i < options.length; i++) {
 			if (i == currentSelection) {
 				options[i].setSelected(true);
@@ -117,7 +115,8 @@ public class Options implements State {
 	
 	@Override
 	public void exit() {
-		Game.player.start();
+		
+		
 	}
 
 	@Override

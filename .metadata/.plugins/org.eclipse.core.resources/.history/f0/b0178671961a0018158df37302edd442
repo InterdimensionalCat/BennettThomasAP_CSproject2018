@@ -7,9 +7,6 @@ public class SoundBGMPlayer implements Runnable {
 	private ArrayList<AudioFile> musicFiles;
 	private int currentSongIndex = 0;
 	private boolean running;
-	private AudioFile currentSong;
-	private boolean active;
-	public int globalBGMVolume = -20;
 	
 	public SoundBGMPlayer(String... files) {
 		musicFiles = new ArrayList<AudioFile>();
@@ -21,42 +18,23 @@ public class SoundBGMPlayer implements Runnable {
 	@Override
 	public void run() {
 		running = true;
-		active = true;
 		AudioFile song = musicFiles.get(currentSongIndex);
-		currentSong = song;
 		song.play();
-		while (active) {
-			while (running) {
-				if (!song.isPlaying()) {
-					if (++currentSongIndex >= musicFiles.size()) {
-						currentSongIndex = 0;
-					}
-					song = musicFiles.get(currentSongIndex);
-					song.play(globalBGMVolume);
+		while (running) {
+			if(!song.isPlaying()) {
+				if(++currentSongIndex >= musicFiles.size()) {
+					currentSongIndex = 0;
 				}
-
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				song = musicFiles.get(currentSongIndex);
+				song.play();
 			}
 			
 			try {
-				Thread.sleep(100);
+				Thread.sleep(1);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
 		}
 	}
-	
-	public void stop() {
-		running = false;
-		currentSong.stop();
-	}
-	
-	public void start() {
-		running = true;
-	}
+
 }

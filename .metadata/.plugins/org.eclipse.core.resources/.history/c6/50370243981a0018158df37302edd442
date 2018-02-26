@@ -9,7 +9,6 @@ public class SoundBGMPlayer implements Runnable {
 	private boolean running;
 	private AudioFile currentSong;
 	private boolean active;
-	public int globalBGMVolume = -20;
 	
 	public SoundBGMPlayer(String... files) {
 		musicFiles = new ArrayList<AudioFile>();
@@ -32,7 +31,7 @@ public class SoundBGMPlayer implements Runnable {
 						currentSongIndex = 0;
 					}
 					song = musicFiles.get(currentSongIndex);
-					song.play(globalBGMVolume);
+					song.play();
 				}
 
 				try {
@@ -54,9 +53,5 @@ public class SoundBGMPlayer implements Runnable {
 	public void stop() {
 		running = false;
 		currentSong.stop();
-	}
-	
-	public void start() {
-		running = true;
 	}
 }

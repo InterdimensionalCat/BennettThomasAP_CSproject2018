@@ -2,13 +2,14 @@ package game.audio;
 
 import java.util.ArrayList;
 
-public class MusicPlayer implements Runnable {
+public class SoundBGMPlayer implements Runnable {
 	
 	private ArrayList<AudioFile> musicFiles;
 	private int currentSongIndex = 0;
 	private boolean running;
+	private AudioFile currentSong;
 	
-	public MusicPlayer(String... files) {
+	public SoundBGMPlayer(String... files) {
 		musicFiles = new ArrayList<AudioFile>();
 		for(String file : files) {
 			musicFiles.add(new AudioFile("src/assets/audio/" + file + ".wav"));
@@ -19,6 +20,7 @@ public class MusicPlayer implements Runnable {
 	public void run() {
 		running = true;
 		AudioFile song = musicFiles.get(currentSongIndex);
+		currentSong = song;
 		song.play();
 		while (running) {
 			if(!song.isPlaying()) {
@@ -35,6 +37,11 @@ public class MusicPlayer implements Runnable {
 				e.printStackTrace();
 			}
 		}
+		System.out.println("Music Done");
 	}
-
+	
+	public void stop() {
+		running = false;
+		currentSong.stop();
+	}
 }

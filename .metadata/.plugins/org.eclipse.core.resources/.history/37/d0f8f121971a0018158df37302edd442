@@ -17,7 +17,7 @@ public class AudioFile implements LineListener{
 	private AudioInputStream stream;
 	private AudioFormat format;
 	private DataLine.Info info;
-	private Clip clip;
+	private Clip clip;;
 	private FloatControl controller;
 	private volatile boolean playing;
 	
@@ -58,15 +58,12 @@ public class AudioFile implements LineListener{
 			playing = true;
 		} else {
 			if(event.getType() == LineEvent.Type.STOP) {
-				stop();
+				clip.stop();
+				clip.flush();
+				clip.setFramePosition(0);
+				playing = false;
 			}
 		}
-	}
-	
-	public void stop() {
-		clip.stop();
-		clip.flush();
-		clip.setFramePosition(0);
-		playing = false;
+		
 	}
 }
