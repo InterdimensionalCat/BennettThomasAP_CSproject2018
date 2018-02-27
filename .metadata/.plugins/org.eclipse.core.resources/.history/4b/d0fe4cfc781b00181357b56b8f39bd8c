@@ -60,7 +60,7 @@ public class InitLevels implements Runnable {
 			};
 		
 		Entity[] entityLevel2 = {
-				(Entity)new EntityMovingTile(new Texture("movingTile"), 832, 10240 - 640, tileMap, 576, PlatformType.HORIZONTAL_MOVING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 832, 10240 - 640, tileMap, 640, PlatformType.HORIZONTAL_MOVING),
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 1152, 9408, tileMap, 0, PlatformType.FALLING),
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 1024, 9408, tileMap, 0, PlatformType.FALLING),
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 896, 9408, tileMap, 0, PlatformType.FALLING),
