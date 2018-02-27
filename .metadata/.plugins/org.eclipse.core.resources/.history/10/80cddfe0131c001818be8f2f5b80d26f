@@ -123,10 +123,10 @@ public class TileMap {
 		if(Game.debug) {
 			g2d.setColor(Color.GREEN);
 			if(player.getAABB() != null) {
-				g2d.drawRect((int)player.getAABB().getX() + offsetX, (int)player.getAABB().getY() + offsetY, (int)player.getAABB().getWidth(), (int)player.getAABB().getHeight());
+				//g2d.drawRect((int)player.getAABB().getX() + offsetX, (int)player.getAABB().getY() + offsetY, (int)player.getAABB().getWidth(), (int)player.getAABB().getHeight());
 			}
 			g2d.setColor(Color.BLUE);
-			g2d.drawRect((int)player.getX() + offsetX, (int)player.getY() + offsetY, 64, 64);
+			g2d.drawRect((int)player.getX(), (int)player.getY(), 64, 64);
 			
 		}
 	}
