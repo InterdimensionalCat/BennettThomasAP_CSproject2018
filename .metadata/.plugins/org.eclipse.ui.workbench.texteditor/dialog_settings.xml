@@ -2,27 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="NPC" key="selection"/>
+		<item value="isOnMovingTile" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="NPC"/>
+			<item value="isOnMovingTile"/>
+			<item value="isOnMovingTile = true;"/>
 			<item value="player"/>
+			<item value="tilesTo"/>
+			<item value="render"/>
+			<item value="MovingTileColl"/>
+			<item value="collision"/>
+			<item value="movingTile"/>
+			<item value=" else {"/>
+			<item value="NPC"/>
 			<item value="map"/>
 			<item value="add"/>
 			<item value="options"/>
 			<item value="MENU"/>
 			<item value="name"/>
-			<item value="setDead"/>
-			<item value="jump"/>
-			<item value="gravity"/>
-			<item value="height"/>
-			<item value="pauseTime"/>
-			<item value="boop"/>
-			<item value="playSound"/>
-			<item value="fxmanager"/>
 		</list>
 		<list key="replacehistory">
 			<item value="movingTile.getAABB()"/>
@@ -35,7 +35,7 @@
 		<item value="336" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|5|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		<item value="454" key="DIALOG_HEIGHT"/>
-		<item value="9" key="DIALOG_X_ORIGIN"/>
-		<item value="590" key="DIALOG_Y_ORIGIN"/>
+		<item value="109" key="DIALOG_X_ORIGIN"/>
+		<item value="661" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

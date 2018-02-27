@@ -30,7 +30,6 @@ public class Player extends Mob {
 	private int score = InitAnimations.playerScore;
 	public static volatile boolean playerDead;
 	private int invincibleTime = 0;
-	public boolean onMovingTile;
 
 	public Player(double x, double y, TileMap tileMap) {
 		super(new Texture(new Texture("PlayerIdleMap"), 1, 1, 64), x, y, tileMap, new Rectangle());

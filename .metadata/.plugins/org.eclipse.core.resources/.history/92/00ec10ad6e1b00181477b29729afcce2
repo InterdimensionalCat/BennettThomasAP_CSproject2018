@@ -64,7 +64,7 @@ public class EntityMovingTile extends Mob {
 //			this.motionY *= 1.01;
 			this.motionY += 0.5;
 			if(this.motionY > 10) {
-				this.motionY = 10;
+				this.motionY = 2;
 			}
 			
 			//motionY = 0.7;
