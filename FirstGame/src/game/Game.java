@@ -216,7 +216,7 @@ public class Game extends Canvas implements Runnable {
 		JFrame frame = new JFrame(TITLE);
 		frame.add(game);
 		frame.setSize(WIDTH, HEIGHT);
-		frame.setResizable(false);
+		frame.setResizable(truei);
 		frame.setFocusable(true);
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
