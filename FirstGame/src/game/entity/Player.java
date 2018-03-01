@@ -167,6 +167,7 @@ public class Player extends Mob {
 			Game.fxmanager.playSound("PlayerDead");
 			if (++deathCount > 5) {
 				System.err.println("Game Over!");
+				Game.player.stop();
 				try {
 					Thread.sleep(1500);
 				} catch (InterruptedException e) {

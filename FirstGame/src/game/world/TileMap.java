@@ -368,12 +368,12 @@ public class TileMap {
 	}
 	
 	public void wallCollision(Rectangle AABB, double posX, double posY, double motionX, double motionY, double cornerX, double cornerY, double offset) {
-		if( getTile( convertToTiles( (int)cornerX ), convertToTiles( (int)cornerY) ) != null) {    //attempts to grab the tile at the given X and Y coordinates, intended to be a corner, pixelsToTiles scales these coordinates down to the tilemap image reading size ( 64x smaller than the window size) this is done because the individual tile coordinates cannot be reference directly
-				newX = convertToPixels(convertToTiles((int)AABB.getMaxX())) + offset;                  //the first index of this array should always be the player's intended next position, this sets that position to the point closest to but not inside the wall
-				player.setX(newX);                                                           //actually sets the player's x coordinate
-				AABB.setBounds((int)player.adjustXforCollision(newX), (int)player.adjustYforCollision(posY), AABB.width, AABB.height); //updates the player's hitbox, the adjust for collision method goes from player coordinate to hitbox coordinate
-				player.setMotionX(0);                                                          //if the player has hit something, they arent moving, so the X motion stops
-				player.setMoving(false);                                                       //same as above
+		if( getTile( convertToTiles( (int)cornerX ), convertToTiles( (int)cornerY) ) != null) {    
+				newX = convertToPixels(convertToTiles((int)AABB.getMaxX())) + offset;                 
+				player.setX(newX);                                                                
+				AABB.setBounds((int)player.adjustXforCollision(newX), (int)player.adjustYforCollision(posY), AABB.width, AABB.height); 
+				player.setMotionX(0);                                                          
+				player.setMoving(false);                                                       
 		}
 	}
 	

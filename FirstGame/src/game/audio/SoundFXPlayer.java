@@ -20,7 +20,7 @@ public class SoundFXPlayer implements Runnable {
 	@Override
 	public void run() {
 		running = true;
-		AudioFile song = InitAudio.musicFiles.get(currentSong);
+		SoundWAVFormat song = InitAudio.musicFiles.get(currentSong);
 		song.play(globalFXVolume);
 		while (running) {
 			if(!song.isPlaying()) {
@@ -43,5 +43,10 @@ public class SoundFXPlayer implements Runnable {
 	public void playSound(String fx, int volume) {
 		globalFXVolume = volume;
 		playSound(fx);
+	}
+	
+	public void stop() {
+		running = false;
+		InitAudio.musicFiles.get(currentSong).stop();
 	}
 }

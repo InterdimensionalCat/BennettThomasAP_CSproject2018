@@ -11,7 +11,7 @@ public class InitTextures implements Runnable {
 
 	@Override
 	public void run() {
-		System.out.println("Loading Textures");
+		System.err.println("Loading Textures");
 		
 		addTexture(new Texture("SpriteMap1"));
 		addTexture(new Texture("PlayerIdleMap"));
@@ -23,7 +23,7 @@ public class InitTextures implements Runnable {
 		addTexture(new Texture("BoopWalk3"));
 		addTexture(new Texture("EntityGoal"));
 		
-		System.out.println("Textures Loaded");
+		System.err.println("Textures Loaded");
 		Game.driver.getScreen().setProgress((++Game.taskComplete) * 25);
 	}
 

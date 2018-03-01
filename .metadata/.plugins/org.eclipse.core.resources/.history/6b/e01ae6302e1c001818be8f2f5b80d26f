@@ -1,0 +1,121 @@
+package game.utils.init;
+
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import game.Game;
+import game.entity.Entity;
+import game.entity.EntityBoop;
+import game.entity.EntityGoal;
+import game.entity.EntityMovingTile;
+import game.entity.PlatformType;
+import game.render.textures.Texture;
+import game.world.TileMap;
+
+public class InitLevels implements Runnable {
+
+	public static volatile ArrayList<String> levels;
+	public static volatile HashMap<String , Entity[]> levelEntities;
+	public static volatile TileMap tileMap;
+	public static volatile Entity[] entityLevel0;
+	public static volatile Entity[] entityLevel1;
+	public static volatile Entity[] entityLevel2;
+	public static volatile boolean firstRun = true;
+	
+	@Override
+	public void run() {
+		System.out.println("Preloading Levels");
+		
+		if (firstRun) {
+			levels = new ArrayList<String>();
+			tileMap = new TileMap("enemyTest");
+			levelEntities = new HashMap<String, Entity[]>();
+		}
+		
+		Entity[] entityLevel0 = {
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 384, 192, tileMap, 200, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 704, 192, tileMap, 200, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 1024, 192, tileMap, 200, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 0, 184, tileMap, 200, PlatformType.HORIZONTAL_MOVING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 1408, 590, tileMap, 250, PlatformType.HORIZONTAL_MOVING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 310, 448, tileMap, 640, PlatformType.VERTICAL_MOVING),
+				(Entity)new EntityGoal(1408, 128, tileMap),
+				(Entity)new EntityBoop(448, 1152, tileMap, 1.5, 128, false),
+				(Entity)new EntityBoop(448+64, 1152, tileMap, 1.5, 64, false),
+				(Entity)new EntityBoop(1216, 1152, tileMap, 1.5, 128, false)
+				};
+		
+		Entity[] entityLevel1 = {
+				
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 1792, 128, tileMap, 500, PlatformType.HORIZONTAL_MOVING),
+				
+				(Entity)new EntityBoop(1792+32, 128-64, tileMap, 0.7, 16, false),
+				(Entity)new EntityBoop(2048, 128, tileMap, 2.4, 64, false),
+				(Entity)new EntityBoop(2304, 128, tileMap, 2.5, 64, false),
+				(Entity)new EntityBoop(2688, 512, tileMap, 0.7, 50, false, 0),
+				(Entity)new EntityBoop(3840, 832, tileMap, 0.7, 64, true),
+				(Entity)new EntityBoop(5824, 832, tileMap, 0, 0, true),
+				(Entity)new EntityGoal(6272, 832, tileMap)
+			};
+		
+		Entity[] entityLevel2 = {
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 832, 10240 - 640, tileMap, 576, PlatformType.HORIZONTAL_MOVING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 1152, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 1024, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 896, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 768, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 640, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 512, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 384, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 256, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 128, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 0, 9408, tileMap, 0, PlatformType.FALLING),
+				(Entity)new EntityBoop(0, 9856 - 13, tileMap, 5.5, 64*20, false, 0),
+				(Entity)new EntityBoop(0, 9728 - 13, tileMap, 5.4, 64*20, false, 0),
+				(Entity)new EntityBoop(0, 9600 - 13, tileMap, 5.3, 64*20, false, 0),
+				(Entity)new EntityBoop(1152, 8512, tileMap, 0, 0, true),
+				(Entity)new EntityBoop(256, 8448, tileMap, 0, 0, false, 0),
+				(Entity)new EntityBoop(576, 8448, tileMap, 0, 0, false, 0),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 0, 8256 - 640, tileMap, 640, PlatformType.HORIZONTAL_MOVING),
+				(Entity)new EntityBoop(1088, 7552, tileMap, 0, 0, true),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 1152, 7616 - 640, tileMap, 640, PlatformType.HORIZONTAL_MOVING),
+				(Entity)new EntityBoop(960, 7040, tileMap, 5.0, 30, false, 0),
+				(Entity)new EntityBoop(832, 6976, tileMap, 5.0, 30, false, 0),
+				(Entity)new EntityBoop(640, 6912, tileMap, 5.0, 30, false, 0),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 384, 6848 - 320, tileMap, 320, PlatformType.HORIZONTAL_MOVING),
+				(Entity)new EntityMovingTile(new Texture("movingTile"), 0, 6492 -640, tileMap, 640, PlatformType.HORIZONTAL_MOVING),
+				(Entity)new EntityBoop(896, 5440, tileMap, 0, 0, true),
+				(Entity)new EntityBoop(960, 2880, tileMap, 0, 0, false, 0),
+				(Entity)new EntityBoop(512, 448, tileMap, 0, 0, true, 0.1),
+				(Entity)new EntityGoal(1152, 64, tileMap)
+
+			};
+		
+		levels.add("LEVEL_F1");
+		levelEntities.put("LEVEL_F1", entityLevel0);
+		levels.add("LEVEL_F2");
+		levelEntities.put("LEVEL_F2", entityLevel1);
+		
+		levels.add("LEVEL_F3");
+
+		levelEntities.put("LEVEL_F3", entityLevel2);
+		
+		
+		System.out.println("Levels Loaded");
+		if (firstRun) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			Game.driver.getScreen().setProgress((++Game.taskComplete) * 25);
+		}
+		firstRun = false;
+	}
+	
+	public void reload() {
+		this.run();
+		tileMap.setEntityList(levelEntities.get(tileMap.getLevelName()));
+	}
+}

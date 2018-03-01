@@ -25,7 +25,7 @@ public class InitLevels implements Runnable {
 	
 	@Override
 	public void run() {
-		System.out.println("Preloading Levels");
+		System.err.println("Loading Levels");
 		
 		if (firstRun) {
 			levels = new ArrayList<String>();
@@ -102,7 +102,7 @@ public class InitLevels implements Runnable {
 		levelEntities.put("LEVEL_F3", entityLevel2);
 		
 		
-		System.out.println("Levels Loaded");
+		System.err.println("Levels Loaded");
 		if (firstRun) {
 			try {
 				Thread.sleep(1000);

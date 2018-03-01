@@ -16,7 +16,7 @@ public class InitAnimations implements Runnable {
 
 	@Override
 	public void run() {
-		System.out.println("Loading Animations");
+		System.err.println("Loading Animations");
 		
 		for(int i = 1; i <= 4; i++) {
 			dashSongs.add("PlayerDash"+i);
@@ -46,7 +46,7 @@ public class InitAnimations implements Runnable {
 				new Texture("BoopWalk1"),
 				new Texture("BoopWalk3")));
 		
-		System.out.println("Animations Loaded");
+		System.err.println("Animations Loaded");
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {

@@ -2,27 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="isOnMovingTile" key="selection"/>
+		<item value="wall" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="isOnMovingTile"/>
-			<item value="isOnMovingTile = true;"/>
-			<item value="player"/>
-			<item value="tilesTo"/>
+			<item value="wall"/>
+			<item value="motionY"/>
+			<item value="/ 4"/>
+			<item value="isAirBorne"/>
+			<item value="pause"/>
+			<item value="jump"/>
+			<item value="calculateCollision"/>
+			<item value="checkFor"/>
+			<item value="checkForCollision"/>
 			<item value="render"/>
-			<item value="MovingTileColl"/>
-			<item value="collision"/>
-			<item value="movingTile"/>
-			<item value=" else {"/>
-			<item value="NPC"/>
-			<item value="map"/>
-			<item value="add"/>
-			<item value="options"/>
-			<item value="MENU"/>
-			<item value="name"/>
+			<item value="game.debug"/>
+			<item value="Game.debug"/>
+			<item value="game.Debug"/>
+			<item value="if"/>
+			<item value="isOnMovingTile"/>
 		</list>
 		<list key="replacehistory">
 			<item value="movingTile.getAABB()"/>
