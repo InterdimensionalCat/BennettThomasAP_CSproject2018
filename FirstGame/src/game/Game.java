@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -31,6 +32,7 @@ import game.utils.init.InitAnimations;
 import game.utils.init.InitAudio;
 import game.utils.init.InitLevels;
 import game.utils.init.InitTextures;
+import game.utils.math.Triangle;
 import game.world.Tile;
 
 public class Game extends Canvas implements Runnable {
@@ -52,6 +54,8 @@ public class Game extends Canvas implements Runnable {
 	public static ThreadManager pool;
 	public static SoundBGMPlayer player;
 	public static boolean paused;
+	
+	public static Triangle test = new Triangle(new Point(100, 100), 64, Math.PI / 4);
 	
 	public Game() {
 		keyInput = new KeyInput();
@@ -102,7 +106,11 @@ public class Game extends Canvas implements Runnable {
 		
 		g2d.setColor(Color.WHITE);
 		g2d.fillRect(0, 0, WIDTH, HEIGHT);
+
 		getStateManager().render(g2d);
+		
+		g2d.setColor(Color.WHITE);
+		test.render(g2d, 0, 0);
 		
 		/////////////////////////////////////
 		g.dispose();

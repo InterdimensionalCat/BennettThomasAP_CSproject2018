@@ -31,6 +31,7 @@ public class Player extends Mob {
 	public static volatile boolean playerDead;
 	private int invincibleTime = 0;
 	public boolean onMovingTile;
+	public boolean hasCollision = true;
 
 	public Player(double x, double y, TileMap tileMap) {
 		super(new Texture(new Texture("PlayerIdleMap"), 1, 1, 64), x, y, tileMap, new Rectangle());
