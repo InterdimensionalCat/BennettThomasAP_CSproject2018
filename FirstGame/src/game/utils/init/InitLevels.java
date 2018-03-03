@@ -33,6 +33,9 @@ public class InitLevels implements Runnable {
 			levelEntities = new HashMap<String, Entity[]>();
 		}
 		
+		Entity[] entityLevel00 = {
+				};
+		
 		Entity[] entityLevel0 = {
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 384, 192, tileMap, 200, PlatformType.FALLING),
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 704, 192, tileMap, 200, PlatformType.FALLING),
@@ -94,6 +97,10 @@ public class InitLevels implements Runnable {
 		
 		levels.add("LEVEL_F1");
 		levelEntities.put("LEVEL_F1", entityLevel0);
+		
+		levels.add("level_4");
+		levelEntities.put("level_4", entityLevel00);
+		
 		levels.add("LEVEL_F2");
 		levelEntities.put("LEVEL_F2", entityLevel1);
 		
