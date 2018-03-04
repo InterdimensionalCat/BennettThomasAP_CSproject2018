@@ -386,25 +386,15 @@ public class TileMap {
 			    if (TileType.isCubeType(t.type)||TileType.isSlopeRightType(t.type)) {
 					newX = convertToPixels(convertToTiles((int) cornerX)) + offset;
 					player.setX(newX);
-					AABB.setBounds((int) player.adjustXforCollision(newX), (int) player.adjustYforCollision(posY),
-							AABB.width, AABB.height);
+					AABB.setBounds((int) player.adjustXforCollision(newX), (int) player.adjustYforCollision(posY), AABB.width, AABB.height);
 					player.setMotionX(0);
 					player.setMoving(false);
-					
+			    }
 
-					
-				} else {                                                       
-					if (TileType.isSlopeLeftType(t.type)) {
-						 newX = posX + motionX;
-					}
-				}
-		}
-		
-		if(test1.intersects(cornerX, cornerY)) {
-			System.out.println("Hitting a Slope");
-		}
-		
+			}	
 	}
+	
+
 	
 	public void wallCollisionRight(Rectangle AABB, double posX, double posY, double motionX, double motionY, double cornerX, double cornerY, double offset) {
 		if( getTile( convertToTiles( (int)cornerX ), convertToTiles( (int)cornerY) ) != null) {
@@ -413,24 +403,10 @@ public class TileMap {
 					newX = convertToPixels(convertToTiles((int) cornerX)) + offset;
 					player.setX(newX);
 					AABB.setBounds((int) player.adjustXforCollision(newX), (int) player.adjustYforCollision(posY),
-							AABB.width, AABB.height);
+					AABB.width, AABB.height);
 					player.setMotionX(0);
 					player.setMoving(false);
-					
-					
-				} else {                                                       
-					if (TileType.isSlopeRightType(t.type) && cornerY == AABB.getMaxY() - 1) {
-						 newX = posX + motionX;
-							player.setY(convertToPixels(convertToTiles((int)(int)player.adjustYforCollision(posY))) + (64 - newX % 64) + 10);
-							System.out.println("hitSlope at " + (64 - player.getY() % 64));
-							player.setMotionY(0);
-							player.setAirBorne(false);
-					}
-				}                                                       
-		}
-		
-		if(test1.intersects(cornerX, cornerY)) {
-			System.out.println("Hitting a Slope");
+			    }		                                           
 		}
 		
 	}
@@ -445,39 +421,10 @@ public class TileMap {
 	public void floorCollision(Rectangle AABB, double posY, double cornerX, double cornerY) {
 		if(getTile(convertToTiles((int)cornerX), convertToTiles((int)cornerY)) != null) {
 			Tile t = getTile( convertToTiles( (int)cornerX ), convertToTiles( (int)cornerY) );
-		    if (TileType.isCubeType(t.type)) {
-				player.setY(convertToPixels(convertToTiles((int)player.adjustYforCollision(posY))));
-				player.setMotionY(0);
-				player.setAirBorne(false);
-				AABB.setBounds((int)player.adjustXforCollision(player.getX()), (int)player.adjustYforCollision(player.getY()), AABB.width, AABB.height);
-		    }
-		}
-	}
-	
-	public void slopeCollisionRight(Rectangle AABB, double posX, double posY, double yFloor) {
-    	if (getTile(convertToTiles((int) AABB.getMinX()), convertToTiles((int) yFloor)) != null) {
-			if (TileType.isSlopeRightType(getTile(convertToTiles((int) AABB.getMinX()), convertToTiles((int) yFloor)).type)) {
-/*				int offsetY = (convertToPixels(convertToTiles((int) player.adjustYforCollision(posX)))) - (int) player.adjustYforCollision(posX);
-				System.out.println(offsetY);
-				player.setY(yFloor - offsetY - 64 );*/
-				player.setY(convertToPixels(convertToTiles((int)(int)player.adjustYforCollision(posY))) + (64 - posX % 64) + 10);
-				System.out.println("hitSlope at " + (64 - player.getY() % 64));
-				player.setMotionY(0);
-				player.setAirBorne(false);
-				player.hasCollision = false;
-			} 
-		} else {
-			if(getTile(convertToTiles((int) AABB.getMaxX()), convertToTiles((int) yFloor)) != null) {
-				if (TileType.isSlopeRightType(getTile(convertToTiles((int) AABB.getMaxX()), convertToTiles((int) yFloor)).type)) {
-		/*			int offsetY = (convertToPixels(convertToTiles((int) player.adjustYforCollision(posX)))) - (int) player.adjustYforCollision(posX);
-					System.out.println(offsetY);
-					player.setY(yFloor - offsetY - 64  );*/
-					player.setY(convertToPixels(convertToTiles((int)(int)player.adjustYforCollision(posY))) + (64 - posX % 64) + 10);
-					System.out.println("hitSlope at " +  (64 - player.getY() % 64));
-					player.setMotionY(0);
-					player.setAirBorne(false);
-				}
-			}
+			player.setY(convertToPixels(convertToTiles((int)player.adjustYforCollision(posY))));
+			player.setMotionY(0);
+			player.setAirBorne(false);
+			AABB.setBounds((int)player.adjustXforCollision(player.getX()), (int)player.adjustYforCollision(player.getY()), AABB.width, AABB.height);
 		}
 	}
 	
@@ -504,6 +451,36 @@ public class TileMap {
 		return false; //and false if it didn't
 	}
 	
+	public boolean slopeCollisionRight(Rectangle AABB, double posX, double posY, double motionX, double motionY, double cornerX, double cornerY, Triangle t) {
+		if(t.intersects(cornerX, cornerY, player)&&motionY >= 0) {
+			double newY = t.getHPoints()[(int)(cornerX-(t.getA().getX()))].getY() - 62;
+			System.out.println("Hitting a Slope");
+			player.setY(newY);
+			player.setX(posX + motionX);
+			player.setMotionX(motionX / 1.2);
+			player.getAABB().setBounds((int)player.adjustXforCollision(player.getX()), (int)player.adjustYforCollision(player.getY()), player.getAABB().width, player.getAABB().height);
+			player.setMotionY(0);
+			player.setAirBorne(false);
+			System.out.println();
+			return true;
+		} else {
+			if((t.intersects(cornerX, cornerY + 6, player)&&!player.isAirBorne())&&motionY >= 0) {
+				double newY = t.getHPoints()[(int)(cornerX - (t.getA().getX()))].getY() - 60;
+				System.out.println("Hitting a Slope");
+				player.setY(newY);
+				player.setX(posX + motionX);
+				player.setMotionX(player.getMotionX() /1.1);
+				player.getAABB().setBounds((int)player.adjustXforCollision(player.getX()), (int)player.adjustYforCollision(player.getY()), player.getAABB().width, player.getAABB().height);
+				player.setMotionY(0);
+				player.setAirBorne(false);
+				System.out.println();
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public void calculateCollision(Rectangle AABB, double posX, double posY, double motionX, double motionY, boolean b) {
 		double toX = posX + motionX;
 		double toY = posY + motionY;
@@ -511,6 +488,12 @@ public class TileMap {
 		AABB.setBounds((int)player.adjustXforCollision(toX), (int)player.adjustYforCollision(posY), AABB.width, AABB.height);
 		//double[] arr = {newX , toX};
 		
+		for (Triangle t: slopeTriangles) {
+			if (slopeCollisionRight(AABB, posX, posY, motionX, motionY, AABB.getMaxX(), AABB.getMaxY(), t) /*||
+								slopeCollision(AABB, posX, posY, motionX, motionY, AABB.getMinX(), AABB.getMaxY())*/) {
+				return;
+			} 
+		}
 		wallCollisionRight(AABB, posX, posY, motionX, motionY, AABB.getMaxX(), AABB.getMinY() + 1, - AABB.getWidth() - 1 - 5); //this is the top right corner
 		wallCollisionRight(AABB, posX, posY, motionX, motionY, AABB.getMaxX(), AABB.getMaxY() - 1, - AABB.getWidth() - 1 - 5); //this is the bottom right corner
 		wallCollisionLeft(AABB, posX, posY, motionX, motionY, AABB.getMinX(), AABB.getMinY() + 1, + 64 - 5); //this is the top left corner

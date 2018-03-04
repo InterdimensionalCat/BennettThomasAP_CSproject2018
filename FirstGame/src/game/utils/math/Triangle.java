@@ -10,6 +10,8 @@ import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import game.entity.Player;
+
 public class Triangle {
 	
 	private Point a;
@@ -33,9 +35,10 @@ public class Triangle {
 		}
 	}
 
-	public boolean intersects(double x, double y) {
-		if(x > a.getX() && x < b.getX() && y < a.getY()) {
+	public boolean intersects(double x, double y, Player player) {
+		if(x > a.getX() && x < b.getX() && y <= a.getY()) {
 			if(hPoints[(int)(x-(a.getX())) - 1].getY() < y ) {
+				//player.setY(hPoints[(int)(x-(a.getX())) - 1].getY() - 64);
 				return true;
 			}
 		}
@@ -46,6 +49,18 @@ public class Triangle {
 		return hPoints;
 	}
 	
+	public Point getA() {
+		return a;
+	}
+
+	public Point getB() {
+		return b;
+	}
+
+	public Point getC() {
+		return c;
+	}
+
 	public void render(Graphics2D g2d, int offsetX, int offsetY) {
 		for(int i = 0; i < xPoints.length; i++) {
 			xPoints[i] += offsetX;
