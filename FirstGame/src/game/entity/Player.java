@@ -32,6 +32,7 @@ public class Player extends Mob {
 	private int invincibleTime = 0;
 	public boolean onMovingTile;
 	public boolean hasCollision = true;
+	public int tickerMove;
 
 	public Player(double x, double y, TileMap tileMap) {
 		super(new Texture(new Texture("PlayerIdleMap"), 1, 1, 64), x, y, tileMap, new Rectangle());
@@ -39,7 +40,7 @@ public class Player extends Mob {
 
 		this.AABB = new Rectangle((int)this.getCollisionX(),(int)this.getCollisionY(),this.getCollisionWidth(),this.getCollisionHeight());
 		this.tileMap = tileMap;
-		this.maxMotionX = 6.0;
+		this.maxMotionX = 10.0;
 		this.idle = InitAnimations.animations.get("Player_idle");
 		//playerActionState = ActionState.FALLING;
 	}
@@ -70,8 +71,15 @@ public class Player extends Mob {
 					motionX = -maxMotionX;
 				}
 			} else {
-				motionX -= 0.3;
-				if(motionX < -maxMotionX) {
+/*				motionX -= 0.3;*/
+				if (!(motionX > 0)) {
+					tickerMove++;
+					motionX += nextLogisticOne(motionX, false);
+				} else {
+					motionX -= 0.3;
+					tickerMove = 0;
+				}
+				if(motionX < -maxMotionX*6) {
 					motionX = -maxMotionX;
 				}
 			}
@@ -92,8 +100,15 @@ public class Player extends Mob {
 					motionX = maxMotionX;
 				}
 			} else {
-				motionX += 0.3;
-				if(motionX > maxMotionX) {
+/*				motionX += 0.3;*/
+				if(!(motionX < 0)) {
+					tickerMove++;
+					motionX += nextLogisticOne(motionX, true);
+				} else {
+					motionX += 0.3;
+					tickerMove = 0;
+				}
+				if(motionX > maxMotionX*6) {
 					motionX = maxMotionX;
 				}
 			}
@@ -131,6 +146,7 @@ public class Player extends Mob {
 		if(KeyInput.wasReleased(KeyEvent.VK_A)||KeyInput.wasReleased(KeyEvent.VK_D)) {
 			//motionX /= 4;
 			moving = false;
+			tickerMove = 0;
 		}
 		
 		if(KeyInput.wasReleased(KeyEvent.VK_SPACE) && motionY < 0) {
@@ -159,6 +175,7 @@ public class Player extends Mob {
 		animate();
 		
 		super.tick();
+		System.out.println(motionX);
 	}
 	
 	public void setDead() {
@@ -299,5 +316,62 @@ public class Player extends Mob {
 	public void score() {
 		score++;
 	}
+	
+	public double nextLogistic(double t, boolean positive) {
+		double i;
+		double t2 = t/3;
+		double change = maxMotionX / (1 + 0.08*Math.pow(Math.E, -maxMotionX*0.01*(t2-1)));
+		change = 0;
+/*		if(positive) {
+			//i = maxMotionX * (1.0000001) - 2*(1.0000001)*j;
+			double A = maxMotionX;
+			double c = 0.08;
+			double k = 0.01;
+			//double change = A / (1 + c*Math.pow(Math.E, -A*k*(t-1)));
+			i = A / (1 + c*Math.pow(Math.E, -A*k*t));
+			System.out.println(i - change);
+			return i - change;
+		} else {
+			//i = -maxMotionX * (1.0000001) - 2*(1.0000001)*j;
+			//i = (2.0)*(j)*((-maxMotionX-0.0000000001) - (j) + c);
+			double A = -maxMotionX;
+			double c = 0.08;
+			double k = 0.01;
+			//double change = -A / (1 + c*Math.pow(Math.E, A*k*(t-1)));
+			i = A / (1 + c*Math.pow(Math.E, -A*k*t));
+			System.out.println(-change + i);
+			return -change + i;*/
+			double A = maxMotionX;
+			double c = 0.08;
+			double k = 0.01;
+			i = A / (1 + c*Math.pow(Math.E, -A*k*t2));
+			if(positive) {
+				System.out.println(i - change);
+			    return i - change;
+			} else {
+				System.out.println(-(i - change));
+			    return -(i - change);
+			}
 
+
+		//double i = -(2.0)*(j)*((maxMotionX-0.0000000001) - (j));
+/*		System.out.println(-(2.0)*(j+1)*((maxMotionX-0.0000000001) - (j+1)));
+		return -(2.0)*(j+1)*((maxMotionX-0.0000000001) - (j+1));*/
+	}
+
+	public double nextLogisticOne(double motion, boolean positive) {
+		double N = Math.abs(motion);
+		if(motion == 0) {
+			N = 0.01;
+		}
+		double k = 15;
+		double i = N*((k - N)/k);
+		//System.out.println(i);
+		if(positive) {
+			return i / 6;
+		} else {
+			return -i / 6;
+		}
+		
+	}
 }
