@@ -74,7 +74,7 @@ public class Player extends Mob {
 /*				motionX -= 0.3;*/
 				if (!(motionX > 0)) {
 					tickerMove++;
-					motionX += nextLogisticOne(motionX, false);
+					motionX += -nextRestricted(-motionX);
 				} else {
 					motionX -= 0.3;
 					tickerMove = 0;
@@ -103,7 +103,7 @@ public class Player extends Mob {
 /*				motionX += 0.3;*/
 				if(!(motionX < 0)) {
 					tickerMove++;
-					motionX += nextLogisticOne(motionX, true);
+					motionX += nextRestricted(motionX);
 				} else {
 					motionX += 0.3;
 					tickerMove = 0;
@@ -175,7 +175,7 @@ public class Player extends Mob {
 		animate();
 		
 		super.tick();
-		System.out.println(motionX);
+		//System.out.println(motionX);
 	}
 	
 	public void setDead() {
@@ -315,6 +315,12 @@ public class Player extends Mob {
 	
 	public void score() {
 		score++;
+	}
+	
+	public double nextRestricted(double motionX) {
+		//System.out.println(-0.1*(motionX - maxMotionX));
+		System.out.println(this.motionX);
+		return -0.01*(motionX - maxMotionX);
 	}
 	
 	public double nextLogistic(double t, boolean positive) {

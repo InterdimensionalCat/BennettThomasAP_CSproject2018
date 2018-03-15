@@ -2,14 +2,17 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="nextLogistic" key="selection"/>
+		<item value="Restricted" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="nextLogistic"/>
+			<item value="restricted"/>
+			<item value="println"/>
 			<item value="logistic"/>
+			<item value="System"/>
+			<item value="nextLogistic"/>
 			<item value="tickerMove"/>
 			<item value="true"/>
 			<item value="enemyTest"/>
@@ -20,9 +23,6 @@
 			<item value="playSound"/>
 			<item value="sound"/>
 			<item value="volume"/>
-			<item value="global"/>
-			<item value="setY()"/>
-			<item value="wallCollision"/>
 		</list>
 		<list key="replacehistory">
 			<item value="movingTile.getAABB()"/>
@@ -32,10 +32,10 @@
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="538" key="DIALOG_WIDTH"/>
-		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|5|0|Segoe UI" key="DIALOG_FONT_NAME"/>
-		<item value="554" key="DIALOG_HEIGHT"/>
+		<item value="290" key="DIALOG_WIDTH"/>
+		<item value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont" key="DIALOG_FONT_NAME"/>
+		<item value="409" key="DIALOG_HEIGHT"/>
 		<item value="948" key="DIALOG_X_ORIGIN"/>
-		<item value="845" key="DIALOG_Y_ORIGIN"/>
+		<item value="568" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>
