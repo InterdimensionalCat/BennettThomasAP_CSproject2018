@@ -66,20 +66,27 @@ public class Player extends Mob {
 		if(KeyInput.isDown(KeyEvent.VK_A)) {
 			moving = true;
 			if(isAirBorne) {
-				motionX -= 6.0;
+				//motionX -= 6.0;
+				motionX += -nextRestricted(-motionX)*6;
 				if(motionX < -maxMotionX) {
 					motionX = -maxMotionX;
+				}
+				if(motionX > -2) {
+					motionX *= 2;
 				}
 			} else {
 /*				motionX -= 0.3;*/
 				if (!(motionX > 0)) {
 					tickerMove++;
-					motionX += nextLogistic(tickerMove, false);
+					motionX += -nextRestricted(-motionX);
+					if(motionX > -2) {
+						motionX *= 2;
+					}
 				} else {
 					motionX -= 0.3;
 					tickerMove = 0;
 				}
-				if(motionX < -maxMotionX) {
+				if(motionX < -maxMotionX*6) {
 					motionX = -maxMotionX;
 				}
 			}
@@ -95,20 +102,27 @@ public class Player extends Mob {
 		if(KeyInput.isDown(KeyEvent.VK_D)) {
 			moving = true;
 			if(isAirBorne) {
-				motionX += 6.0;
+				//motionX += 6.0;
+				motionX += nextRestricted(motionX)*6;
 				if(motionX > maxMotionX) {
 					motionX = maxMotionX;
+				}
+				if(motionX < 2) {
+					motionX *= 2;
 				}
 			} else {
 /*				motionX += 0.3;*/
 				if(!(motionX < 0)) {
 					tickerMove++;
-					motionX += nextLogistic(tickerMove, true);
+					motionX += nextRestricted(motionX);
+					if(motionX < 2) {
+						motionX *= 2;
+					}
 				} else {
 					motionX += 0.3;
 					tickerMove = 0;
 				}
-				if(motionX > maxMotionX) {
+				if(motionX > maxMotionX*6) {
 					motionX = maxMotionX;
 				}
 			}
@@ -175,6 +189,7 @@ public class Player extends Mob {
 		animate();
 		
 		super.tick();
+		//System.out.println(motionX);
 	}
 	
 	public void setDead() {
@@ -316,9 +331,17 @@ public class Player extends Mob {
 		score++;
 	}
 	
+	public double nextRestricted(double motionX) {
+		//System.out.println(-0.1*(motionX - maxMotionX));
+		System.out.println(this.motionX);
+		return -0.01*(motionX - maxMotionX);
+	}
+	
 	public double nextLogistic(double t, boolean positive) {
 		double i;
-		double change = maxMotionX / (1 + 0.08*Math.pow(Math.E, -maxMotionX*0.01*(t-1)));
+		double t2 = t/3;
+		double change = maxMotionX / (1 + 0.08*Math.pow(Math.E, -maxMotionX*0.01*(t2-1)));
+		change = 0;
 /*		if(positive) {
 			//i = maxMotionX * (1.0000001) - 2*(1.0000001)*j;
 			double A = maxMotionX;
@@ -341,7 +364,7 @@ public class Player extends Mob {
 			double A = maxMotionX;
 			double c = 0.08;
 			double k = 0.01;
-			i = A / (1 + c*Math.pow(Math.E, -A*k*t));
+			i = A / (1 + c*Math.pow(Math.E, -A*k*t2));
 			if(positive) {
 				System.out.println(i - change);
 			    return i - change;
@@ -350,11 +373,25 @@ public class Player extends Mob {
 			    return -(i - change);
 			}
 
-		}
 
 		//double i = -(2.0)*(j)*((maxMotionX-0.0000000001) - (j));
 /*		System.out.println(-(2.0)*(j+1)*((maxMotionX-0.0000000001) - (j+1)));
 		return -(2.0)*(j+1)*((maxMotionX-0.0000000001) - (j+1));*/
 	}
 
+	public double nextLogisticOne(double motion, boolean positive) {
+		double N = Math.abs(motion);
+		if(motion == 0) {
+			N = 0.01;
+		}
+		double k = 15;
+		double i = N*((k - N)/k);
+		//System.out.println(i);
+		if(positive) {
+			return i / 6;
+		} else {
+			return -i / 6;
+		}
+		
+	}
 }

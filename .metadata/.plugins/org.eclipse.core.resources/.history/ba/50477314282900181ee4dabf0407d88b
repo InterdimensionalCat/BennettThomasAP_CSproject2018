@@ -469,7 +469,7 @@ public class TileMap {
 				System.out.println("Hitting a Slope");
 				player.setY(newY);
 				player.setX(posX + motionX);
-				//player.setMotionX(player.getMotionX() /1.1);
+				player.setMotionX(player.getMotionX() /1.1);
 				player.getAABB().setBounds((int)player.adjustXforCollision(player.getX()), (int)player.adjustYforCollision(player.getY()), player.getAABB().width, player.getAABB().height);
 				player.setMotionY(0);
 				player.setAirBorne(false);

@@ -33,6 +33,7 @@ public class Player extends Mob {
 	public boolean onMovingTile;
 	public boolean hasCollision = true;
 	public int tickerMove;
+	boolean conflict = false;
 
 	public Player(double x, double y, TileMap tileMap) {
 		super(new Texture(new Texture("PlayerIdleMap"), 1, 1, 64), x, y, tileMap, new Rectangle());
@@ -50,6 +51,7 @@ public class Player extends Mob {
 		idle.render(g, x + offsetX, y + offsetY);
 		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Deaths: " + deathCount, 10, 30);
 		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Score: " + score, 10, 60);
+		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Speed: " + (int)motionX, 10, 90);
 	}
 
 	@Override
@@ -63,18 +65,39 @@ public class Player extends Mob {
 		InitAnimations.playerDeath = deathCount;
 		InitAnimations.playerScore = score;
 		
-		if(KeyInput.isDown(KeyEvent.VK_A)) {
+		conflict = false;
+		
+		if(KeyInput.isDown(KeyEvent.VK_A)&&KeyInput.isDown(KeyEvent.VK_D)) {
+			motionX /= 1.4;
+			//moving = false;
+			conflict = true;
+			//motionX /= 4;
+		}
+		
+		if(KeyInput.isDown(KeyEvent.VK_A)&&!conflict) {
 			moving = true;
 			if(isAirBorne) {
-				motionX -= 6.0;
+				//motionX -= 6.0;
+				motionX += -nextRestricted(-motionX)*6;
 				if(motionX < -maxMotionX) {
 					motionX = -maxMotionX;
+				}
+				if(motionX > -2) {
+					motionX *= 2;
 				}
 			} else {
 /*				motionX -= 0.3;*/
 				if (!(motionX > 0)) {
 					tickerMove++;
 					motionX += -nextRestricted(-motionX);
+					if(motionX > -2) {
+						motionX *= 2;
+					}
+					
+					if(motionX < -9.5) {
+						motionX = -10;
+					}
+					
 				} else {
 					motionX -= 0.3;
 					tickerMove = 0;
@@ -92,18 +115,30 @@ public class Player extends Mob {
 		
 		
 		
-		if(KeyInput.isDown(KeyEvent.VK_D)) {
+		if(KeyInput.isDown(KeyEvent.VK_D)&&!conflict) {
 			moving = true;
 			if(isAirBorne) {
-				motionX += 6.0;
+				//motionX += 6.0;
+				motionX += nextRestricted(motionX)*6;
 				if(motionX > maxMotionX) {
 					motionX = maxMotionX;
 				}
+				if(motionX < 2) {
+					motionX *= 2;
+				}
+				
+				if(motionX > 9.5) {
+					motionX = 10;
+				}
+				
 			} else {
 /*				motionX += 0.3;*/
 				if(!(motionX < 0)) {
 					tickerMove++;
 					motionX += nextRestricted(motionX);
+					if(motionX < 2) {
+						motionX *= 2;
+					}
 				} else {
 					motionX += 0.3;
 					tickerMove = 0;
@@ -149,6 +184,12 @@ public class Player extends Mob {
 			tickerMove = 0;
 		}
 		
+		if(KeyInput.isDown(KeyEvent.VK_A)&&KeyInput.isDown(KeyEvent.VK_D)) {
+			//motionX /= 4;
+			//moving = false;
+			//motionX /= 4;
+		}
+		
 		if(KeyInput.wasReleased(KeyEvent.VK_SPACE) && motionY < 0) {
 			motionY /= 2.0; //1.5;
 		}
@@ -168,7 +209,7 @@ public class Player extends Mob {
 				}
 			}
 			if(isAirBorne) {
-				motionX = 0;
+				//motionX = 0;
 			}
 		}
 		
@@ -317,9 +358,9 @@ public class Player extends Mob {
 		score++;
 	}
 	
-	public double nextRestricted(double motionX) {
+	public double nextRestricted(double motionX) { //Restricted growth model for player movement
 		//System.out.println(-0.1*(motionX - maxMotionX));
-		System.out.println(this.motionX);
+		//System.out.println(this.motionX);
 		return -0.01*(motionX - maxMotionX);
 	}
 	
