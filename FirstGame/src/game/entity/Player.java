@@ -34,6 +34,8 @@ public class Player extends Mob {
 	public boolean hasCollision = true;
 	public int tickerMove;
 	boolean conflict = false;
+	boolean leftPriority;
+	boolean rightPriority;
 
 	public Player(double x, double y, TileMap tileMap) {
 		super(new Texture(new Texture("PlayerIdleMap"), 1, 1, 64), x, y, tileMap, new Rectangle());
@@ -66,24 +68,46 @@ public class Player extends Mob {
 		InitAnimations.playerScore = score;
 		
 		conflict = false;
+		leftPriority = false;
+		rightPriority = false;
 		
 		if(KeyInput.isDown(KeyEvent.VK_A)&&KeyInput.isDown(KeyEvent.VK_D)) {
-			motionX /= 1.4;
-			//moving = false;
-			conflict = true;
-			//motionX /= 4;
+			if(motionX > 0) {
+				rightPriority = true;
+			} else {
+				if(motionX < 0) {
+					leftPriority = true;
+				} else {
+					leftPriority = true;
+					rightPriority = true;
+			    }
+			}
 		}
 		
-		if(KeyInput.isDown(KeyEvent.VK_A)&&!conflict) {
+		if(KeyInput.isDown(KeyEvent.VK_A)&&!rightPriority) {
 			moving = true;
 			if(isAirBorne) {
-				//motionX -= 6.0;
-				motionX += -nextRestricted(-motionX)*6;
-				if(motionX < -maxMotionX) {
-					motionX = -maxMotionX;
-				}
-				if(motionX > -2) {
-					motionX *= 2;
+				if (!(motionX > 0)) {
+					//motionX -= 6.0;
+					motionX += -nextRestricted(-motionX) * 6;
+					if (motionX < -maxMotionX) {
+						motionX = -maxMotionX;
+					}
+					if (motionX > -2) {
+						motionX *= 2;
+					}
+					
+					if(motionX < -9.5) {
+						motionX = -10;
+					}
+					
+				} else {
+					motionX -= 2.0;
+					
+					if(motionX < -9.5) {
+						motionX = -10;
+					}
+					
 				}
 			} else {
 /*				motionX -= 0.3;*/
@@ -115,20 +139,28 @@ public class Player extends Mob {
 		
 		
 		
-		if(KeyInput.isDown(KeyEvent.VK_D)&&!conflict) {
+		if(KeyInput.isDown(KeyEvent.VK_D)&&!leftPriority) {
 			moving = true;
 			if(isAirBorne) {
-				//motionX += 6.0;
-				motionX += nextRestricted(motionX)*6;
-				if(motionX > maxMotionX) {
-					motionX = maxMotionX;
-				}
-				if(motionX < 2) {
-					motionX *= 2;
-				}
-				
-				if(motionX > 9.5) {
-					motionX = 10;
+				if (!(motionX < 0)) {
+					//motionX += 6.0;
+					motionX += nextRestricted(motionX) * 6;
+					if (motionX > maxMotionX) {
+						motionX = maxMotionX;
+					}
+					if (motionX < 2) {
+						motionX *= 2;
+					}
+					if (motionX > 9.5) {
+						motionX = 10;
+					} 
+				} else {
+					motionX += 2.0;
+					
+					if (motionX > 9.5) {
+						motionX = 10;
+					} 
+					
 				}
 				
 			} else {
