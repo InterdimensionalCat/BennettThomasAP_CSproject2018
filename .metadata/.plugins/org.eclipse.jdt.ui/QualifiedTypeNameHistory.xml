@@ -12,4 +12,5 @@
 <fullyQualifiedTypeName name="java.lang.Math"/>
 <fullyQualifiedTypeName name="game.render.textures.Animation"/>
 <fullyQualifiedTypeName name="game.utils.init.InitAnimations"/>
+<fullyQualifiedTypeName name="game.entity.ActionState"/>
 </qualifiedTypeNameHistroy>

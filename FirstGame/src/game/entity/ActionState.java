@@ -23,6 +23,8 @@ public enum ActionState {
 	TURN_RUN_ON_MOVING_PLATFORM_RIGHT(false, true, false, InitAnimations.animations.get("Player_turnRun")),
 	
 	MOB_MOVING(false, true, true, InitAnimations.animations.get("Boop_walk")),
+	MOB_STATIONARY(false, false, true, InitAnimations.animations.get("Boop_walk")),
+	MOB_AIR_STATIONARY(true, false, true, InitAnimations.animations.get("Boop_walk")),
 	MOB_MOVING_ON_SLOPE(false, true, false, InitAnimations.animations.get("Boop_walk")),
 	MOB_MOVING_ON_MOVING_PLATFORM(false, true, true, InitAnimations.animations.get("Boop_walk")),
 	MOB_AIR_MOVING(true, true, true, InitAnimations.animations.get("Boop_walk")),
@@ -71,12 +73,7 @@ public enum ActionState {
 	
 	
 	public ActionState toSlope() {
-		if(this == ON_TILE) {
-			return ON_SLOPE;
-		}
-		if(this == MOVING_ON_TILE) {
-			return MOVING_ON_SLOPE;
-		}
+		
 		if(this == TURN_RUN_LEFT) {
 			return TURN_RUN_ON_SLOPE_LEFT;
 		}
@@ -84,17 +81,27 @@ public enum ActionState {
 		if(this == TURN_RUN_RIGHT) {
 			return TURN_RUN_ON_SLOPE_RIGHT;
 		}
-		System.err.println("Action State cannot be converted to slope");
-		return this;
+		if(this == MOB_MOVING) {
+			return MOB_MOVING_ON_SLOPE;
+		}
+		
+		if(this.isMoving) {
+			return MOVING_ON_SLOPE;
+		} else {
+			return ON_SLOPE;
+		}
 	}
 	
 	public ActionState toPlatform() {
-		if(this == ON_TILE) {
-			return ON_MOVING_PLATFORM;
+		
+		if(this.stateAnimation == InitAnimations.animations.get("Boop_walk")) {
+			if(this.isMoving) {
+				return MOB_MOVING_ON_MOVING_PLATFORM;
+			} else {
+				return MOB_STATIONARY;
+			}
 		}
-		if(this == MOVING_ON_TILE) {
-			return MOVING_ON_MOVING_PLATFORM;
-		}
+		
 		if(this == TURN_RUN_LEFT) {
 			return TURN_RUN_ON_MOVING_PLATFORM_LEFT;
 		}
@@ -102,8 +109,12 @@ public enum ActionState {
 		if(this == TURN_RUN_RIGHT) {
 			return TURN_RUN_ON_MOVING_PLATFORM_RIGHT;
 		}
-		System.err.println("Action State cannot be converted to platform");
-		return this;
+		
+		if(this.isMoving) {
+			return MOVING_ON_MOVING_PLATFORM;
+		} else {
+			return ON_MOVING_PLATFORM;
+		}
 	}
 	
 	public ActionState toMoving() {
@@ -126,12 +137,45 @@ public enum ActionState {
 		return this;
 	}
 	
+	public ActionState toStationary() {
+		if(this.stateAnimation == InitAnimations.animations.get("Boop_walk")) {
+			if(this.isAirBorne) {
+				return MOB_AIR_STATIONARY;
+			} else {
+				return MOB_STATIONARY;
+			}
+		}
+		if(this.isAirBorne) {
+			return FALLING;
+		} else {
+			if(this == MOVING_ON_MOVING_PLATFORM || this == TURN_RUN_ON_MOVING_PLATFORM_LEFT || this == TURN_RUN_ON_MOVING_PLATFORM_RIGHT) {
+				return ON_MOVING_PLATFORM;
+			}
+			if(this == MOVING_ON_SLOPE|| this == TURN_RUN_ON_SLOPE_LEFT || this == TURN_RUN_ON_SLOPE_RIGHT) {
+				return ON_SLOPE;
+			}
+			if(this == MOVING_ON_TILE|| this == TURN_RUN_LEFT || this == TURN_RUN_RIGHT) {
+				return ON_TILE;
+			}
+		}
+		System.err.println("Could not be made stationary");
+		return this;
+	}
+	
+	public ActionState toAirBorne() {
+		if(this.isMoving) {
+			return MOVING_FALLING;
+		} else {
+			return FALLING;
+		}
+	}
+	
 	public boolean isOnPlatform() {
-		return this == ON_MOVING_PLATFORM || this == MOVING_ON_MOVING_PLATFORM;
+		return this == ON_MOVING_PLATFORM || this == MOVING_ON_MOVING_PLATFORM || this == MOB_MOVING_ON_MOVING_PLATFORM || this == TURN_RUN_ON_MOVING_PLATFORM_LEFT ||  this == TURN_RUN_ON_MOVING_PLATFORM_RIGHT;
 	}
 	
 	public boolean isOnSlope() {
-		return this == ON_SLOPE || this == MOVING_ON_SLOPE;
+		return this == ON_SLOPE || this == MOVING_ON_SLOPE || this == MOB_MOVING_ON_SLOPE || this == TURN_RUN_ON_SLOPE_LEFT || this == TURN_RUN_ON_SLOPE_RIGHT;
 	}
 	
 	public Animation getStateAnimation() {

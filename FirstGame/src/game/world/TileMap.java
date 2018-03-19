@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import game.Game;
+import game.entity.ActionState;
 import game.entity.Entity;
 import game.entity.EntityBoop;
 import game.entity.EntityGoal;
@@ -83,7 +84,7 @@ public class TileMap {
 				parallaxEngine.setRight();
 		    }
 		}
-		if(player.isMoving()) {
+		if(player.state.isMoving()) {
 			parallaxEngine.setMove(player.getMotionX());
 		}
 		for(int i = 0; i < entities.size(); i++) {
@@ -145,7 +146,7 @@ public class TileMap {
 	}
 	
 	
-	public void calculateCollision(Rectangle AABB, double posX, double posY, double motionX, double motionY) {
+/*	public void calculateCollision(Rectangle AABB, double posX, double posY, double motionX, double motionY) {
 		double toX = posX + motionX;
 		double toY = posY + motionY;
 		double newX = -1.0;
@@ -201,7 +202,7 @@ public class TileMap {
 		}
 		
 		if(getTile(convertToTiles((int)AABB.getMinX()), convertToTiles((int)AABB.getMinY() + 1)) != null) { //this is the top left corner
-			newX = convertToPixels(convertToTiles((int)AABB.getMaxX())) - 5/*this is the offset from AABB hitbox to texture*/ ;
+			newX = convertToPixels(convertToTiles((int)AABB.getMaxX())) - 5this is the offset from AABB hitbox to texture ;
 			player.setX(newX);
 			AABB.setBounds((int)player.adjustXforCollision(newX), (int)player.adjustYforCollision(posY), AABB.width, AABB.height);
 			player.setMotionX(0);
@@ -214,7 +215,7 @@ public class TileMap {
 		}
 		
 		if(getTile(convertToTiles((int)AABB.getMinX()), convertToTiles((int)AABB.getMaxY()  - 1)) != null && !isOnMovingTile) { //this is the bottom left corner
-			newX = convertToPixels(convertToTiles((int)AABB.getMaxX())) - 5/*this is the offset from AABB hitbox to texture*/ ;
+			newX = convertToPixels(convertToTiles((int)AABB.getMaxX())) - 5this is the offset from AABB hitbox to texture ;
 			player.setX(newX);
 			AABB.setBounds((int)player.adjustXforCollision(newX), (int)player.adjustYforCollision(posY), AABB.width, AABB.height);
 			player.setMotionX(0);
@@ -332,7 +333,7 @@ public class TileMap {
 						player.setY(movingTile.getAABB().getMinY() - 62);
 					}
 					
-					if(!player.isMoving()/* && movingTile.getPlatformType() == PlatformType.HORIZONTAL_MOVING*/) {
+					if(!player.isMoving() && movingTile.getPlatformType() == PlatformType.HORIZONTAL_MOVING) {
 						//player.setMotionX(movingTile.getMotionX()*2.4); //2.4 is a constant that prevents traction from slowing down the player
 						player.setX(player.getX() + movingTile.getMotionX());
 						//player.setMotionY(movingTile.getMotionY());
@@ -353,7 +354,7 @@ public class TileMap {
 
 						player.setY(movingTile.getAABB().getMinY() - 62);
 						player.setMotionY(0);
-						player.setAirBorne(false);
+						player.state.toPlatform();
 						movingTile.setCollided(true);
 						isOnMovingTile = true;
 						
@@ -361,7 +362,7 @@ public class TileMap {
 							player.setY(movingTile.getAABB().getMinY() - 62);
 						}
 						
-						if(!player.isMoving()/* && movingTile.getPlatformType() == PlatformType.HORIZONTAL_MOVING*/) {
+						if(!player.state.isMoving() && movingTile.getPlatformType() == PlatformType.HORIZONTAL_MOVING) {
 							player.setMotionX(movingTile.getMotionX()*2.4); //2.4 is a constant that prevents traction from slowing down the player
 							player.setMotionY(movingTile.getMotionY());
 						}
@@ -378,7 +379,7 @@ public class TileMap {
 				}
 			}
 		}
-	}
+	}*/
 	
 	public void wallCollisionLeft(Rectangle AABB, double posX, double posY, double motionX, double motionY, double cornerX, double cornerY, double offset) {
 		if( getTile( convertToTiles( (int)cornerX ), convertToTiles( (int)cornerY) ) != null) {
@@ -388,7 +389,7 @@ public class TileMap {
 					player.setX(newX);
 					AABB.setBounds((int) player.adjustXforCollision(newX), (int) player.adjustYforCollision(posY), AABB.width, AABB.height);
 					player.setMotionX(0);
-					player.setMoving(false);
+					player.state = player.state.toStationary();
 			    }
 
 			}	
@@ -405,7 +406,7 @@ public class TileMap {
 					AABB.setBounds((int) player.adjustXforCollision(newX), (int) player.adjustYforCollision(posY),
 					AABB.width, AABB.height);
 					player.setMotionX(0);
-					player.setMoving(false);
+					player.state = player.state.toStationary();
 			    }		                                           
 		}
 		
@@ -423,7 +424,7 @@ public class TileMap {
 			Tile t = getTile( convertToTiles( (int)cornerX ), convertToTiles( (int)cornerY) );
 			player.setY(convertToPixels(convertToTiles((int)player.adjustYforCollision(posY))));
 			player.setMotionY(0);
-			player.setAirBorne(false);
+			player.state = ActionState.ON_TILE;
 			AABB.setBounds((int)player.adjustXforCollision(player.getX()), (int)player.adjustYforCollision(player.getY()), AABB.width, AABB.height);
 		}
 	}
@@ -443,7 +444,7 @@ public class TileMap {
 
 			player.setY(movingTile.getAABB().getMinY() - 62); //sets the y value to 2 pixels inside the platform, this is to prevent the player from "falling" while they are moving on a vertical platform
 			player.setMotionY(0); //while on a platform the Y motion is controlled by the platform itself, so player motion y must be 0
-			player.setAirBorne(false); //player isn't in the air if it is on a platform
+			player.state = player.state.toPlatform(); //player isn't in the air if it is on a platform
 			movingTile.setCollided(true); //causes the platform to fall if it is a falling platform
 			player.getAABB().setBounds((int)player.adjustXforCollision(player.getX()), (int)player.adjustYforCollision(player.getY()), player.getAABB().width, player.getAABB().height); //updates the hitbox position
 			return true; //method returns true if collision occured
@@ -454,26 +455,26 @@ public class TileMap {
 	public boolean slopeCollisionRight(Rectangle AABB, double posX, double posY, double motionX, double motionY, double cornerX, double cornerY, Triangle t) {
 		if(t.intersects(cornerX, cornerY, player)&&motionY >= 0) {
 			double newY = t.getHPoints()[(int)(cornerX-(t.getA().getX()))].getY() - 62;
-			System.out.println("Hitting a Slope");
+			//System.out.println("Hitting a Slope");
 			player.setY(newY);
 			player.setX(posX + motionX);
-			player.setMotionX(motionX / 1.2);
+			//player.setMotionX(motionX / 1.2);
 			player.getAABB().setBounds((int)player.adjustXforCollision(player.getX()), (int)player.adjustYforCollision(player.getY()), player.getAABB().width, player.getAABB().height);
 			player.setMotionY(0);
-			player.setAirBorne(false);
-			System.out.println();
+			player.state.toSlope();
+			//System.out.println();
 			return true;
 		} else {
-			if((t.intersects(cornerX, cornerY + 6, player)&&!player.isAirBorne())&&motionY >= 0) {
+			if((t.intersects(cornerX, cornerY + 6, player)&&!player.state.isAirBorne())&&motionY >= 0) {
 				double newY = t.getHPoints()[(int)(cornerX - (t.getA().getX()))].getY() - 60;
-				System.out.println("Hitting a Slope");
+				//System.out.println("Hitting a Slope");
 				player.setY(newY);
 				player.setX(posX + motionX);
 				//player.setMotionX(player.getMotionX() /1.1);
 				player.getAABB().setBounds((int)player.adjustXforCollision(player.getX()), (int)player.adjustYforCollision(player.getY()), player.getAABB().width, player.getAABB().height);
 				player.setMotionY(0);
-				player.setAirBorne(false);
-				System.out.println();
+				player.state.toSlope();
+				//System.out.println();
 				return true;
 			}
 		}
@@ -481,15 +482,29 @@ public class TileMap {
 		return false;
 	}
 	
+	public boolean slopeCalculation(double cornerX, double cornerY) {
+		if( getTile( convertToTiles( (int)cornerX ), convertToTiles( (int)cornerY) ) != null) {
+			return !TileType.isCubeType(getTile( convertToTiles( (int)cornerX ), convertToTiles( (int)cornerY) ).type);
+		}
+		return false;
+	}
+	
 	public void calculateCollision(Rectangle AABB, double posX, double posY, double motionX, double motionY, boolean b) {
 		double toX = posX + motionX;
 		double toY = posY + motionY;
 		newX = -1.0;
+		
+		if(slopeCalculation(AABB.getMaxX(), AABB.getMinY() + 1)||slopeCalculation(AABB.getMaxX(), AABB.getMaxY() - 1)||slopeCalculation(AABB.getMinX(), AABB.getMinY() + 1)||slopeCalculation(AABB.getMinX(), AABB.getMaxY() - 1)) {
+			player.state = player.state.toSlope();
+		}
+		
 		AABB.setBounds((int)player.adjustXforCollision(toX), (int)player.adjustYforCollision(posY), AABB.width, AABB.height);
 		//double[] arr = {newX , toX};
 		
+		
+		
 		for (Triangle t: slopeTriangles) {
-			if (slopeCollisionRight(AABB, posX, posY, motionX, motionY, AABB.getMaxX(), AABB.getMaxY(), t) /*||
+			if (slopeCollisionRight(AABB, posX, posY, motionX, motionY, AABB.getMaxX() - 1, AABB.getMaxY(), t) /*||
 								slopeCollision(AABB, posX, posY, motionX, motionY, AABB.getMinX(), AABB.getMaxY())*/) {
 				return;
 			} 
@@ -507,13 +522,13 @@ public class TileMap {
 		if((int)newX < 0) { //colliding with the map boundry
 			player.setX(1);
 			player.setMotionX(0);
-			player.setMoving(false);
+			player.state = player.state.toStationary();
 		}
 		
 		if((int)newX + 64 > convertToPixels(this.width)) {
 			player.setX(convertToPixels(this.width) - 64); // must change this
 			player.setMotionX(0);
-			player.setMoving(false);
+			player.state = player.state.toStationary();
 		}
 		
 		//horz is first, now vert;
@@ -577,7 +592,7 @@ public class TileMap {
 				mob.setX(newX);
 				mob.getAABB().setBounds((int)newX, (int)posY, mob.getAABB().width, mob.getAABB().height);
 				mob.setMotionX(0);
-				mob.setMoving(false);
+				mob.state = mob.state.toStationary();
 
 				
 				returnType = true;
@@ -599,7 +614,7 @@ public class TileMap {
 				mob.setX(newX);
 				mob.getAABB().setBounds((int)newX, (int)posY, mob.getAABB().width, mob.getAABB().height);
 				mob.setMotionX(0);
-				mob.setMoving(false);
+				mob.state = mob.state.toStationary();
 				returnType = true;
 				
 			} else {
@@ -614,7 +629,7 @@ public class TileMap {
 			mob.setX(newX);
 			mob.getAABB().setBounds((int)newX, (int)posY, mob.getAABB().width, mob.getAABB().height);
 			mob.setMotionX(0);
-			mob.setMoving(false);
+			mob.state = mob.state.toStationary();
 			
 			returnType = true;
 			
@@ -625,7 +640,7 @@ public class TileMap {
 			mob.setX(newX);
 			mob.getAABB().setBounds((int)newX, (int)posY, mob.getAABB().width, mob.getAABB().height);
 			mob.setMotionX(0);
-			mob.setMoving(false);
+			mob.state = mob.state.toStationary();
 			
 			returnType = true;
 			
@@ -638,14 +653,14 @@ public class TileMap {
 		if((int)newX < 0) { //colliding with the map boundry
 			mob.setX(1);
 			mob.setMotionX(0);
-			mob.setMoving(false);
+			mob.state = mob.state.toStationary();
 			returnType = true;
 		}
 		
 		if((int)newX + 64 > convertToPixels(this.width)) {
 			mob.setX(convertToPixels(this.width) - 64); // must change this
 			mob.setMotionX(0);
-			mob.setMoving(false);
+			mob.state = mob.state.toStationary();
 			returnType = true;
 		}
 		
@@ -671,7 +686,7 @@ public class TileMap {
 			if(tile.type == TileType.SOLID) {
 				mob.setY(convertToPixels(convertToTiles((int)posY + 10)));
 				mob.setMotionY(0);
-				mob.setAirBorne(false);
+				mob.state = mob.state.toStationary();
 			} else {
 				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
 
@@ -684,7 +699,7 @@ public class TileMap {
 			if(tile.type == TileType.SOLID) {
 				mob.setY(convertToPixels(convertToTiles((int)posY + 10)));
 				mob.setMotionY(0);
-				mob.setAirBorne(false);
+				mob.state = mob.state.toStationary();
 			} else {
 				if(tile.type == TileType.SLOPE_RIGHT_64_00) {
 					
@@ -696,7 +711,7 @@ public class TileMap {
 		
 		//Entity Collision
 		for (Entity e : entities) {
-			if (e instanceof EntityMovingTile && mob.hasCollision) {
+			if (e instanceof EntityMovingTile && mob.state.hasCollision()) {
 				EntityMovingTile movingTile = (EntityMovingTile)e;
 				
 				if (mob.getAABB().getMaxY() > movingTile.getAABB().getMinY()
@@ -707,7 +722,7 @@ public class TileMap {
 
 					mob.setY(movingTile.getAABB().getMinY() - 62);
 					mob.setMotionY(0);
-					mob.setAirBorne(false);
+					mob.state = mob.state.toPlatform();
 					movingTile.setCollided(true);
 					isOnMovingTile = true;
 					
@@ -735,7 +750,7 @@ public class TileMap {
 
 						mob.setY(movingTile.getAABB().getMinY() - 62);
 						mob.setMotionY(0);
-						mob.setAirBorne(false);
+						mob.state = mob.state.toPlatform();
 						movingTile.setCollided(true);
 						isOnMovingTile = true;
 						
@@ -743,7 +758,7 @@ public class TileMap {
 							mob.setY(movingTile.getAABB().getMinY() - 62);
 						}
 						
-						if(!mob.isMoving()/* && movingTile.getPlatformType() == PlatformType.HORIZONTAL_MOVING*/) {
+						if(!mob.state.isMoving()/* && movingTile.getPlatformType() == PlatformType.HORIZONTAL_MOVING*/) {
 							mob.setMotionX(movingTile.getMotionX()*2.4); //2.4 is a constant that prevents traction from slowing down the player
 							mob.setMotionY(movingTile.getMotionY());
 						}

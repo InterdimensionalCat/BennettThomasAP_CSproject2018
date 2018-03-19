@@ -29,13 +29,16 @@ public class EntityBoop extends Mob {
 		this.displacement = displacement;
 		this.currentState = InitAnimations.animations.get("Boop_walk");
 		this.jumper = jumper;
+		this.state = ActionState.MOB_AIR_MOVING;
 	}
 	
 	public EntityBoop(double x, double y, TileMap tileMap, double speed, double displacement, boolean jumper, double gravity) {
 		this(x, y, tileMap, speed, displacement, jumper);
 		this.gravity = gravity;
 		if(gravity == 0.0) {
-			hasCollision = false;
+			this.state = ActionState.NO_GRAVITY;
+		} else {
+			this.state = ActionState.MOB_AIR_MOVING;
 		}
 	}
 
@@ -59,10 +62,10 @@ public class EntityBoop extends Mob {
 			
 			currentState.run();
 			super.tick();
-			if(motionY != 0) {
-				isAirBorne = true;
+			if(motionY != 0 && this.state != ActionState.NO_GRAVITY) {
+				this.state = ActionState.MOB_AIR_MOVING;
 			}
-			if(!isAirBorne&&jumper) {
+			if(!this.state.isAirBorne()&&jumper) {
 				jump(15);
 			}
 		}

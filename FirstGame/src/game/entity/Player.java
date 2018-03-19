@@ -35,6 +35,7 @@ public class Player extends Mob {
 	boolean conflict = false;
 	boolean leftPriority;
 	boolean rightPriority;
+	
 
 	public Player(double x, double y, TileMap tileMap) {
 		super(new Texture(new Texture("PlayerIdleMap"), 1, 1, 64), x, y, tileMap, new Rectangle());
@@ -44,6 +45,7 @@ public class Player extends Mob {
 		this.tileMap = tileMap;
 		this.maxMotionX = 10.0;
 		this.idle = InitAnimations.animations.get("Player_idle");
+		this.state = ActionState.FALLING;
 	}
 	
 	@Override
@@ -333,7 +335,7 @@ public class Player extends Mob {
 	protected void animate() {
 		this.idle = this.state.getStateAnimation();
 		if (this.state.isIdle()) {
-			if (this.idle.getFlip() == true) {
+			if (InitAnimations.animations.get("Player_run").getFlip() == true) {
 				this.idle.setFlip(true);
 				this.idle.run();
 				return;
