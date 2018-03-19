@@ -23,9 +23,8 @@ public class Player extends Mob {
 	private int playerSpawnY;
 	private double maxMotionX;
 	private Animation idle;
-	//private ActionState playerActionState;
-	protected boolean turnRunRight;
-	protected boolean turnRunLeft;
+	//protected boolean turnRunRight;
+	//protected boolean turnRunLeft;
 	private int deathCount = InitAnimations.playerDeath;
 	private int score = InitAnimations.playerScore;
 	public static volatile boolean playerDead;
@@ -45,7 +44,6 @@ public class Player extends Mob {
 		this.tileMap = tileMap;
 		this.maxMotionX = 10.0;
 		this.idle = InitAnimations.animations.get("Player_idle");
-		//playerActionState = ActionState.FALLING;
 	}
 	
 	@Override
@@ -59,8 +57,8 @@ public class Player extends Mob {
 	@Override
 	public void tick() {
 
-		turnRunRight = false;
-		turnRunLeft = false;
+		//turnRunRight = false;
+		//turnRunLeft = false;
 		if (invincibleTime > 0) {
 			invincibleTime--;
 		}
@@ -85,8 +83,8 @@ public class Player extends Mob {
 		}
 		
 		if(KeyInput.isDown(KeyEvent.VK_A)&&!rightPriority) {
-			moving = true;
-			if(isAirBorne) {
+		    this.state = this.state.toMoving();
+			if(this.state.isAirBorne()) {
 				if (!(motionX > 0)) {
 					//motionX -= 6.0;
 					motionX += -nextRestricted(-motionX) * 6;
@@ -132,7 +130,7 @@ public class Player extends Mob {
 			}
 			
 			if(motionX > 0) {
-				turnRunRight = true;
+				this.state = ActionState.TURN_RUN_RIGHT;
 			}
 			
 		}
@@ -140,8 +138,8 @@ public class Player extends Mob {
 		
 		
 		if(KeyInput.isDown(KeyEvent.VK_D)&&!leftPriority) {
-			moving = true;
-			if(isAirBorne) {
+			this.state = this.state.toMoving();
+			if(this.state.isAirBorne()) {
 				if (!(motionX < 0)) {
 					//motionX += 6.0;
 					motionX += nextRestricted(motionX) * 6;
@@ -180,7 +178,7 @@ public class Player extends Mob {
 				}
 			}
 			if(motionX < 0) {
-				turnRunLeft = true;
+				this.state = ActionState.TURN_RUN_LEFT;
 			}
 		}
 		
@@ -212,7 +210,7 @@ public class Player extends Mob {
 		
 		if(KeyInput.wasReleased(KeyEvent.VK_A)||KeyInput.wasReleased(KeyEvent.VK_D)) {
 			//motionX /= 4;
-			moving = false;
+			this.state = this.state.toMoving();
 			tickerMove = 0;
 		}
 		
@@ -226,7 +224,7 @@ public class Player extends Mob {
 			motionY /= 2.0; //1.5;
 		}
 		
-		if(!moving) {
+		if(!this.state.isMoving()) {
 			//idle.run();
 			if(motionX < 1 && motionX > -1) {
 				motionX = 0;
@@ -240,7 +238,7 @@ public class Player extends Mob {
 					motionX /= 1.4;
 				}
 			}
-			if(isAirBorne) {
+			if(this.state.isAirBorne()) {
 				//motionX = 0;
 			}
 		}
@@ -277,7 +275,7 @@ public class Player extends Mob {
 	}
 	
 	protected void jump(double velocityY) {
-		if(!isAirBorne) {
+		if(!this.state.isAirBorne()) {
 			if(!InitAudio.musicFiles.get("PlayerJump1").isPlaying()) {
 				Game.fxmanager.playSound("PlayerJump1");
 			} else {
@@ -287,7 +285,7 @@ public class Player extends Mob {
 		super.jump(velocityY);
 	}
 	
-	protected void animate() {
+	/*protected void animate() {
 		if(!moving && !isAirBorne) {
 			this.idle = InitAnimations.animations.get("Player_idle");
 			if (InitAnimations.animations.get("Player_run").getFlip() == true)  {
@@ -330,6 +328,49 @@ public class Player extends Mob {
 					}
 				}	
 		}
+	}*/
+	
+	protected void animate() {
+		this.idle = this.state.getStateAnimation();
+		if (this.state.isIdle()) {
+			if (this.idle.getFlip() == true) {
+				this.idle.setFlip(true);
+				this.idle.run();
+				return;
+			} else {
+				this.idle.setFlip(false);
+				this.idle.run();
+				return;
+			} 
+		}
+		
+		if(this.state.isTurnRunLeft()) {
+			this.idle.setFlip(true);
+			this.idle.run();
+			return;
+		}
+		
+		if(this.state.isTurnRunRight()) {
+			this.idle.setFlip(false);
+			this.idle.run();
+			return;
+		}
+		
+		if(this.state.isMoving()) {
+			if(motionX > 0) {
+				this.idle.setFlip(false);
+				this.idle.run();
+				return;
+			}
+			
+			if(motionX < 0) {
+				this.idle.setFlip(true);
+				this.idle.run();
+				return;
+			}
+		}
+		
+		this.idle.run();
 	}
 	
 	public int getCollisionWidth() {

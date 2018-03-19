@@ -1,0 +1,57 @@
+package game.entity;
+
+import game.render.textures.Animation;
+import game.utils.init.InitAnimations;
+
+public enum ActionState {
+
+	JUMPING(true, false, true, InitAnimations.animations.get("Player_jump")),
+	FALLING(true, false, true, InitAnimations.animations.get("Player_jump")),
+	ON_TILE(false, false, true, InitAnimations.animations.get("Player_idle")),
+	MOVING_ON_TILE(false, true, true, InitAnimations.animations.get("Player_run")),
+	ON_SLOPE(false, false, false, InitAnimations.animations.get("Player_idle")),
+	MOVING_ON_SLOPE(false, true, false, InitAnimations.animations.get("Player_run")),
+	ON_MOVING_PLATFORM(false, false, true, InitAnimations.animations.get("Player_idle")),
+	MOVING_ON_MOVING_PLATFORM(false, true, true, InitAnimations.animations.get("Player_run")),
+	TURN_RUN_LEFT(false, true, true, InitAnimations.animations.get("Player_run")),
+	TURN_RUN_RIGHT(false, true, true, InitAnimations.animations.get("Player_run")),
+	TURN_RUN_ON_SLOPE_LEFT(false, true, false, InitAnimations.animations.get("Player_run")),
+	TURN_RUN_ON_SLOPE_RIGHT(false, true, false, InitAnimations.animations.get("Player_run")),;
+	
+	
+	private boolean isAirBorne;
+	private boolean isMoving;
+	private boolean hasCollision;
+	private Animation stateAnimation;
+	
+	private ActionState(boolean isAirborne, boolean isMoving, boolean hasCollision, Animation animation) {
+		this.isAirBorne = isAirborne;
+		this.isMoving = isMoving;
+		this.hasCollision = hasCollision;
+		this.stateAnimation = animation;
+	}
+	
+	public boolean isAirBorne() {
+		return isAirBorne;
+	}
+	
+	public boolean isMoving() {
+		return isMoving;
+	}
+	
+	public boolean hasCollision() {
+		return hasCollision;
+	}
+	
+	public boolean isOnPlatform() {
+		return this == ON_MOVING_PLATFORM || this == MOVING_ON_MOVING_PLATFORM;
+	}
+	
+	public boolean isOnSlope() {
+		return this == ON_SLOPE || this == MOVING_ON_SLOPE;
+	}
+	
+	public Animation getStateAnimation() {
+		return stateAnimation;
+	}
+}

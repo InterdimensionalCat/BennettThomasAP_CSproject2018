@@ -12,13 +12,14 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	protected double motionY;
 	protected double gravity;
 	protected double maxMotionY;
-	protected boolean isAirBorne;
+	//protected boolean isAirBorne;
 	protected int pushForceY;
 	public int tickerAir;
-	protected boolean moving;
+	//protected boolean moving;
 	protected double lastMoveY;
 	protected Rectangle AABB;
-	public boolean hasCollision = true;
+	public ActionState state;
+	//public boolean hasCollision = true;
 	
 	public Mob(Texture texture, double x, double y, TileMap tileMap, Rectangle AABB) {
 		super(texture, x, y, tileMap, AABB);
@@ -33,9 +34,13 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	@Override
 	public void tick() {
 		if(getMotionY() == 0) {
-			isAirBorne = false;
+			this.state = ActionState.ON_TILE;
 		} else {
-			isAirBorne = true;
+			if (motionY > 0) {
+				this.state = ActionState.FALLING;
+			} else {
+				this.state = ActionState.JUMPING;
+			}
 		}
 		
 		fall();
@@ -68,9 +73,10 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	}
 	
 	protected void jump(double velocityY) {
-		if(!isAirBorne) {
+		if(!this.state.isAirBorne()) {
 			setMotionY(getMotionY() - velocityY);
-			isAirBorne = true;
+			this.state = ActionState.JUMPING;
+			//isAirBorne = true;
 		}
 	}
 	
@@ -82,13 +88,13 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		this.motionX = motionX;
 	}
 	
-	public void setAirBorne(boolean airBorne) {
-		this.isAirBorne = airBorne;
-	}
-	
-	public boolean isAirBorne() {
-		return isAirBorne;
-	}
+//	public void setAirBorne(boolean airBorne) {
+//		this.isAirBorne = airBorne;
+//	}
+//
+//	public boolean isAirBorne() {
+//		return isAirBorne;
+//	}
 
 	public double getMotionY() {
 		return motionY;
@@ -106,12 +112,12 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		return motionX > 0;
 	}
 	
-	public boolean isMoving() {
-		return moving;
-	}
-	
-	public void setMoving(boolean moving) {
-		this.moving = moving;
-	}
+//	public boolean isMoving() {
+//		return moving;
+//	}
+//	
+//	public void setMoving(boolean moving) {
+//		this.moving = moving;
+//	}
 	
 }
