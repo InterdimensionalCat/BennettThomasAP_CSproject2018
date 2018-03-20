@@ -23,4 +23,8 @@ public enum TileType {
 	public static boolean isSlopeLeftType(TileType t) {
 		return t == SLOPE_LEFT_64_00;
 	}
+	
+	public static boolean isSlope(TileType t) {
+		return isSlopeRightType(t) || isSlopeLeftType(t);
+	}
 }

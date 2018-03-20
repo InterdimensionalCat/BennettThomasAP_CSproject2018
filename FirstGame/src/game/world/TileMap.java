@@ -422,6 +422,9 @@ public class TileMap {
 	public void floorCollision(Rectangle AABB, double posY, double cornerX, double cornerY) {
 		if(getTile(convertToTiles((int)cornerX), convertToTiles((int)cornerY)) != null) {
 			Tile t = getTile( convertToTiles( (int)cornerX ), convertToTiles( (int)cornerY) );
+			if(TileType.isSlope(t.type)) {
+				return;
+			}
 			player.setY(convertToPixels(convertToTiles((int)player.adjustYforCollision(posY))));
 			player.setMotionY(0);
 			player.state = ActionState.ON_TILE;
@@ -465,7 +468,7 @@ public class TileMap {
 			//System.out.println();
 			return true;
 		} else {
-			if((t.intersects(cornerX, cornerY + 6, player)&&!player.state.isAirBorne())&&motionY >= 0) {
+			if((t.intersects(cornerX, cornerY + 10, player)&&!player.state.isAirBorne())&&motionY >= 0) {
 				double newY = t.getHPoints()[(int)(cornerX - (t.getA().getX()))].getY() - 60;
 				//System.out.println("Hitting a Slope");
 				player.setY(newY);
@@ -478,6 +481,8 @@ public class TileMap {
 				return true;
 			}
 		}
+		
+
 		
 		return false;
 	}
@@ -494,26 +499,35 @@ public class TileMap {
 		double toY = posY + motionY;
 		newX = -1.0;
 		
-		if(slopeCalculation(AABB.getMaxX(), AABB.getMinY() + 1)||slopeCalculation(AABB.getMaxX(), AABB.getMaxY() - 1)||slopeCalculation(AABB.getMinX(), AABB.getMinY() + 1)||slopeCalculation(AABB.getMinX(), AABB.getMaxY() - 1)) {
+/*		if(slopeCalculation(AABB.getMaxX(), AABB.getMinY() + 1)||slopeCalculation(AABB.getMaxX(), AABB.getMaxY() - 1)||slopeCalculation(AABB.getMinX(), AABB.getMinY() + 1)||slopeCalculation(AABB.getMinX(), AABB.getMaxY() - 1)) {
 			player.state = player.state.toSlope();
-		}
+		}*/
 		
+		double slopeCornerX = AABB.getMaxX();
+		for (int i = (int)AABB.getMinX(); i <= (int)AABB.getMaxX(); i++) {
+			if (slopeCalculation(i, AABB.getMaxY() - 1)
+					/*|| slopeCalculation(AABB.getMinX(), AABB.getMaxY() - 1)*/) {
+				player.state = player.state.toSlope();
+				slopeCornerX = i;
+			} 
+		}
 		AABB.setBounds((int)player.adjustXforCollision(toX), (int)player.adjustYforCollision(posY), AABB.width, AABB.height);
 		//double[] arr = {newX , toX};
 		
 		
 		
 		for (Triangle t: slopeTriangles) {
-			if (slopeCollisionRight(AABB, posX, posY, motionX, motionY, AABB.getMaxX() - 1, AABB.getMaxY(), t) /*||
-								slopeCollision(AABB, posX, posY, motionX, motionY, AABB.getMinX(), AABB.getMaxY())*/) {
+			if (slopeCollisionRight(AABB, posX, posY, motionX, motionY, slopeCornerX - 1, AABB.getMaxY(), t)/* ||
+								slopeCollisionRight(AABB, posX, posY, motionX, motionY, AABB.getMinX()+1, AABB.getMaxY(),t)*/) {
 				return;
-			} 
+			}
 		}
-		wallCollisionRight(AABB, posX, posY, motionX, motionY, AABB.getMaxX(), AABB.getMinY() + 1, - AABB.getWidth() - 1 - 5); //this is the top right corner
-		wallCollisionRight(AABB, posX, posY, motionX, motionY, AABB.getMaxX(), AABB.getMaxY() - 1, - AABB.getWidth() - 1 - 5); //this is the bottom right corner
-		wallCollisionLeft(AABB, posX, posY, motionX, motionY, AABB.getMinX(), AABB.getMinY() + 1, + 64 - 5); //this is the top left corner
-		wallCollisionLeft(AABB, posX, posY, motionX, motionY, AABB.getMinX(), AABB.getMaxY() - 1, 64 - 5); // this is the bottom left corner
-		
+		if (player.state.hasCollision()) {
+			wallCollisionRight(AABB, posX, posY, motionX, motionY, AABB.getMaxX(), AABB.getMinY() + 1, -AABB.getWidth() - 1 - 5); //this is the top right corner
+			wallCollisionRight(AABB, posX, posY, motionX, motionY, AABB.getMaxX(), AABB.getMaxY() - 1,-AABB.getWidth() - 1 - 5); //this is the bottom right corner
+			wallCollisionLeft(AABB, posX, posY, motionX, motionY, AABB.getMinX(), AABB.getMinY() + 1, +64 - 5); //this is the top left corner
+			wallCollisionLeft(AABB, posX, posY, motionX, motionY, AABB.getMinX(), AABB.getMaxY() - 1, 64 - 5); // this is the bottom left corner
+		}
 		
 		if (newX == -1.0) {
 			newX = toX;
@@ -538,8 +552,11 @@ public class TileMap {
 		ceilingCollision(AABB, motionY, AABB.getMaxX() - 1, AABB.getMinY()); //this is the top right corner
 		ceilingCollision(AABB, motionY, AABB.getMinX() + 1, AABB.getMinY()); //this is the top left corner
 		
-		floorCollision(AABB, posY, AABB.getMaxX() - 1, AABB.getMaxY()); //this is the bottom right corner
-		floorCollision(AABB, posY, AABB.getMinX() + 1, AABB.getMaxY()); //this is the bottom left corner
+		if(player.state.hasCollision()) {
+			floorCollision(AABB, posY, AABB.getMaxX() - 1, AABB.getMaxY()); //this is the bottom right corner
+			floorCollision(AABB, posY, AABB.getMinX() + 1, AABB.getMaxY()); //this is the bottom left corner
+		}
+		
 		
 		//slopeCollisionRight(AABB, posX, posY, AABB.getMaxY() - 1); //this checks slopes
 

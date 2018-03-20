@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
@@ -54,6 +55,7 @@ public class Game extends Canvas implements Runnable {
 	public static ThreadManager pool;
 	public static SoundBGMPlayer player;
 	public static boolean paused;
+	public static ArrayList<Integer> arr = new ArrayList<Integer>();
 	
 	public static Triangle test = new Triangle(new Point(100, 100), 64, Math.PI / 4);
 	
