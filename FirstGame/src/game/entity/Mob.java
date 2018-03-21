@@ -59,7 +59,8 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	
 	public void move() {
 
-		tileMap.calculateCollision(AABB, x, y, motionX, motionY, true);
+		//tileMap.calculateCollision(AABB, x, y, motionX, motionY, true);
+		tileMap.sonicCollision(x, y, motionX, motionY);
 		y+= getMotionY();
 		x+= getMotionX();
 	}

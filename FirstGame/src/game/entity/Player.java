@@ -35,6 +35,7 @@ public class Player extends Mob {
 	boolean conflict = false;
 	boolean leftPriority;
 	boolean rightPriority;
+	public boolean falling;
 	
 
 	public Player(double x, double y, TileMap tileMap) {
@@ -46,6 +47,7 @@ public class Player extends Mob {
 		this.maxMotionX = 10.0;
 		this.idle = InitAnimations.animations.get("Player_idle");
 		this.state = ActionState.FALLING;
+		falling = true;
 	}
 	
 	@Override
@@ -495,5 +497,11 @@ public class Player extends Mob {
 			return -i / 6;
 		}
 		
+	}
+	
+	protected void fall() {
+		if(falling) {
+			super.fall();
+		}
 	}
 }

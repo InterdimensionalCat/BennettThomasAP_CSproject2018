@@ -2,12 +2,15 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="slopeCollision" key="selection"/>
+		<item value="sonic" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="sonic"/>
+			<item value="tilesToPixels"/>
+			<item value="fall"/>
 			<item value="slopeCollision"/>
 			<item value="calculate"/>
 			<item value="caluclate"/>
@@ -20,9 +23,6 @@
 			<item value="wallCollision"/>
 			<item value="hitting a slope"/>
 			<item value="System.out.println"/>
-			<item value="a slope"/>
-			<item value="hit"/>
-			<item value="hitt"/>
 		</list>
 		<list key="replacehistory">
 			<item value="movingTile.getAABB()"/>
@@ -32,9 +32,9 @@
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="290" key="DIALOG_WIDTH"/>
-		<item value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont" key="DIALOG_FONT_NAME"/>
-		<item value="409" key="DIALOG_HEIGHT"/>
+		<item value="336" key="DIALOG_WIDTH"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="454" key="DIALOG_HEIGHT"/>
 		<item value="1630" key="DIALOG_X_ORIGIN"/>
 		<item value="568" key="DIALOG_Y_ORIGIN"/>
 	</section>
