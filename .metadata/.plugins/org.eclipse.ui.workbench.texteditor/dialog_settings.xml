@@ -2,29 +2,30 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="setY" key="selection"/>
+		<item value="player.falling" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="player.falling"/>
+			<item value="player.faling"/>
+			<item value="falling"/>
+			<item value="gravity"/>
+			<item value="fall()"/>
+			<item value="fall"/>
+			<item value="getTile"/>
+			<item value="centerX + 14"/>
 			<item value="setY"/>
 			<item value="player.setY"/>
 			<item value=")"/>
 			<item value="calculate"/>
 			<item value="collision"/>
-			<item value="centerX + 14"/>
 			<item value="centerX"/>
 			<item value="sonic"/>
-			<item value="tilesToPixels"/>
-			<item value="fall"/>
-			<item value="slopeCollision"/>
-			<item value="caluclate"/>
-			<item value="Slope"/>
-			<item value="calculateSlope"/>
-			<item value="floor"/>
 		</list>
 		<list key="replacehistory">
+			<item value="horzModifier"/>
 			<item value="centerX - 14"/>
 			<item value="movingTile.getAABB()"/>
 			<item value="mob.getAABB()"/>
@@ -33,10 +34,10 @@
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="336" key="DIALOG_WIDTH"/>
-		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
-		<item value="454" key="DIALOG_HEIGHT"/>
-		<item value="1649" key="DIALOG_X_ORIGIN"/>
-		<item value="945" key="DIALOG_Y_ORIGIN"/>
+		<item value="290" key="DIALOG_WIDTH"/>
+		<item value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont" key="DIALOG_FONT_NAME"/>
+		<item value="409" key="DIALOG_HEIGHT"/>
+		<item value="1630" key="DIALOG_X_ORIGIN"/>
+		<item value="568" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

@@ -34,6 +34,7 @@ public class Tile {
 		tileMap.put(id, this);
 		solid = true;
 		this.type = type;
+		this.heightMask = heightMask;
 	}
 	
 

@@ -47,7 +47,7 @@ public class Player extends Mob {
 		this.maxMotionX = 10.0;
 		this.idle = InitAnimations.animations.get("Player_idle");
 		this.state = ActionState.FALLING;
-		falling = true;
+		falling = false;
 	}
 	
 	@Override
