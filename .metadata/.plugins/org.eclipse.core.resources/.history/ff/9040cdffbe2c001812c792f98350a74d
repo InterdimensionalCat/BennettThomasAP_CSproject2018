@@ -211,143 +211,110 @@ public class TileMap {
 					if(newY == 64) {
 						if(getTile(convertToTiles((int)centerX + 14), convertToTiles((int)centerY + i) - 1) != null) {
 							Tile t1 = getTile(convertToTiles((int)centerX + 14), convertToTiles((int)centerY + i) - 1);
-							if(t1.heightMask[(int)(centerX + 14) - getTilePos((int)(centerX + 14))] != 0 && player.getY() > player.getY() - t1.heightMask[(int)(centerX + 14) - getTilePos((int)(centerX + 14))]) {
-							    player.setY(player.getY() - t1.heightMask[(int)(centerX + 14) - getTilePos((int)(centerX + 14))]);
-							    player.falling = false;
-							    break;
-							} else {
-								if (player.getY() > player.getY() - 64) {
-									player.setY(player.getY() - 64);
-									player.falling = false;
-									player.setMotionY(0);
-								}
-							}
-						} else {
-							if (player.getY() > player.getY() - 64) {
-								player.setY(player.getY() - 64);
-								player.falling = false;
-								player.setMotionY(0);
-							}
-						}
-						
-					} else {
-						if (player.getY() > player.getY() - newY) {
-							player.setY(player.getY() - newY);
-							player.falling = false;
-							player.setMotionY(0);
-						}
-					}
-				
-				if(getTile((int)centerX - 14, (int)centerY + i) != null) {
-					Tile t2 = getTile(convertToTiles((int)centerX - 14), convertToTiles((int)centerY + i));
-					
-					if (t2.heightMask[(int) (centerX - 14) - getTilePos((int) (centerX - 14))] > newY) {
-						newY = t2.heightMask[(int) (centerX - 14) - getTilePos((int) (centerX - 14))];
-					}
-					
-					if(newY == 64) {
-						if(getTile(convertToTiles((int)centerX - 14), convertToTiles((int)centerY + i) - 1) != null) {
-							Tile t3 = getTile(convertToTiles((int)centerX - 14), convertToTiles((int)centerY + i) - 1);
-							if(t3.heightMask[(int)(centerX - 14) - getTilePos((int)(centerX - 14))] != 0 && player.getY() > player.getY() - t3.heightMask[(int)(centerX - 14) - getTilePos((int)(centerX - 14))]) {
-								player.setY(player.getY() - t3.heightMask[(int)(centerX - 14) - getTilePos((int)(centerX - 14))]);
-								player.falling = false;
-								player.setMotionY(0);
-							    break;
-							} else {
-								if (player.getY() > player.getY() - 64) {
-									player.setY(player.getY() - 64);
-									player.falling = false;
-									player.setMotionY(0);
-								}
-							}
-						} else {
-							if (player.getY() > player.getY() - 64) {
-								player.setY(player.getY() - 64);
-								player.falling = false;
-								player.setMotionY(0);
-							}
-						}
-						
-					} else {
-						if (player.getY() > player.getY() - newY) {
-							player.setY(player.getY() - newY);
-							player.falling = false;
-							player.setMotionY(0);
-						}
-					}	
-				} else {
-				if(getTile((int)centerX + 14, (int)centerY + i) != null) {
-					Tile t3 = getTile(convertToTiles((int)centerX + 14), convertToTiles((int)centerY + i));
-					
-					if (t3.heightMask[(int) (centerX + 14) - getTilePos((int) (centerX + 14))] > newY) {
-						newY = t3.heightMask[(int) (centerX + 14) - getTilePos((int) (centerX + 14))];
-					}
-					
-					if(newY == 64) {
-						if(getTile(convertToTiles((int)centerX + 14), convertToTiles((int)centerY + i) - 1) != null) {
-							Tile t1 = getTile(convertToTiles((int)centerX + 14), convertToTiles((int)centerY + i) - 1);
-							if(t1.heightMask[(int)(centerX + 14) - getTilePos((int)(centerX + 14))] != 0) {
+							if(t1.heightMask[(int)(centerX + 14) - getTilePos((int)(centerX + 14))] != 0 && player.getY() > player.getY() - t1.heightMask[(int)(centerX + 14) - getTilePos((int)(centerX + 14))])
 								player.setY(player.getY() - t1.heightMask[(int)(centerX + 14) - getTilePos((int)(centerX + 14))]);
-								player.falling = false;
-								player.setMotionY(0);
-							    break;
+							break;
 							} else {
-								player.setY(player.getY() - 64);
-								player.falling = false;
-								player.setMotionY(0);
+								if (player.getY() > player.getY() - 64) {
+									player.setY(player.getY() - 64);
+								}
 							}
 						} else {
-							player.setY(player.getY() - 64);
-							player.falling = false;
-							player.setMotionY(0);
+							if (player.getY() > player.getY() - 64) {
+								player.setY(player.getY() - 64);
+							}
 						}
 						
 					} else {
-						player.setY(player.getY() - newY);
-						player.falling = false;
-						player.setMotionY(0);
+						if (player.getY() > player.getY() - newY) {
+							player.setY(player.getY() - newY);
+						}
 					}
 				
 				if(getTile((int)centerX - 14, (int)centerY + i) != null) {
-					Tile t4 = getTile(convertToTiles((int)centerX - 14), convertToTiles((int)centerY + i));
+					Tile t = getTile(convertToTiles((int)centerX - 14), convertToTiles((int)centerY + i));
 					
-					if (t4.heightMask[(int) (centerX - 14) - getTilePos((int) (centerX - 14))] > newY) {
-						newY = t4.heightMask[(int) (centerX - 14) - getTilePos((int) (centerX - 14))];
+					if (t.heightMask[(int) (centerX - 14) - getTilePos((int) (centerX - 14))] > newY) {
+						newY = t.heightMask[(int) (centerX - 14) - getTilePos((int) (centerX - 14))];
 					}
 					
 					if(newY == 64) {
 						if(getTile(convertToTiles((int)centerX - 14), convertToTiles((int)centerY + i) - 1) != null) {
 							Tile t1 = getTile(convertToTiles((int)centerX - 14), convertToTiles((int)centerY + i) - 1);
-							if(t1.heightMask[(int)(centerX - 14) - getTilePos((int)(centerX - 14))] != 0) {
+							if(t1.heightMask[(int)(centerX - 14) - getTilePos((int)(centerX - 14))] != 0 && player.getY() > player.getY() - t1.heightMask[(int)(centerX - 14) - getTilePos((int)(centerX - 14))])
 								player.setY(player.getY() - t1.heightMask[(int)(centerX - 14) - getTilePos((int)(centerX - 14))]);
-								player.falling = false;
-								player.setMotionY(0);
-							    break;
+							break;
+							} else {
+								if (player.getY() > player.getY() - 64) {
+									player.setY(player.getY() - 64);
+								}
+							}
+						} else {
+							if (player.getY() > player.getY() - 64) {
+								player.setY(player.getY() - 64);
+							}
+						}
+						
+					} else {
+						if (player.getY() > player.getY() - newY) {
+							player.setY(player.getY() - newY);
+						}
+					
+				}
+			} else {
+				if(getTile((int)centerX + 14, (int)centerY + i) != null) {
+					Tile t = getTile(convertToTiles((int)centerX + 14), convertToTiles((int)centerY + i));
+					
+					if (t.heightMask[(int) (centerX + 14) - getTilePos((int) (centerX + 14))] > newY) {
+						newY = t.heightMask[(int) (centerX + 14) - getTilePos((int) (centerX + 14))];
+					}
+					
+					if(newY == 64) {
+						if(getTile(convertToTiles((int)centerX + 14), convertToTiles((int)centerY + i) - 1) != null) {
+							Tile t1 = getTile(convertToTiles((int)centerX + 14), convertToTiles((int)centerY + i) - 1);
+							if(t1.heightMask[(int)(centerX + 14) - getTilePos((int)(centerX + 14))] != 0)
+								player.setY(player.getY() - t1.heightMask[(int)(centerX + 14) - getTilePos((int)(centerX + 14))]);
+							break;
 							} else {
 								player.setY(player.getY() - 64);
-								player.falling = false;
-								player.setMotionY(0);
 							}
 						} else {
 							player.setY(player.getY() - 64);
-							player.falling = false;
-							player.setMotionY(0);
 						}
 						
 					} else {
 						player.setY(player.getY() - newY);
-						player.falling = false;
-						player.setMotionY(0);
-					
-								}
-
-							}
-						}
 					}
+				
+				if(getTile((int)centerX - 14, (int)centerY + i) != null) {
+					Tile t = getTile(convertToTiles((int)centerX - 14), convertToTiles((int)centerY + i));
+					
+					if (t.heightMask[(int) (centerX - 14) - getTilePos((int) (centerX - 14))] > newY) {
+						newY = t.heightMask[(int) (centerX - 14) - getTilePos((int) (centerX - 14))];
+					}
+					
+					if(newY == 64) {
+						if(getTile(convertToTiles((int)centerX - 14), convertToTiles((int)centerY + i) - 1) != null) {
+							Tile t1 = getTile(convertToTiles((int)centerX - 14), convertToTiles((int)centerY + i) - 1);
+							if(t1.heightMask[(int)(centerX - 14) - getTilePos((int)(centerX - 14))] != 0)
+								player.setY(player.getY() - t1.heightMask[(int)(centerX - 14) - getTilePos((int)(centerX - 14))]);
+							break;
+							} else {
+								player.setY(player.getY() - 64);
+							}
+						} else {
+							player.setY(player.getY() - 64);
+						}
+						
+					} else {
+						player.setY(player.getY() - newY);
+					
 				}
+			
 			}
-		}
-
+			
+		}		
+		
 	}
 	
 	
