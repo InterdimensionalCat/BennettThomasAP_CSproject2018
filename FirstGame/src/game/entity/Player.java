@@ -212,6 +212,14 @@ public class Player extends Mob {
 			playerSpawnY = (int)y;
 		}
 		
+		if(KeyInput.wasPressed(KeyEvent.VK_Q)) {
+			motionX = -10.0;
+		}
+		
+		if(KeyInput.wasPressed(KeyEvent.VK_E)) {
+			motionX = 10.0;
+		}
+		
 		if(KeyInput.wasReleased(KeyEvent.VK_A)||KeyInput.wasReleased(KeyEvent.VK_D)) {
 			//motionX /= 4;
 			this.state = this.state.toMoving();
@@ -279,14 +287,16 @@ public class Player extends Mob {
 	}
 	
 	protected void jump(double velocityY) {
-		if(!this.state.isAirBorne()) {
+		if(!falling) {
 			if(!InitAudio.musicFiles.get("PlayerJump1").isPlaying()) {
 				Game.fxmanager.playSound("PlayerJump1");
 			} else {
 				Game.fxmanager.playSound("PlayerJump2");
 			}
+			
+			falling = true;
+			super.jump(velocityY);
 		}
-		super.jump(velocityY);
 	}
 	
 	/*protected void animate() {

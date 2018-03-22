@@ -74,7 +74,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	}
 	
 	protected void jump(double velocityY) {
-		if(!this.state.isAirBorne()) {
+		if(true) {
 			setMotionY(getMotionY() - velocityY);
 			this.state = ActionState.JUMPING;
 			//isAirBorne = true;

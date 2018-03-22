@@ -44,6 +44,10 @@ public class TileMap {
 	private boolean isOnMovingTile;
 	
 	private Triangle test1 = new Triangle(new Point(128, Game.HEIGHT - 64), 64, Math.PI / 4);
+	
+	boolean first;
+	
+	double newPosY;
 
 	public TileMap(String name) {
 		entities = new ArrayList<Entity>();
@@ -136,6 +140,8 @@ public class TileMap {
 			g2d.setColor(Color.GREEN);
 			if(player.getAABB() != null) {
 				g2d.drawRect((int)player.getAABB().getX() + offsetX, (int)player.getAABB().getY() + offsetY, (int)player.getAABB().getWidth(), (int)player.getAABB().getHeight());
+				g2d.drawLine((int)(player.getX() + 32 + 14+ offsetX), (int)(player.getY() + 32+ offsetY), (int)(player.getX() + 32 + 14+ offsetX), (int)(player.getY() + 32 + 26 + 16+ offsetY));
+				g2d.drawLine((int)(player.getX() + 32 - 14+ offsetX), (int)(player.getY() + 32+ offsetY), (int)(player.getX() + 32 - 14+ offsetX), (int)(player.getY() + 32 + 26 + 16+ offsetY));
 			}
 			g2d.setColor(Color.BLUE);
 			g2d.drawRect((int)player.getX() + offsetX, (int)player.getY() + offsetY, 64, 64);
@@ -151,36 +157,80 @@ public class TileMap {
 	
 	public double groundFloor(double centerX, double centerY, int j, double newY, double horzModifier) {
 		for(int i = j; i >= 0; i--) { {
-			if (getTile(convertToTiles((int) horzModifier), convertToTiles((int) centerY + i)) != null) {
+			if (true/*getTile(convertToTiles((int) horzModifier), convertToTiles((int) centerY + i)).type.isNotAir()*/) {
 				Tile t3 = getTile(convertToTiles((int) horzModifier), convertToTiles((int) centerY + i));
+				
+/*				if ((int)player.getY() + 64 - t3.heightMask[(int) (horzModifier) - getTilePos((int) (horzModifier))] <= player.getY()) {
+						newY = t3.heightMask[(int) (horzModifier) - getTilePos((int) (horzModifier))];
+				}*/
+				
+				
+				newY = t3.heightMask[(int) (horzModifier) - getTilePos((int) (horzModifier))];
+				
 
-				if (t3.heightMask[(int) (horzModifier) - getTilePos((int) (horzModifier))] > newY) {
+/*				boolean b = true;
+				if(TileType.isCubeType(t3.type)) {
+					if(intersectsSlope()) {
+						b = false;
+					}
+				}
+				
+				if(b) {
 					newY = t3.heightMask[(int) (horzModifier) - getTilePos((int) (horzModifier))];
+				}*/
+				
+				if(player.getY() == 832) {
+					//System.out.println("wat");
 				}
 
-				if (newY == 64) {
-					if (getTile(convertToTiles((int) horzModifier), convertToTiles((int) centerY + i) - 1) != null) {
+				if (true/*TileType.isCubeType(t3.type)*/) {
+					if (getTile(convertToTiles((int) horzModifier), convertToTiles((int) centerY + i) - 1).type.isNotAir() && !player.falling) {
 						Tile t1 = getTile(convertToTiles((int) horzModifier), convertToTiles((int) centerY + i) - 1);
 						if (t1.heightMask[(int) (horzModifier) - getTilePos((int) (horzModifier))] != 0) {
-							player.setY(getTilePos((int)player.getY()) - t1.heightMask[(int) (horzModifier) - getTilePos((int) (horzModifier))]);
-							player.falling = false;
+							//System.out.println(t1.heightMask[(int) (horzModifier) - getTilePos((int) (horzModifier))]);
+							if(player.getY() < convertToPixels(convertToTiles((int) centerY + i) - 1) - t1.heightMask[(int) (horzModifier) - getTilePos((int) (horzModifier))]) {
+								player.setY(convertToPixels(convertToTiles((int) centerY + i) - 1) - t1.heightMask[(int) (horzModifier) - getTilePos((int) (horzModifier))]);
+							} else {
+								player.setY(convertToPixels(convertToTiles((int) centerY + i) - 1) - t1.heightMask[(int) (horzModifier) - getTilePos((int) (horzModifier))]);
+							}
+							System.out.println(player.getY() - t1.heightMask[(int) (horzModifier) - getTilePos((int) (horzModifier))]);
+							//player.falling = false;
 							player.setMotionY(0);
-							break;
+							return Double.MAX_VALUE;
 						} else {
-							player.setY(getTilePos((int)player.getY()) + 1);
-							player.falling = false;
-							player.setMotionY(0);
+							if(getTile(convertToTiles((int) horzModifier), convertToTiles((int) centerY + i)).type.isNotAir()) {
+								player.setY(getTilePos((int)player.getY()) + 64 - newY);
+								player.falling = false;
+								player.setMotionY(0);
+							}
 						}
 					} else {
-						player.setY(getTilePos((int)player.getY()) + 1);
-						player.falling = false;
-						player.setMotionY(0);
+						if (getTile(convertToTiles((int) horzModifier), convertToTiles((int) centerY + i)).type.isNotAir()) {
+							if (newY != Double.MIN_VALUE) {
+								if(player.getY() < getTilePos((int) player.getY()) + 64 - newY || player.falling) {
+									
+									player.setY(getTilePos((int) player.getY()) + 64 - newY);
+								} else {
+									player.setY(getTilePos((int) player.getY() + i - 26 - 10) + 64 - newY);
+								}
+								System.out.println(getTilePos((int) player.getY() + 1) + 64 - newY);
+								player.falling = false;
+								player.setMotionY(0);
+								return Double.MAX_VALUE;
+							}
+							//System.out.println(getTilePos((int) player.getY()) + 64 - newY);
+							//player.setY(getTilePos((int)player.getY()));
+
+
+						}
+
 					}
 
 				} else {
-					player.setY(getTilePos((int)player.getY()) + 65 - newY);
+					player.setY(getTilePos((int)player.getY()) + 64 - newY);
 					player.falling = false;
 					player.setMotionY(0);
+					//return newY;
 					}
 				}
 			}
@@ -188,49 +238,72 @@ public class TileMap {
 		return newY;
 	}
 	
+	public boolean intersectsSlope() {
+		return TileType.isSlope(getTile(convertToTiles((int)player.getX()), convertToTiles((int)player.getY())).type) ||
+				TileType.isSlope(getTile(convertToTiles((int)player.getX()), convertToTiles((int)player.getY() + 64)).type) ||
+				TileType.isSlope(getTile(convertToTiles((int)player.getX() + 64), convertToTiles((int)player.getY())).type) ||
+				TileType.isSlope(getTile(convertToTiles((int)player.getX() + 64), convertToTiles((int)player.getY() + 64)).type);
+	}
+	
+	public void fallingOff(double centerX, double centerY) {
+		for(int i = (26+16); i >= 0; i--) {
+			if(getTile(convertToTiles((int)centerX + 14), convertToTiles((int)centerY + i)).type.isNotAir() || getTile(convertToTiles((int)centerX - 14), convertToTiles((int)centerY + i)).type.isNotAir()) {
+				return;
+			}
+		}
+		
+		player.falling = true;
+	}
+	
+	
+	public boolean wallCollision(double motionX, double motionY, double centerX, double xOffset, double xOffsetLow, double centerY) {
+		if(getTile(convertToTiles((int)xOffset), convertToTiles((int)centerY + 6)).type.isNotAir()
+				&&TileType.isCubeType(  getTile(convertToTiles((int)xOffset), convertToTiles((int)centerY + 6)).type )) {
+			if(player.falling) {
+				if(motionX > 0) {
+					player.setX(centerX - 33);
+					player.setMotionX(0);
+					System.out.println(true);
+					return true;
+				}
+			} else {
+				player.setX(centerX - 33);
+				player.setMotionX(0);
+				System.out.println(true);
+				return true;
+			}
+	   }
+		
+		if(getTile(convertToTiles((int)xOffsetLow), convertToTiles((int)centerY + 6)).type.isNotAir()&&
+				TileType.isCubeType(getTile(convertToTiles((int)xOffsetLow), convertToTiles((int)centerY + 6)).type)) {
+			if (player.falling) {
+				if (motionX < 0) {
+					player.setX(centerX - 31);
+					player.setMotionX(0);
+					System.out.println(true);
+					return true;
+				}
+			} else {
+					player.setX(centerX - 31);
+					player.setMotionX(0);
+					System.out.println(true);
+					return true;
+				}
+			}
+		
+		return false;
+	}
 	
 	public void sonicCollision(double posX, double posY, double motionX, double motionY) {
 		double centerX = posX + 32;
 		double centerY = posY + 32;
 		
+		fallingOff(centerX, centerY);
+		
 		//wall collision
 		
-		for(int i = 32; i >= 0; i--) {
-			if(getTile(convertToTiles((int)centerX + i), convertToTiles((int)centerY + 6)) != null) {
-				if(player.falling) {
-					if(motionX > 0) {
-						player.setX(centerX + 33);
-						player.setMotionX(0);
-						break;
-					}
-				} else {
-					player.setX(centerX + 33);
-					player.setMotionX(0);
-					break;
-				}
-			}
-			
-			
-			if(getTile(convertToTiles((int)centerX - i), convertToTiles((int)centerY + 6)) != null) {
-				if (player.falling) {
-					if (motionX < 0) {
-						player.setX(centerX - 33);
-						player.setMotionX(0);
-						break;
-					} else {
-						player.setX(centerX - 33);
-						player.setMotionX(0);
-						break;
-					}
-				}
-			}
-		}
-		
-		//falling off
-		
-		for(int i = 26; i >= 0; i--) {
-			if(getTile(convertToTiles((int)centerX + 14), convertToTiles((int)centerY + i)) == null && getTile(convertToTiles((int)centerX - 14), convertToTiles((int)centerY + i)) == null) {
-				player.falling = true;
+		for(int i = 24; i >= 0; i--) {
+			if(wallCollision(motionX, motionY, centerX, centerX + i, centerX - i, centerY)) {
 				break;
 			}
 		}
@@ -238,14 +311,29 @@ public class TileMap {
 		
 		//floor collision (including slopes)
 		
-		double newY = Double.MIN_NORMAL;
-		if(player.falling) {
-			groundFloor( centerX, centerY, 26,  newY, centerX + 14);
-			groundFloor( centerX,  centerY, 26, newY, centerX - 14);
+		if (!(motionY < 0)) {
+			double newY = Double.MIN_VALUE;
+			//double newPosY = Double.MIN_VALUE;
+			if (player.falling) {
+				newY = groundFloor(centerX, centerY, 26, newY, centerX + 14);
+				if (newY != Double.MAX_VALUE) {
+					newY = groundFloor(centerX, centerY, 26, newY, centerX - 14);
+				}
+			} else {
+				newY = groundFloor(centerX, centerY, 26 + 32, newY, centerX + 14);
+				if (newY != Double.MAX_VALUE) {
+					newY = groundFloor(centerX, centerY, 26 + 32, newY, centerX - 14);
+				}
+			} 
 		} else {
-			groundFloor( centerX, centerY, 26 + 16,  newY, centerX + 14);
-			groundFloor( centerX,  centerY, 26 + 16, newY, centerX - 14);
+			for(int i = 1; i <= 64-1; i++) {
+				if(ceilingCollision(player.getX() + 32, player.getY())) {
+					break;
+				}
+			}
 		}
+		
+		//System.out.println(player.getY());
 			
 	}
 	
@@ -519,7 +607,17 @@ public class TileMap {
 	public void ceilingCollision(Rectangle AABB, double motionY, double cornerX, double cornerY) {
 		if(getTile(convertToTiles((int)cornerX), convertToTiles((int)cornerY)) != null) {
 			player.setMotionY(motionY / 4);
+
 		}
+
+	}
+	
+	public boolean ceilingCollision(double cornerX, double cornerY) {
+		if(getTile(convertToTiles((int)cornerX), convertToTiles((int)cornerY)).type.isNotAir()) {
+			player.setMotionY(player.getMotionY() / 4);
+			return true;
+		}
+		return false;
 	}
 	
 	
@@ -921,6 +1019,7 @@ public class TileMap {
 		for(int y = 0; y < height; y++) {
 			for(int x = 0; x < width; x++) {
 				int id = pixels[x + y * width];
+				setTile(x,y,Tile.getFromID(-2));
 				if(id == 0xFF0000FF) {
 					player = new Player(convertToPixels(x), convertToPixels(y), this);
 					player.setPlayerSpawnX(convertToPixels(x));

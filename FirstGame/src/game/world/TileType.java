@@ -4,7 +4,8 @@ public enum TileType {
 
 	SOLID(64, 64),
 	SLOPE_RIGHT_64_00(64, 0),
-	SLOPE_LEFT_64_00(0, 64);
+	SLOPE_LEFT_64_00(0, 64),
+	AIR(0,0);
 	
 	
 	
@@ -26,5 +27,9 @@ public enum TileType {
 	
 	public static boolean isSlope(TileType t) {
 		return isSlopeRightType(t) || isSlopeLeftType(t);
+	}
+	
+	public boolean isNotAir() {
+		return this != AIR;
 	}
 }

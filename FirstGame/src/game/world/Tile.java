@@ -19,8 +19,9 @@ public class Tile {
 	protected double[] heightMask;
 	
 	public static final Tile tile1 = new Tile(0xFF000000, new Texture(terrain, 3, 1 , 64 , 64), TileType.SOLID, createSolidArray());
-	public static final Tile tile2 = new Tile(0xFFFF0000, new Texture(terrain, 2, 1 , 64, 64), TileType.SLOPE_RIGHT_64_00, create64RightArray());
-	public static final Tile tile3 = new Tile(0xFFFFFFFF, new Texture(terrain, 4, 1 , 64, 64), TileType.SOLID, createSolidArray());
+	public static final Tile tile2 = new Tile(0xFFFF0000, new Texture(terrain, 2, 1 , 64, 64), TileType.SLOPE_RIGHT_64_00, create64RightArray() /*createSlopeRightArray(0,64)*/);
+	public static final Tile air = new Tile(-2, new Texture(terrain, 1, 1 , 64, 64), TileType.AIR, createNoArray());
+	public static final Tile tile3 = new Tile(0xFFFFFFFF, new Texture(terrain, 4, 1 , 64, 64), TileType.AIR, createNoArray());
 	public static final Tile tile4 = new Tile(0xFF00FFFF, new Texture(terrain, 1, 2 , 64, 64), TileType.SOLID, createSolidArray());
 	public static final Tile tile5 = new Tile(0xFF00FF00, new Texture(terrain, 2, 2 , 64, 64), TileType.SOLID, createSolidArray());
 	public static final Tile tile6 = new Tile(0xFFF0F0F0, new Texture(terrain, 3, 2 , 64, 64), TileType.SOLID, createSolidArray());
@@ -59,10 +60,39 @@ public class Tile {
 		return arr;
 	}
 	
+	public static double[] createNoArray() {
+		double[] arr = new double[64];
+		for(int i = 0; i < 64; i++) {
+			arr[i] = 0;
+		}
+		return arr;
+	}
+	
 	public static double[] create64RightArray() {
 		double[] arr = new double[64];
 		for(int i = 0; i < 64; i++) {
 			arr[i] = i+1;
+		}
+		
+		//arr[63] = 60;
+		
+		return arr;
+	}
+	
+	public static double[] createSlopeRightArray(int lower, int upper) {
+		double[] arr = new double[64];
+		int spacing = 64 / (upper-lower);
+		int c = 0;
+		for(int i = 0; i < 64; i++) {
+			for(int j = 0; j < spacing; j++) {
+				if(i+j >= 64) {
+					arr[63] = lower + c;
+				} else {
+					arr[i+j] = lower + c;
+				}
+			}
+			i+= spacing;
+			c++;
 		}
 		return arr;
 	}
