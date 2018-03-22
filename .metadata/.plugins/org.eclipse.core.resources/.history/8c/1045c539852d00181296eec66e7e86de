@@ -164,11 +164,7 @@ public class Game extends Canvas implements Runnable {
 				MouseInput.update();
 				unprocessed--;
 				tps++;
-				if (tps % 2 == 0) {
-					canRender = true;
-				} else {
-					canRender = false;
-				}
+				canRender = true;
 			} else canRender = false;
 			
 			try {
@@ -185,8 +181,8 @@ public class Game extends Canvas implements Runnable {
 			if(System.currentTimeMillis() - 1000 > timer) {
 				timer += 1000;
 				if(Game.debug) {
-					System.out.printf("FPS: %d | TPS: %d\n", fps, tps);
-					//System.out.printf("TPS: %d\n", tps);
+					//System.out.printf("FPS: %d | TPS: %d\n", fps, tps);
+					System.out.printf("TPS: %d\n", tps);
 				}
 				fps = 0;
 				tps = 0;

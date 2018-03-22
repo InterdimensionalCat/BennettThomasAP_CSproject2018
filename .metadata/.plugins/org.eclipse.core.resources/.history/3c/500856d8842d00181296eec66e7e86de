@@ -50,6 +50,9 @@ public abstract class Entity {
 	}
 	
 	public void setY(double y) {
+		if(y < 710.0) {
+			System.out.println();
+		}
 		this.y = y;
 	}
 	

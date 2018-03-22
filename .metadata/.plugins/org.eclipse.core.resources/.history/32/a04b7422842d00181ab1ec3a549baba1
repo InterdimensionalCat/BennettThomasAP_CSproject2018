@@ -40,7 +40,7 @@ public class Game extends Canvas implements Runnable {
 
 	public static final String TITLE = "Game and Watch";
 	public static final int WIDTH = 1280;
-	public static final int HEIGHT = 960 / 2;
+	public static final int HEIGHT = 960;
 	private boolean running;
 	private StateManager stateManager;
 	public static Game INSTANCE;
@@ -164,11 +164,7 @@ public class Game extends Canvas implements Runnable {
 				MouseInput.update();
 				unprocessed--;
 				tps++;
-				if (tps % 2 == 0) {
-					canRender = true;
-				} else {
-					canRender = false;
-				}
+				canRender = true;
 			} else canRender = false;
 			
 			try {
@@ -185,8 +181,8 @@ public class Game extends Canvas implements Runnable {
 			if(System.currentTimeMillis() - 1000 > timer) {
 				timer += 1000;
 				if(Game.debug) {
-					System.out.printf("FPS: %d | TPS: %d\n", fps, tps);
-					//System.out.printf("TPS: %d\n", tps);
+					//System.out.printf("FPS: %d | TPS: %d\n", fps, tps);
+					System.out.printf("TPS: %d\n", tps);
 				}
 				fps = 0;
 				tps = 0;
@@ -230,7 +226,7 @@ public class Game extends Canvas implements Runnable {
 		JFrame frame = new JFrame(TITLE);
 		frame.add(game);
 		frame.setSize(WIDTH, HEIGHT);
-		frame.setResizable(false);
+		frame.setResizable(true);
 		frame.setFocusable(true);
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
@@ -240,7 +236,7 @@ public class Game extends Canvas implements Runnable {
 			}
 		});
 		
-		frame.getContentPane().setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		frame.getContentPane().setPreferredSize(new Dimension(1280, 960));
 		frame.pack();
 		
 		frame.setLocationRelativeTo(null);

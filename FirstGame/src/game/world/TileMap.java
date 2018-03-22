@@ -193,7 +193,7 @@ public class TileMap {
 							} else {
 								player.setY(convertToPixels(convertToTiles((int) centerY + i) - 1) - t1.heightMask[(int) (horzModifier) - getTilePos((int) (horzModifier))]);
 							}
-							System.out.println(player.getY() - t1.heightMask[(int) (horzModifier) - getTilePos((int) (horzModifier))]);
+							//System.out.println(player.getY() - t1.heightMask[(int) (horzModifier) - getTilePos((int) (horzModifier))]);
 							//player.falling = false;
 							player.setMotionY(0);
 							return Double.MAX_VALUE;
@@ -213,7 +213,7 @@ public class TileMap {
 								} else {
 									player.setY(getTilePos((int) player.getY() + i - 26 - 10) + 64 - newY);
 								}
-								System.out.println(getTilePos((int) player.getY() + 1) + 64 - newY);
+								//System.out.println(getTilePos((int) player.getY() + 1) + 64 - newY);
 								player.falling = false;
 								player.setMotionY(0);
 								return Double.MAX_VALUE;
@@ -263,13 +263,13 @@ public class TileMap {
 				if(motionX > 0) {
 					player.setX(centerX - 33);
 					player.setMotionX(0);
-					System.out.println(true);
+					//System.out.println(true);
 					return true;
 				}
 			} else {
 				player.setX(centerX - 33);
 				player.setMotionX(0);
-				System.out.println(true);
+				//System.out.println(true);
 				return true;
 			}
 	   }
@@ -280,13 +280,13 @@ public class TileMap {
 				if (motionX < 0) {
 					player.setX(centerX - 31);
 					player.setMotionX(0);
-					System.out.println(true);
+					//System.out.println(true);
 					return true;
 				}
 			} else {
 					player.setX(centerX - 31);
 					player.setMotionX(0);
-					System.out.println(true);
+					//System.out.println(true);
 					return true;
 				}
 			}
