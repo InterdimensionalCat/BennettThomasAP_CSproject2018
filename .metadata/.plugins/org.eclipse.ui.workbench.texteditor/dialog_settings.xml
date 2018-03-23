@@ -2,29 +2,32 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="sonic" key="selection"/>
+		<item value="SplashScreen" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="sonic"/>
-			<item value="printf"/>
-			<item value="render"/>
-			<item value="setY"/>
-			<item value="println"/>
-			<item value="960"/>
-			<item value="9"/>
-			<item value="jframe"/>
-			<item value="setre"/>
-			<item value="set"/>
-			<item value="ceiling"/>
-			<item value="package game.world;"/>
-			<item value="!("/>
-			<item value="ceilingCollision"/>
-			<item value="fallingOff"/>
+			<item value="splashscreen"/>
+			<item value="level\"/>
+			<item value="level"/>
+			<item value="level_F1"/>
+			<item value="*Game.SCALEFACTOR"/>
+			<item value="* Game.SCALEFACTOR"/>
+			<item value="Game.SCALEFACTOR"/>
+			<item value="*SCALEFACTOR"/>
+			<item value="SCALEFACTOR"/>
+			<item value="setDead"/>
+			<item value="this.height"/>
+			<item value="getTile("/>
+			<item value="getTile"/>
+			<item value="tileSize"/>
+			<item value="setResiz"/>
 		</list>
 		<list key="replacehistory">
+			<item value="/**Game.SCALEFACTOR*/"/>
+			<item value="/**SCALEFACTOR*/"/>
+			<item value="Game.WIDTH * Game.SCALEFACTOR"/>
 			<item value="horzModifier"/>
 			<item value="centerX - 14"/>
 			<item value="movingTile.getAABB()"/>
@@ -34,10 +37,10 @@
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="290" key="DIALOG_WIDTH"/>
-		<item value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont" key="DIALOG_FONT_NAME"/>
-		<item value="409" key="DIALOG_HEIGHT"/>
-		<item value="1090" key="DIALOG_X_ORIGIN"/>
-		<item value="345" key="DIALOG_Y_ORIGIN"/>
+		<item value="336" key="DIALOG_WIDTH"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="275" key="DIALOG_HEIGHT"/>
+		<item value="1596" key="DIALOG_X_ORIGIN"/>
+		<item value="562" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

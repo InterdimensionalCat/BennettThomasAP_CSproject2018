@@ -39,7 +39,7 @@ public class Button extends Rectangle{
 		}
 		
 		FontMetrics metrics = g.getFontMetrics();
-		this.x = (Game.WIDTH - metrics.stringWidth(text)) / 2;
+		this.x = (Game.WIDTH/**Game.SCALEFACTOR*/ - metrics.stringWidth(text)) / 2;
 		this.y = textY - metrics.getHeight();
 		this.width = metrics.stringWidth(text);
 		this.height = metrics.getHeight();

@@ -33,7 +33,7 @@ public class GameState implements State {
 
 	@Override
 	public void render(Graphics2D g) {
-		tileMap.render(g, Game.WIDTH, Game.HEIGHT);
+		tileMap.render(g, Game.WIDTH/**Game.SCALEFACTOR*/, Game.HEIGHT/**Game.SCALEFACTOR*/);
 	}
 
 	@Override

@@ -17,20 +17,20 @@ public class Fonts {
 	
 	public static void drawString(Graphics g, Font f, Color c, String text) {
 		FontMetrics fm = g.getFontMetrics(f);
-		int x = (Game.WIDTH - fm.stringWidth(text)) / 2; //horz
-		int y = (Game.HEIGHT - fm.getHeight()) / 2 + fm.getAscent(); //vert
+		int x = (Game.WIDTH/**Game.SCALEFACTOR*/ - fm.stringWidth(text)) / 2; //horz
+		int y = ( Game.HEIGHT/**Game.SCALEFACTOR*/ - fm.getHeight()) / 2 + fm.getAscent(); //vert
 		drawString(g, f, c ,text, x , y);
 	}
 	
 	public static void drawString(Graphics g, Font f, Color c, String text, double x) {
 		FontMetrics fm = g.getFontMetrics(f);
-		int y = (Game.HEIGHT - fm.getHeight()) / 2 + fm.getAscent(); //vert
+		int y = (Game.HEIGHT/**Game.SCALEFACTOR*/ - fm.getHeight()) / 2 + fm.getAscent(); //vert
 		drawString(g, f, c ,text, (int) x , y);
 	}
 	
 	public static void drawString(Graphics g, Font f, Color c, String text, int y) {
 		FontMetrics fm = g.getFontMetrics(f);
-		int x = (Game.WIDTH - fm.stringWidth(text)) / 2; //horz
+		int x = (Game.WIDTH/**Game.SCALEFACTOR*/ - fm.stringWidth(text)) / 2; //horz
 		drawString(g, f, c ,text, x , y);
 	}
 }

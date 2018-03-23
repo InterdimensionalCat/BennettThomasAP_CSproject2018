@@ -57,21 +57,21 @@ public class ParallaxLayer {
 	
 	public void render(Graphics2D g2d) {
 		if(x == 0) {
-			texture.render(g2d, 0, Game.WIDTH, 0, Game.WIDTH, y);
+			texture.render(g2d, 0, Game.WIDTH /**Game.SCALEFACTOR*/, 0, Game.WIDTH /**Game.SCALEFACTOR*/, y);
 		} else {
-			if (x > 0 && x < Game.WIDTH) {
-				texture.render(g2d, x, Game.WIDTH, 0, Game.WIDTH - x, y);
-				texture.render(g2d, 0, x, width - x, Game.WIDTH, y);
+			if (x > 0 && x < Game.WIDTH /**Game.SCALEFACTOR*/) {
+				texture.render(g2d, x, Game.WIDTH /**Game.SCALEFACTOR*/, 0, Game.WIDTH /**Game.SCALEFACTOR*/ - x, y);
+				texture.render(g2d, 0, x, width - x, Game.WIDTH /**Game.SCALEFACTOR*/, y);
 			} else {
-				if(x >= Game.WIDTH) {
-					texture.render(g2d, 0, Game.WIDTH, width - x, width - x + Game.WIDTH, y);
+				if(x >= Game.WIDTH /**Game.SCALEFACTOR*/) {
+					texture.render(g2d, 0, Game.WIDTH /**Game.SCALEFACTOR*/, width - x, width - x + Game.WIDTH /**Game.SCALEFACTOR*/, y);
 				} else {
-					if(x < 0 && x>= Game.WIDTH - width) {
-						texture.render(g2d, 0, Game.WIDTH, -x, Game.WIDTH - x, y);
+					if(x < 0 && x>= Game.WIDTH /**Game.SCALEFACTOR*/ - width) {
+						texture.render(g2d, 0, Game.WIDTH /**Game.SCALEFACTOR*/, -x, Game.WIDTH /**Game.SCALEFACTOR*/ - x, y);
 					} else {
-						if(x < Game.WIDTH - width) {
+						if(x < Game.WIDTH /**Game.SCALEFACTOR*/ - width) {
 							texture.render(g2d, 0, width + x, -x, width, y);
-							texture.render(g2d, gap + width + x, gap + Game.WIDTH, 0, Game.WIDTH - width - x, y);
+							texture.render(g2d, gap + width + x, gap + Game.WIDTH /**Game.SCALEFACTOR*/, 0, Game.WIDTH /**Game.SCALEFACTOR*/ - width - x, y);
 						}
 					}
 				}

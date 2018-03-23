@@ -43,7 +43,7 @@ public class TileMap {
 	
 	private boolean isOnMovingTile;
 	
-	private Triangle test1 = new Triangle(new Point(128, Game.HEIGHT - 64), 64, Math.PI / 4);
+	private Triangle test1 = new Triangle(new Point(128, Game.HEIGHT/**Game.SCALEFACTOR*/ - 64), 64, Math.PI / 4);
 	
 	boolean first;
 	
@@ -303,6 +303,19 @@ public class TileMap {
 	public void sonicCollision(double posX, double posY, double motionX, double motionY) {
 		double centerX = posX + 32;
 		double centerY = posY + 32;
+		
+		if(posX + motionX + 64 >= this.width*64 || posX + motionX <= 0) {
+			player.setMotionX(0);
+		}
+		
+		if(posY + motionY >= (this.height - 1)*64) {
+			player.setDead();
+			return;
+		}
+		
+		if(posY + motionY <= 0) {
+			player.setMotionY(0);
+		}
 		
 		fallingOff(centerX, centerY);
 		
@@ -1022,6 +1035,9 @@ public class TileMap {
 		this.height = image.getHeight();
 		tiles = new Tile[width * height];
 		int[] pixels = image.getRGB(0, 0, width, height, null, 0, width);
+		
+
+		
 		for(int y = 0; y < height; y++) {
 			for(int x = 0; x < width; x++) {
 				int id = pixels[x + y * width];
@@ -1047,6 +1063,17 @@ public class TileMap {
 					}
 				}
 			}
+			
+			setTile(6, 13, Tile.slope1);
+			setTile(7, 13, Tile.slope2);
+			setTile(8, 13, Tile.slope3);
+			setTile(9, 13, Tile.slope4);
+			setTile(10, 13, Tile.tile1);
+/*			setTile(11, 13, Tile.slope5);
+			setTile(12, 13, Tile.slope6);
+			setTile(13, 13, Tile.slope7);
+			setTile(14, 13, Tile.slope8);*/
+			
 /*			EntityMovingTile movingTile = new EntityMovingTile(new Texture("movingTile"), 1000, 300, this, new Rectangle(100, 100, 128, 20), 200, PlatformType.VERTICAL_MOVING);
 			EntityMovingTile movingTile1 = new EntityMovingTile(new Texture("movingTile"), 100, 500, this, new Rectangle(100, 100, 128, 20), 100, PlatformType.HORIZONTAL_MOVING);
 			EntityMovingTile movingTile2 = new EntityMovingTile(new Texture("movingTile"), 1500, 300, this, new Rectangle(100, 100, 128, 20), 100, PlatformType.FALLING);

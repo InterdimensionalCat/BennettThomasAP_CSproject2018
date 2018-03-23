@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -40,7 +41,10 @@ public class Game extends Canvas implements Runnable {
 
 	public static final String TITLE = "Game and Watch";
 	public static final int WIDTH = 1280;
-	public static final int HEIGHT = 960 / 2;
+	public static final int HEIGHT = 960;
+	
+	//public static final int SCALEFACTOR = 1;
+	
 	private boolean running;
 	private StateManager stateManager;
 	public static Game INSTANCE;
@@ -107,7 +111,7 @@ public class Game extends Canvas implements Runnable {
 		/////////////////////////////////////
 		
 		g2d.setColor(Color.WHITE);
-		g2d.fillRect(0, 0, WIDTH, HEIGHT);
+		g2d.fillRect(0, 0, WIDTH/**SCALEFACTOR*/, HEIGHT/**SCALEFACTOR*/);
 
 		getStateManager().render(g2d);
 		
@@ -164,7 +168,7 @@ public class Game extends Canvas implements Runnable {
 				MouseInput.update();
 				unprocessed--;
 				tps++;
-				if (tps % 2 == 0) {
+				if (true/*tps % 2 == 0*/) {
 					canRender = true;
 				} else {
 					canRender = false;
@@ -229,7 +233,7 @@ public class Game extends Canvas implements Runnable {
 		final Game game = new Game();
 		JFrame frame = new JFrame(TITLE);
 		frame.add(game);
-		frame.setSize(WIDTH, HEIGHT);
+		frame.setSize(WIDTH/**SCALEFACTOR*/, HEIGHT/**SCALEFACTOR*/);
 		frame.setResizable(false);
 		frame.setFocusable(true);
 		frame.addWindowListener(new WindowAdapter() {
@@ -240,11 +244,12 @@ public class Game extends Canvas implements Runnable {
 			}
 		});
 		
-		frame.getContentPane().setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		frame.getContentPane().setPreferredSize(new Dimension(WIDTH/**SCALEFACTOR*/, HEIGHT/**SCALEFACTOR*/));
 		frame.pack();
 		
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+		
 		player = new SoundBGMPlayer("FlatZone"); //music player playlist initialization
 		if(Runtime.getRuntime().availableProcessors() > 4) {
 			fxmanager = new SoundFXManager(3);

@@ -10,6 +10,8 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import game.Game;
+
 public class Texture {
 	
 	private static final Map<String, BufferedImage> textureMap = new HashMap<String, BufferedImage>();
@@ -39,6 +41,7 @@ public class Texture {
 		}
 		uniqueName = fileName;
 		
+		
 	}
 	
 	public Texture(Texture spriteSheet, int x, int y, int width, int height) {
@@ -53,6 +56,7 @@ public class Texture {
 				System.out.println("Calculating image: " + key);
 			}
 		uniqueName = key;
+		
 	}
 	
 	public Texture(Texture spriteSheet, int x, int y, int width, int height, boolean hasFlip) {
@@ -71,22 +75,27 @@ public class Texture {
 	
 	public void render(Graphics g, double posX, double posY) {
 		if(!hasFlip) {
-			g.drawImage(image, (int) posX, (int) posY , null); //old drawing method, would not allow image to be easily flipped
+			g.drawImage(image, (int) posX, (int) posY, this.width, this.height, null); //old drawing method, would not allow image to be easily flipped
+			 
 		} else {
 			if(flip) {
-				g.drawImage(image, (int)posX, (int)posY, (int)posX + width, (int)posY + height, (int)0 + width, (int)0, (int)0 ,(int) 0 + height, null);
+				g.drawImage(image, (int)posX, (int)posY /**Game.SCALEFACTOR*/, (int)(posX + width) /**Game.SCALEFACTOR*/, (int)(posY + height)/**Game.SCALEFACTOR*/, (int)0 + width, (int)0, (int)0 ,(int) 0 + height, null);
 			} else {
-				g.drawImage(image, (int)posX, (int)posY, (int)posX + width, (int)posY + height, (int)0, (int)0, (int)0 + width ,(int) 0 + height, null);
+				g.drawImage(image, (int)posX, (int)posY /**Game.SCALEFACTOR*/, (int)(posX + width) /**Game.SCALEFACTOR*/, (int)(posY + height)/**Game.SCALEFACTOR*/, (int)0, (int)0, (int)0 + width ,(int) 0 + height, null);
 			}
 		}
 	}
 	
 	public void render(Graphics2D g2d, double toX1, double toX2, double posX1, double posX2, double y) {
-		g2d.drawImage(image, (int)toX1, (int)y, (int)toX2, (int)y + height, (int)posX1, 0, (int)posX2, height, null);
+		g2d.drawImage(image, (int)toX1/**Game.SCALEFACTOR*/, (int)y/**Game.SCALEFACTOR*/, (int)toX2/**Game.SCALEFACTOR*/, (int)y + height, (int)posX1/**Game.SCALEFACTOR*/, 0, (int)posX2/**Game.SCALEFACTOR*/, height, null);
 	}
 
 	public BufferedImage getImage() {
 		return image;
+	}
+	
+	public void setBufferedImage(BufferedImage bIn) {
+		this.image = bIn;
 	}
 	
 	public String getName() {
@@ -108,6 +117,15 @@ public class Texture {
 	public boolean getFlip() {
 		return flip;
 	}
+	
+/*	public BufferedImage resizeTexture(int sf){
+		BufferedImage resizedImage = new BufferedImage(this.image.getWidth()*sf, this.image.getHeight()*sf, this.image.getType());
+		Graphics2D g = resizedImage.createGraphics();
+		g.drawImage(this.image, 0, 0, this.image.getWidth()*sf, this.image.getHeight()*sf, null);
+		g.dispose();
+		
+		return resizedImage;
+	    }*/
 
 	
 }

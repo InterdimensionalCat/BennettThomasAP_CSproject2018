@@ -14,4 +14,6 @@
 <fullyQualifiedTypeName name="game.utils.init.InitAnimations"/>
 <fullyQualifiedTypeName name="game.entity.ActionState"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
+<fullyQualifiedTypeName name="game.Game"/>
 </qualifiedTypeNameHistroy>

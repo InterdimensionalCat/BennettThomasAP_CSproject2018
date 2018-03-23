@@ -100,7 +100,7 @@ public class Options implements State {
 	
 	public void render(Graphics2D g) {
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+		g.fillRect(0, 0, Game.WIDTH/**Game.SCALEFACTOR*/, Game.HEIGHT/**Game.SCALEFACTOR*/);
 		Fonts.drawString(g, new Font("Arial", Font.BOLD, 72) , Color.WHITE, "Options", 80);
 		Fonts.drawString(g, new Font("Arial", Font.BOLD, 48) , Color.WHITE, "Volume :" + Game.fxmanager.globalFXVolume, 200 + 4 *80);
 		for(int i = 0; i < options.length; i++) {
