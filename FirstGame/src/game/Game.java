@@ -41,7 +41,7 @@ public class Game extends Canvas implements Runnable {
 
 	public static final String TITLE = "Game and Watch";
 	public static final int WIDTH = 1280;
-	public static final int HEIGHT = 960;
+	public static final int HEIGHT = 960 / 2;
 	
 	//public static final int SCALEFACTOR = 1;
 	

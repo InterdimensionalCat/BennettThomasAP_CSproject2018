@@ -33,6 +33,9 @@ public class Animation {
 	
 	private void nextFrame() {
 		currentFrame = frames[index++];
+		if(currentFrame.getImage().getHeight() == 0) {
+			System.out.println("b");
+		}
 		if(index >= numFrames) {
 			index = 0;
 		}
@@ -55,6 +58,9 @@ public class Animation {
 	
 	public void render(Graphics2D g2d, double x, double y) {
 		if(currentFrame != null) {
+			if(currentFrame.getHeight() == 0) {
+				System.out.println("b");
+			}
 			currentFrame.render((Graphics)g2d, x, y);
 		}
 	}

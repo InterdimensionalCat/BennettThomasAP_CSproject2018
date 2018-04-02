@@ -27,6 +27,8 @@ public class Texture {
 		BufferedImage oldImage = textureMap.get(fileName);
 		if(oldImage != null) {
 			image = oldImage;
+			this.height = oldImage.getHeight();
+			this.width = oldImage.getWidth();
 		} else {
 			try {
 				System.out.println("Loading Texture:" + fileName);
@@ -74,6 +76,9 @@ public class Texture {
 	}
 	
 	public void render(Graphics g, double posX, double posY) {
+		if(height == 0) {
+			System.out.println("a");
+		}
 		if(!hasFlip) {
 			g.drawImage(image, (int) posX, (int) posY, this.width, this.height, null); //old drawing method, would not allow image to be easily flipped
 			 

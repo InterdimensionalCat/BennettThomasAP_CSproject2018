@@ -12,14 +12,14 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	protected double motionY;
 	protected double gravity;
 	protected double maxMotionY;
-	//protected boolean isAirBorne;
+	protected boolean isAirBorne;
 	protected int pushForceY;
 	public int tickerAir;
-	//protected boolean moving;
+	protected boolean moving;
 	protected double lastMoveY;
 	protected Rectangle AABB;
-	public ActionState state;
-	//public boolean hasCollision = true;
+	//public ActionState state;
+	public boolean hasCollision = true;
 	
 	public Mob(Texture texture, double x, double y, TileMap tileMap, Rectangle AABB) {
 		super(texture, x, y, tileMap, AABB);
@@ -33,7 +33,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	
 	@Override
 	public void tick() {
-		if(getMotionY() == 0) {
+/*		if(getMotionY() == 0) {
 			this.state = ActionState.ON_TILE;
 		} else {
 			if (motionY > 0) {
@@ -41,15 +41,21 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			} else {
 				this.state = ActionState.JUMPING;
 			}
+		}*/
+		
+		if(motionY != 0) {
+			this.isAirBorne = true;
+		} else {
+			this.isAirBorne = false;
 		}
 		
 		fall();
 		move();
-		if (motionX != 0) {
-			//moving = true;
+/*		if (motionX != 0) {
+			moving = true;
 		} else {
-			//moving = false;
-		}
+			moving = false;
+		}*/
 
 		if(y > TileMap.convertToPixels(this.tileMap.getHeight())) {
 			this.setDead();
@@ -62,6 +68,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		//tileMap.calculateCollision(AABB, x, y, motionX, motionY, true);
 		tileMap.sonicCollision(x, y, motionX, motionY);
 		y+= getMotionY();
+		//System.out.println(motionX);
 		x+= getMotionX();
 	}
 	
@@ -76,8 +83,8 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	protected void jump(double velocityY) {
 		if(true) {
 			setMotionY(getMotionY() - velocityY);
-			this.state = ActionState.JUMPING;
-			//isAirBorne = true;
+			//this.state = ActionState.JUMPING;
+			isAirBorne = true;
 		}
 	}
 	
@@ -85,17 +92,18 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		this.motionY = motionY;
 	}
 	
-	public void setMotionX(double motionX) { //currently unused
+	public void setMotionX(double motionX) {
+		//System.out.println(motionX);
 		this.motionX = motionX;
 	}
 	
-//	public void setAirBorne(boolean airBorne) {
-//		this.isAirBorne = airBorne;
-//	}
-//
-//	public boolean isAirBorne() {
-//		return isAirBorne;
-//	}
+	public void setAirBorne(boolean airBorne) {
+		this.isAirBorne = airBorne;
+	}
+
+	public boolean isAirBorne() {
+		return isAirBorne;
+	}
 
 	public double getMotionY() {
 		return motionY;
@@ -113,12 +121,13 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		return motionX > 0;
 	}
 	
-//	public boolean isMoving() {
-//		return moving;
-//	}
-//	
-//	public void setMoving(boolean moving) {
-//		this.moving = moving;
-//	}
+	public boolean isMoving() {
+		return moving;
+	}
+	
+	public void setMoving(boolean moving) {
+		//System.out.println(moving);
+		this.moving = moving;
+	}
 	
 }

@@ -23,8 +23,8 @@ public class Player extends Mob {
 	private int playerSpawnY;
 	private double maxMotionX;
 	private Animation idle;
-	//protected boolean turnRunRight;
-	//protected boolean turnRunLeft;
+	protected boolean turnRunRight;
+	protected boolean turnRunLeft;
 	private int deathCount = InitAnimations.playerDeath;
 	private int score = InitAnimations.playerScore;
 	public static volatile boolean playerDead;
@@ -46,7 +46,7 @@ public class Player extends Mob {
 		this.tileMap = tileMap;
 		this.maxMotionX = 10.0;
 		this.idle = InitAnimations.animations.get("Player_idle");
-		this.state = ActionState.FALLING;
+		//this.state = ActionState.FALLING;
 		falling = false;
 	}
 	
@@ -61,8 +61,8 @@ public class Player extends Mob {
 	@Override
 	public void tick() {
 
-		//turnRunRight = false;
-		//turnRunLeft = false;
+		turnRunRight = false;
+		turnRunLeft = false;
 		if (invincibleTime > 0) {
 			invincibleTime--;
 		}
@@ -87,8 +87,9 @@ public class Player extends Mob {
 		}
 		
 		if(KeyInput.isDown(KeyEvent.VK_A)&&!rightPriority) {
-		    this.state = this.state.toMoving();
-			if(this.state.isAirBorne()) {
+		    //this.state = this.state.toMoving();
+		    moving = true;
+			if(this.isAirBorne()) {
 				if (!(motionX > 0)) {
 					//motionX -= 6.0;
 					motionX += -nextRestricted(-motionX) * 6;
@@ -134,7 +135,8 @@ public class Player extends Mob {
 			}
 			
 			if(motionX > 0) {
-				this.state = ActionState.TURN_RUN_RIGHT;
+				//this.state = ActionState.TURN_RUN_RIGHT;
+				turnRunRight = true;
 			}
 			
 		}
@@ -142,8 +144,9 @@ public class Player extends Mob {
 		
 		
 		if(KeyInput.isDown(KeyEvent.VK_D)&&!leftPriority) {
-			this.state = this.state.toMoving();
-			if(this.state.isAirBorne()) {
+			//this.state = this.state.toMoving();
+			moving = true;
+			if(this.isAirBorne()) {
 				if (!(motionX < 0)) {
 					//motionX += 6.0;
 					motionX += nextRestricted(motionX) * 6;
@@ -182,7 +185,7 @@ public class Player extends Mob {
 				}
 			}
 			if(motionX < 0) {
-				this.state = ActionState.TURN_RUN_LEFT;
+				turnRunLeft = true;
 			}
 		}
 		
@@ -222,7 +225,7 @@ public class Player extends Mob {
 		
 		if(KeyInput.wasReleased(KeyEvent.VK_A)||KeyInput.wasReleased(KeyEvent.VK_D)) {
 			//motionX /= 4;
-			this.state = this.state.toMoving();
+			this.moving = false;
 			tickerMove = 0;
 		}
 		
@@ -236,7 +239,7 @@ public class Player extends Mob {
 			motionY /= 2.0; //1.5;
 		}
 		
-		if(!this.state.isMoving()) {
+		if(!moving) {
 			//idle.run();
 			if(motionX < 1 && motionX > -1) {
 				motionX = 0;
@@ -250,7 +253,7 @@ public class Player extends Mob {
 					motionX /= 1.4;
 				}
 			}
-			if(this.state.isAirBorne()) {
+			if(isAirBorne) {
 				//motionX = 0;
 			}
 		}
@@ -299,7 +302,7 @@ public class Player extends Mob {
 		}
 	}
 	
-	/*protected void animate() {
+	protected void animate() {
 		if(!moving && !isAirBorne) {
 			this.idle = InitAnimations.animations.get("Player_idle");
 			if (InitAnimations.animations.get("Player_run").getFlip() == true)  {
@@ -342,9 +345,9 @@ public class Player extends Mob {
 					}
 				}	
 		}
-	}*/
+	}
 	
-	protected void animate() {
+	/*protected void animate() {
 		this.idle = this.state.getStateAnimation();
 		if (this.state.isIdle()) {
 			if (InitAnimations.animations.get("Player_run").getFlip() == true) {
@@ -385,7 +388,7 @@ public class Player extends Mob {
 		}
 		
 		this.idle.run();
-	}
+	}*/
 	
 	public int getCollisionWidth() {
 		return texture.getWidth() - 24;

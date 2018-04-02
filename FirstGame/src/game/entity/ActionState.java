@@ -1,4 +1,4 @@
-package game.entity;
+/*package game.entity;
 
 import game.render.textures.Animation;
 import game.utils.init.InitAnimations;
@@ -182,3 +182,4 @@ public enum ActionState {
 		return stateAnimation;
 	}
 }
+*/

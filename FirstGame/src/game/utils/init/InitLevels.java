@@ -34,6 +34,7 @@ public class InitLevels implements Runnable {
 		}
 		
 		Entity[] entityLevel00 = {
+				(Entity)new EntityBoop(128, 0, tileMap, 1.5, 100, false, 10),
 				};
 		
 		Entity[] entityLevel0 = {
@@ -96,7 +97,7 @@ public class InitLevels implements Runnable {
 			};
 		
 		levels.add("enemytest");
-		levelEntities.put("enemytest", entityLevel0);
+		levelEntities.put("enemytest", entityLevel00);
 		
 		levels.add("level_4");
 		levelEntities.put("level_4", entityLevel00);
