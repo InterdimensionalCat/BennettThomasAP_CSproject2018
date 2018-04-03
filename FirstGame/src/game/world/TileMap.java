@@ -456,19 +456,19 @@ public class TileMap {
 			}
 			
 			
-			if(t.AABB.intersectsLine(m.centerLine)) {
+			if(t.AABB.intersectsLine(m.centerLine)&&TileType.isCubeType(t.type)) {
 				if (m.getX() < t.x) {
 					if (m.falling) {
 						if (m.getMotionX() > 0) {
 							m.setX(m.center.getX() - 33);
 							m.setMotionX(0);
-							m.setMoving(false);
+							//m.setMoving(false);
 							return true;
 						}
 					} else {
 						m.setX(m.center.getX() - 33);
 						m.setMotionX(0);
-						m.setMoving(false);
+						//m.setMoving(false);
 						return true;
 					} 
 				} else {
@@ -476,13 +476,13 @@ public class TileMap {
 						if (m.getMotionX() < 0) {
 							m.setX(m.center.getX() - 31);
 							m.setMotionX(0);
-							m.setMoving(false);
+							//m.setMoving(false);
 							return true;
 						}
 					} else {
 						m.setX(m.center.getX() - 31);
 						m.setMotionX(0);
-						m.setMoving(false);
+						//m.setMoving(false);
 						return true;
 					} 
 				}
@@ -531,15 +531,17 @@ public class TileMap {
 				if(Math.min(checkY, checkY2) < newY) {
 					newY = Math.min(checkY, checkY2);
 					if(m.falling) {
-						if(m.getY() + 32 > newY && m.getMotionY() >= 0) {
-							m.setY(newY - 64 - 10);
+						if(m.getY() + 64 > newY && m.getMotionY() >= 0) {
+							m.setY(newY - 64);
 							m.falling = false;
 							m.setAirBorne(false);
+							m.setMotionY(0);
 						}
 					} else {
-						m.setY(newY - 64 - 10);
+						m.setY(newY - 64);
 						m.falling = false;
 						m.setAirBorne(false);
+						m.setMotionY(0);
 					}
 				}
 			}
