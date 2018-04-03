@@ -2,29 +2,30 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="enemyColli" key="selection"/>
+		<item value="fall" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="enemyColli"/>
-			<item value="drawLine"/>
-			<item value="intersectsLine"/>
-			<item value="intersectsL"/>
-			<item value="enemyCollision"/>
+			<item value="fall"/>
+			<item value="mobground"/>
+			<item value="mobwall"/>
+			<item value="wall"/>
+			<item value="jump"/>
+			<item value="mobGround"/>
+			<item value="mobG"/>
+			<item value="mobFloor"/>
+			<item value="groundFloor"/>
+			<item value="newY"/>
+			<item value="EntityColl"/>
+			<item value="Entity"/>
+			<item value="EntityC"/>
 			<item value="sonic"/>
-			<item value="entity"/>
-			<item value="entityColl"/>
-			<item value="wallCo"/>
-			<item value="wallc"/>
-			<item value="graphics"/>
-			<item value="render"/>
-			<item value="tick"/>
-			<item value="move"/>
-			<item value="currentState"/>
+			<item value="drawLine"/>
 		</list>
 		<list key="replacehistory">
+			<item value="floorCheck1"/>
 			<item value="/**Game.SCALEFACTOR*/"/>
 			<item value="/**SCALEFACTOR*/"/>
 			<item value="Game.WIDTH * Game.SCALEFACTOR"/>
@@ -37,10 +38,10 @@
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="277" key="DIALOG_WIDTH"/>
-		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
-		<item value="391" key="DIALOG_HEIGHT"/>
-		<item value="1031" key="DIALOG_X_ORIGIN"/>
-		<item value="345" key="DIALOG_Y_ORIGIN"/>
+		<item value="336" key="DIALOG_WIDTH"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="455" key="DIALOG_HEIGHT"/>
+		<item value="1189" key="DIALOG_X_ORIGIN"/>
+		<item value="944" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

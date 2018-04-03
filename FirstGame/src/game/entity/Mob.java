@@ -1,7 +1,11 @@
 package game.entity;
 
 
+import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.geom.Line2D;
+
+import javax.sound.sampled.Line;
 
 import game.render.textures.Texture;
 import game.world.TileMap;
@@ -20,6 +24,18 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	protected Rectangle AABB;
 	//public ActionState state;
 	public boolean hasCollision = true;
+	public boolean falling;
+	
+	public Line2D floorCheck1;
+	public Line2D floorCheck2;
+	public Line2D centerLine;
+	
+	public Point center;
+	
+	public float angle;
+	
+	public float gsp;
+	
 	
 	public Mob(Texture texture, double x, double y, TileMap tileMap, Rectangle AABB) {
 		super(texture, x, y, tileMap, AABB);
@@ -27,6 +43,20 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		maxMotionY = 10;
 		tickerAir = 0;
 		this.AABB = AABB;
+		
+		center = new Point((int)(x+32),(int)(y+32));
+		
+		floorCheck1 = new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() + 42);
+		floorCheck2 = new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() + 42);
+		centerLine = new Line2D.Float((float)center.getX() - 26, (float)center.getY() + 6, (float)center.getX() + 26, (float)center.getY() + 6);
+	}
+	
+	public void updateLines(double x, double y) {
+		center.setLocation((int)(x+32),(int)(y+32));
+		
+		floorCheck1.setLine((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() + 42);
+		floorCheck2.setLine((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() + 42);
+		centerLine.setLine((float)center.getX() - 26, (float)center.getY() + 6, (float)center.getX() + 26, (float)center.getY() + 6);
 	}
 	
 	public abstract void setDead();
@@ -66,17 +96,22 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	public void move() {
 
 		//tileMap.calculateCollision(AABB, x, y, motionX, motionY, true);
-		tileMap.sonicCollision(x, y, motionX, motionY);
+		//tileMap.sonicCollision(x, y, motionX, motionY);
+		tileMap.EntityCollision(x,y,motionX,motionY,this);
 		y+= getMotionY();
 		//System.out.println(motionX);
 		x+= getMotionX();
+		
+		updateLines(x, y);
 	}
 	
 	
 	protected void fall() {
-		setMotionY(getMotionY() + gravity);
-		if (getMotionY() > maxMotionY ) {
-			setMotionY(maxMotionY);
+		if (falling) {
+			setMotionY(getMotionY() + gravity);
+			if (getMotionY() > maxMotionY) {
+				setMotionY(maxMotionY);
+			} 
 		}
 	}
 	

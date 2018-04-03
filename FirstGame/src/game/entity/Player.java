@@ -35,14 +35,14 @@ public class Player extends Mob {
 	boolean conflict = false;
 	boolean leftPriority;
 	boolean rightPriority;
-	public boolean falling;
+
 	
 
 	public Player(double x, double y, TileMap tileMap) {
 		super(new Texture(new Texture("PlayerIdleMap"), 1, 1, 64), x, y, tileMap, new Rectangle());
 
 
-		this.AABB = new Rectangle((int)this.getCollisionX(),(int)this.getCollisionY(),this.getCollisionWidth(),this.getCollisionHeight());
+		this.AABB = new Rectangle((int)x,(int)y,64,64);
 		this.tileMap = tileMap;
 		this.maxMotionX = 10.0;
 		this.idle = InitAnimations.animations.get("Player_idle");
@@ -56,11 +56,18 @@ public class Player extends Mob {
 		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Deaths: " + deathCount, 10, 30);
 		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Score: " + score, 10, 60);
 		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Speed: " + (int)motionX, 10, 90);
+		
+		g.setColor(Color.BLACK);
+		g.drawLine((int)centerLine.getX1() + offsetX, (int)centerLine.getY1()+ offsetY, (int)centerLine.getX2()+ offsetX, (int)centerLine.getY2()+ offsetY);
+		g.drawLine((int)floorCheck1.getX1() + offsetX, (int)floorCheck1.getY1()+ offsetY, (int)floorCheck1.getX2()+ offsetX, (int)floorCheck1.getY2()+ offsetY);
+		g.drawLine((int)floorCheck2.getX1() + offsetX, (int)floorCheck2.getY1()+ offsetY, (int)floorCheck2.getX2()+ offsetX, (int)floorCheck2.getY2()+ offsetY);
 	}
 
 	@Override
 	public void tick() {
 
+
+		
 		turnRunRight = false;
 		turnRunLeft = false;
 		if (invincibleTime > 0) {
@@ -262,6 +269,8 @@ public class Player extends Mob {
 		
 		super.tick();
 		//System.out.println(motionX);
+		
+		this.AABB.setLocation((int)x, (int)y);
 	}
 	
 	public void setDead() {

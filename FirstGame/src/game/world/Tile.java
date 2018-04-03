@@ -1,6 +1,7 @@
 package game.world;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,11 @@ public class Tile {
 	protected int id;
 	protected TileType type;
 	protected double[] heightMask;
+	int x;
+	int y;
+	public Rectangle AABB;
+	
+	public static final Rectangle constRect = new Rectangle(0,0,64,64);
 	
 	public static final Tile tile1 = new Tile(0xFF000000, new Texture(terrain, 3, 1 , 64 , 64), TileType.SOLID, createSolidArray());
 	public static final Tile tile2 = new Tile(0xFFFF0000, new Texture(terrain, 2, 1 , 64, 64), TileType.SLOPE_RIGHT_64_00, /*create64RightArray()*/ createSlopeRightArray(1,64));
@@ -42,18 +48,40 @@ public class Tile {
 	public static final Tile tile8 = new Tile(0xFF111111, new Texture(terrain, 1, 3 , 64, 64), TileType.SOLID, createSolidArray());
 	public static final Tile tile9 = new Tile(0xFF222222, new Texture(terrain, 2, 3 , 64, 64), TileType.SOLID, createSolidArray());
 	
-	private Tile(int id, Texture sprite, TileType type, double[] heightMask) {
+	private Tile(int id, Texture sprite, TileType type, double[] heightMask) { //creates tile type constants
 		this.id = id;
 		this.sprite = sprite;
 		tileMap.put(id, this);
-		solid = true;
 		this.type = type;
+		
+		if (this.type.isNotAir()) {
+			solid = true;
+		} else {
+			solid = false;
+		}
+		
 		this.heightMask = heightMask;
 		for(int i = 0; i < this.heightMask.length; i++) {
 			if(this.heightMask[i] == 0) {
 				this.heightMask[i] = 1;
 			}
 		}
+		
+		this.x = 0;
+		this.y = 0;
+		this.AABB = constRect;
+		
+	}
+	
+	public Tile(Tile t, int x, int y) {
+		this.id = t.id;
+		this.sprite = t.sprite;
+		solid = t.solid;
+		this.type = t.type;
+		this.heightMask = t.heightMask;
+		this.x = x;
+		this.y = y;
+		this.AABB = new Rectangle(x,y,64,64);
 	}
 	
 
