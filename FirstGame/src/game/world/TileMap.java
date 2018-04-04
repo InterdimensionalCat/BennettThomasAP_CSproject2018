@@ -835,6 +835,7 @@ public class TileMap {
 			}
 			player.setY(convertToPixels(convertToTiles((int) player.adjustYforCollision(posY))));
 			player.setMotionY(0);
+
 			player.setAirBorne(false);
 			AABB.setBounds((int) player.adjustXforCollision(player.getX()),
 					(int) player.adjustYforCollision(player.getY()), AABB.width, AABB.height);

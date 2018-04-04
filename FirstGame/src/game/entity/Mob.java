@@ -5,8 +5,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 
-import javax.sound.sampled.Line;
-
 import game.render.textures.Texture;
 import game.world.TileMap;
 
@@ -36,6 +34,8 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	public double angle = 0;
 	
 	public double gsp;
+	
+	public double lastgsp;
 	
 	public double xsp;
 	
@@ -122,15 +122,25 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	}
 	
 	public void move() {
+		
+		if(falling) {
+			angle = 0;
+		}
 
-		xsp =+ gsp*Math.cos(angle);
-		ysp =+ -gsp*Math.sin(angle);
+		xsp += (gsp - lastgsp)*Math.cos(angle);
+		ysp += -(gsp - lastgsp)*Math.sin(angle);
+		
+		if(xsp < 1&& xsp > -1 && gsp == 0) {
+			xsp = 0;
+		}
+		
+		System.out.println(ysp);
 		
 		if(falling) {
 			ysp += grv;
 			if(ysp < 0 && ysp > -4) {
 				if(Math.abs(xsp) >= 0.125) {
-					xsp = xsp * 0.96875;
+					gsp = gsp * 0.96875;
 				}
 			}
 		}
@@ -171,6 +181,10 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		//y+= gravityY;
 		x+=  xsp;
 		updateLines(x, y);
+		lastgsp = gsp;
+		if(lastgsp < 1 && lastgsp >  -1) {
+			//lastgsp = 0;
+		}
 		//motionX -= xsp;
 		//motionY -= ysp;
 	}
@@ -190,7 +204,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	
 	protected void jump(double velocityY) {
 		
-		shouldJump = true;
+		//shouldJump = true;
 		
 	    //jumpY = (jumpVelocityY)*Math.cos(staticJumpAngle);
 		//jumpX = (jumpVelocityY)*Math.sin(staticJumpAngle);
@@ -205,11 +219,13 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	}
 	
 	public void setMotionY(double motionY) {
-		this.motionY = motionY;
+		//this.motionY = motionY;
+		ysp = motionY;
 	}
 	
 	public void setMotionX(double motionX) {
-		this.motionX = motionX;
+		//this.motionX = motionX;
+		xsp = motionX;
 	}
 	
 	public void setAirBorne(boolean airBorne) {
