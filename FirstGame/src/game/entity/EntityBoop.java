@@ -68,7 +68,7 @@ public class EntityBoop extends Mob {
 				this.state = ActionState.MOB_AIR_MOVING;
 			}*/
 			if(!this.isAirBorne()&&jumper) {
-				jump(15);
+				jump(30, 10);
 			}
 		}
 	}

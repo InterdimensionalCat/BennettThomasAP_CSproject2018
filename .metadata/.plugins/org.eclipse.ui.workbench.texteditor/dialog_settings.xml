@@ -2,27 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="mobWall" key="selection"/>
+		<item value="VK_E" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="mobWall"/>
-			<item value="sonic"/>
-			<item value="wallColl"/>
-			<item value="wall"/>
+			<item value="VK_E"/>
+			<item value="e"/>
+			<item value="9.5"/>
+			<item value="nextRest"/>
+			<item value="maxMotionX"/>
+			<item value="gravity"/>
 			<item value="jump"/>
 			<item value="fall"/>
-			<item value="mobground"/>
-			<item value="mobwall"/>
-			<item value="mobGround"/>
-			<item value="mobG"/>
-			<item value="mobFloor"/>
-			<item value="groundFloor"/>
-			<item value="newY"/>
-			<item value="EntityColl"/>
-			<item value="Entity"/>
+			<item value="jumpTimer"/>
+			<item value="animate"/>
+			<item value="super"/>
+			<item value="centerLine"/>
+			<item value="mobWall"/>
+			<item value="wasReleased"/>
+			<item value="tick"/>
 		</list>
 		<list key="replacehistory">
 			<item value="floorCheck1"/>
@@ -38,10 +38,10 @@
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="290" key="DIALOG_WIDTH"/>
-		<item value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont" key="DIALOG_FONT_NAME"/>
-		<item value="409" key="DIALOG_HEIGHT"/>
-		<item value="1189" key="DIALOG_X_ORIGIN"/>
-		<item value="567" key="DIALOG_Y_ORIGIN"/>
+		<item value="334" key="DIALOG_WIDTH"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="454" key="DIALOG_HEIGHT"/>
+		<item value="-352" key="DIALOG_X_ORIGIN"/>
+		<item value="448" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

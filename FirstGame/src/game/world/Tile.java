@@ -22,6 +22,7 @@ public class Tile {
 	int x;
 	int y;
 	public Rectangle AABB;
+	public double angle;
 	
 	public static final Rectangle constRect = new Rectangle(0,0,64,64);
 	
@@ -34,10 +35,10 @@ public class Tile {
 	public static final Tile slope3 = new Tile(-6, setSlopeImage(createSlopeLeftArray(32,48)), TileType.SLOPE_RIGHT_64_00, createSlopeRightArray(32,48));
 	public static final Tile slope4 = new Tile(-6, setSlopeImage(createSlopeLeftArray(48,64)), TileType.SLOPE_RIGHT_64_00, createSlopeRightArray(48,64));
 	
-	public static final Tile slope5 = new Tile(-6, setSlopeImage(createSlopeLeftArray(64,48)), TileType.SLOPE_RIGHT_64_00, createSlopeLeftArray(64,48));
-	public static final Tile slope6 = new Tile(-6, setSlopeImage(createSlopeLeftArray(32,48)), TileType.SLOPE_RIGHT_64_00, createSlopeLeftArray(32,48));
-	public static final Tile slope7 = new Tile(-6, setSlopeImage(createSlopeLeftArray(16,32)), TileType.SLOPE_RIGHT_64_00, createSlopeLeftArray(16,32));
-	public static final Tile slope8 = new Tile(-6, setSlopeImage(createSlopeLeftArray(1,16)), TileType.SLOPE_RIGHT_64_00, createSlopeLeftArray(1,16));
+	public static final Tile slope5 = new Tile(-6, setSlopeImageLeft(createSlopeLeftArray(48,64)), TileType.SLOPE_RIGHT_64_00, createSlopeLeftArray(48,64));
+	public static final Tile slope6 = new Tile(-6, setSlopeImageLeft(createSlopeLeftArray(32,48)), TileType.SLOPE_RIGHT_64_00, createSlopeLeftArray(32,48));
+	public static final Tile slope7 = new Tile(-6, setSlopeImageLeft(createSlopeLeftArray(16,32)), TileType.SLOPE_RIGHT_64_00, createSlopeLeftArray(16,32));
+	public static final Tile slope8 = new Tile(-6, setSlopeImageLeft(createSlopeLeftArray(1,16)), TileType.SLOPE_RIGHT_64_00, createSlopeLeftArray(1,16));
 	
 	public static final Tile air = new Tile(-2, new Texture(terrain, 1, 1 , 64, 64), TileType.AIR, createNoArray());
 	public static final Tile tile3 = new Tile(0xFFFFFFFF, new Texture(terrain, 4, 1 , 64, 64), TileType.AIR, createNoArray());
@@ -70,6 +71,8 @@ public class Tile {
 		this.x = 0;
 		this.y = 0;
 		this.AABB = constRect;
+		this.angle = getAngleFromHeightMask();
+		System.out.println(angle);
 		
 	}
 	
@@ -82,6 +85,7 @@ public class Tile {
 		this.x = x;
 		this.y = y;
 		this.AABB = new Rectangle(x,y,64,64);
+		this.angle = getAngleFromHeightMask();
 	}
 	
 
@@ -165,4 +169,29 @@ public class Tile {
 		t.setBufferedImage(b1);
 		return t;
 	}
+	
+	public static Texture setSlopeImageLeft(double[] heightMask) {
+		double[] hm1 = new double[heightMask.length];
+		for(int i = 0; i < heightMask.length; i ++) {
+			hm1[hm1.length - 1 - i] = heightMask[i];
+		}
+		BufferedImage b = tile1.sprite.getImage();
+		int[] pixels = b.getRGB(0, 0, b.getWidth(), b.getHeight(), null, 0, b.getWidth());
+		BufferedImage b1 = new BufferedImage(b.getWidth(), b.getHeight(), b.getType());
+		for(int i = 0; i < b.getWidth(); i++ ) {
+			for(int j = b.getHeight() - (int)hm1[hm1.length - i - 1]; j < b.getHeight() ; j++) {
+				b1.setRGB(i, j, pixels[ (i) + (j)*(b.getWidth())]);
+			}
+		}
+		
+		
+		Texture t = new Texture(terrain, 3, 1 , 64 , 64);
+		t.setBufferedImage(b1);
+		return t;
+	}
+	
+	public double getAngleFromHeightMask() {
+		return Math.atan((heightMask[heightMask.length - 1] - heightMask[0]) / 64);
+	}
+	
 }

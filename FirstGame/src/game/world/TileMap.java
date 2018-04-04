@@ -459,29 +459,29 @@ public class TileMap {
 			if(t.AABB.intersectsLine(m.centerLine)&&TileType.isCubeType(t.type)) {
 				if (m.getX() < t.x) {
 					if (m.falling) {
-						if (m.getMotionX() > 0) {
-							m.setX(m.center.getX() - 33);
-							m.setMotionX(0);
+						if (m.gsp > 0) {
+							m.setX(t.x - 58);
+							m.gsp = 0;
 							//m.setMoving(false);
 							return true;
 						}
 					} else {
-						m.setX(m.center.getX() - 33);
-						m.setMotionX(0);
+						m.setX(t.x - 58);
+						m.gsp = 0;
 						//m.setMoving(false);
 						return true;
 					} 
 				} else {
 					if (m.falling) {
-						if (m.getMotionX() < 0) {
-							m.setX(m.center.getX() - 31);
-							m.setMotionX(0);
+						if (m.gsp < 0) {
+							m.setX(t.x + 59);
+							m.gsp = 0;
 							//m.setMoving(false);
 							return true;
 						}
 					} else {
-						m.setX(m.center.getX() - 31);
-						m.setMotionX(0);
+						m.setX(t.x + 59);
+						m.gsp = 0;
 						//m.setMoving(false);
 						return true;
 					} 
@@ -536,12 +536,14 @@ public class TileMap {
 							m.falling = false;
 							m.setAirBorne(false);
 							m.setMotionY(0);
+							m.angle = t.angle;
 						}
 					} else {
 						m.setY(newY - 64);
 						m.falling = false;
 						m.setAirBorne(false);
 						m.setMotionY(0);
+						m.angle = t.angle;
 					}
 				}
 			}
@@ -553,7 +555,7 @@ public class TileMap {
 	
 	
 	
-	public void EntityCollision(double posX, double posY, double motionX, double motionY, Mob m) {
+	public void entityCollision(double posX, double posY, double motionX, double motionY, Mob m) {
 		double centerX = posX + 32;
 		double centerY = posY + 32;
 
@@ -579,30 +581,6 @@ public class TileMap {
 		// floor collision (including slopes)
 		
 		mobGroundFloor(m);
-
-/*		if (!(motionY < 0)) {
-			double newY = Double.MIN_VALUE;
-			// double newPosY = Double.MIN_VALUE;
-			if (m.falling) {
-				newY = groundFloor(centerX, centerY, 26, newY, centerX + 14);
-				if (newY != Double.MAX_VALUE) {
-					newY = groundFloor(centerX, centerY, 26, newY, centerX - 14);
-				}
-			} else {
-				newY = groundFloor(centerX, centerY, 26 + 32, newY, centerX + 14);
-				if (newY != Double.MAX_VALUE) {
-					newY = groundFloor(centerX, centerY, 26 + 32, newY, centerX - 14);
-				}
-			}
-		} else {
-			for (int i = 1; i <= 64 - 1; i++) {
-				if (ceilingCollision(player.getX() + 32, player.getY())) {
-					break;
-				}
-			}
-		}*/
-
-		// System.out.println(player.getY());
 
 		for (Entity e : entities) {
 			if (e instanceof EntityBoop) {
@@ -1331,10 +1309,12 @@ public class TileMap {
 			setTile(8, 13, Tile.slope3);
 			setTile(9, 13, Tile.slope4);
 			setTile(10, 13, Tile.tile1);
-			/*
-			 * setTile(11, 13, Tile.slope5); setTile(12, 13, Tile.slope6); setTile(13, 13,
-			 * Tile.slope7); setTile(14, 13, Tile.slope8);
-			 */
+			
+			  setTile(11, 13, Tile.slope5);
+			  setTile(12, 13, Tile.slope6); 
+			  setTile(13, 13,Tile.slope7); 
+			  setTile(14, 13, Tile.slope8);
+			 
 
 			/*
 			 * EntityMovingTile movingTile = new EntityMovingTile(new Texture("movingTile"),

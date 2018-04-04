@@ -25,6 +25,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	//public ActionState state;
 	public boolean hasCollision = true;
 	public boolean falling;
+	public double ysp;
 	
 	public Line2D floorCheck1;
 	public Line2D floorCheck2;
@@ -32,9 +33,20 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	
 	public Point center;
 	
-	public float angle;
+	public double angle = 0;
 	
-	public float gsp;
+	public double gsp;
+	
+	public double xsp;
+	
+	public int jumpTimer;
+	
+	public double staticJumpAngle;
+	
+	public double jumpVelocityY;
+	
+	public double jumpY;
+	public double jumpX;
 	
 	
 	public Mob(Texture texture, double x, double y, TileMap tileMap, Rectangle AABB) {
@@ -63,6 +75,17 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	
 	@Override
 	public void tick() {
+		
+		if(falling) {
+			angle = 0;
+		}
+		
+		jumpTimer--;
+		if(jumpTimer <= 0) {
+			jumpTimer = 0;
+			staticJumpAngle = 0;
+		}
+		
 /*		if(getMotionY() == 0) {
 			this.state = ActionState.ON_TILE;
 		} else {
@@ -79,7 +102,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			this.isAirBorne = false;
 		}
 		
-		fall();
+		//fall();
 		move();
 /*		if (motionX != 0) {
 			moving = true;
@@ -95,32 +118,67 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	
 	public void move() {
 
-		//tileMap.calculateCollision(AABB, x, y, motionX, motionY, true);
-		//tileMap.sonicCollision(x, y, motionX, motionY);
-		tileMap.EntityCollision(x,y,motionX,motionY,this);
-		y+= getMotionY();
-		//System.out.println(motionX);
-		x+= getMotionX();
-		
+		xsp = gsp*Math.cos(angle);
+		ysp = -gsp*Math.sin(angle);
+		if(jumpTimer > 0) {
+		    jumpY = (jumpVelocityY*jumpTimer / 2.2)*Math.cos(staticJumpAngle) + gsp*Math.sin(angle);
+		    if(!((xsp >= 0 && xsp > jumpX) || (xsp <= 0 && xsp < jumpX)) || jumpTimer < 23) {
+		    	jumpX = (jumpVelocityY*jumpTimer / 2.2)*Math.sin(staticJumpAngle) - gsp*Math.cos(angle);
+		    } else {
+		    	jumpX = 0;
+		    }
+			ysp -= jumpY;
+			xsp -= jumpX;
+			//jumpX -= gsp*Math.cos(angle);
+			//jumpY -= -gsp*Math.sin(angle);
+			
+		} else {
+			jumpX = 0;
+			jumpY = 0;
+			fall();
+		}
+		if(falling) {
+			ysp += gravity;
+		} else {
+			fall();
+		}
+		//motionX += xsp;
+		//motionY += ysp;
+		tileMap.entityCollision(x,y,motionX,motionY,this);
+		y+=  ysp;
+		//y+= gravityY;
+		x+=  xsp;
 		updateLines(x, y);
+		//motionX -= xsp;
+		//motionY -= ysp;
 	}
 	
 	
 	protected void fall() {
 		if (falling) {
-			setMotionY(getMotionY() + gravity);
-			if (getMotionY() > maxMotionY) {
-				setMotionY(maxMotionY);
+			gravity *= 2;
+			//motionY += gravity;
+			if (gravity > maxMotionY) {
+				gravity = maxMotionY;
 			} 
+		} else {
+			gravity = 0.5;
 		}
 	}
 	
-	protected void jump(double velocityY) {
-		if(true) {
-			setMotionY(getMotionY() - velocityY);
-			//this.state = ActionState.JUMPING;
-			isAirBorne = true;
-		}
+	protected void jump(int timerY, double velocityY) {
+		
+		jumpTimer = timerY;
+		staticJumpAngle = angle;
+		jumpVelocityY = velocityY;
+		
+		
+	    //jumpY = (jumpVelocityY)*Math.cos(staticJumpAngle);
+		//jumpX = (jumpVelocityY)*Math.sin(staticJumpAngle);
+		
+		
+		isAirBorne = true;
+		falling = true;
 	}
 	
 	public void setMotionY(double motionY) {
@@ -128,7 +186,6 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	}
 	
 	public void setMotionX(double motionX) {
-		//System.out.println(motionX);
 		this.motionX = motionX;
 	}
 	
@@ -149,11 +206,11 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	}
 	
 	public boolean isMovingLeft() {
-		return motionX < 0;
+		return gsp < 0;
 	}
 	
 	public boolean isMovingRight() {
-		return motionX > 0;
+		return gsp > 0;
 	}
 	
 	public boolean isMoving() {
