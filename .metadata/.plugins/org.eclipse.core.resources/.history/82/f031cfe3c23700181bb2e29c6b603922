@@ -48,7 +48,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	public double jumpY;
 	public double jumpX;
 	
-	private final double grv =0.21875;
+	private final double grv = 0.21875;
 	
 	boolean shouldJump;
 	protected final double jmp = -6.5;
@@ -85,11 +85,11 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			angle = 0;
 		}
 		
-/*		jumpTimer--;
+		jumpTimer--;
 		if(jumpTimer <= 0) {
 			jumpTimer = 0;
 			staticJumpAngle = 0;
-		}*/
+		}
 		
 /*		if(getMotionY() == 0) {
 			this.state = ActionState.ON_TILE;
@@ -101,11 +101,11 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			}
 		}*/
 		
-/*		if(motionY != 0) {
+		if(motionY != 0) {
 			this.isAirBorne = true;
 		} else {
 			this.isAirBorne = false;
-		}*/
+		}
 		
 		//fall();
 		move();
@@ -123,8 +123,8 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	
 	public void move() {
 
-		xsp =+ gsp*Math.cos(angle);
-		ysp =+ -gsp*Math.sin(angle);
+		xsp = gsp*Math.cos(angle);
+		ysp = -gsp*Math.sin(angle);
 		
 		if(falling) {
 			ysp += grv;
@@ -135,12 +135,12 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			}
 		}
 		
-/*		if(shouldJump) {
+		if(shouldJump) {
 			falling = true;
-			xsp += jmp*Math.sin(angle);
-			ysp += jmp*Math.cos(angle);
+			xsp -= jmp*Math.sin(angle);
+			ysp -= jmp*Math.cos(angle);
 			angle = 0;
-		}*/
+		}
 		
 /*		if(jumpTimer > 0) {
 		    jumpY = (jumpVelocityY*jumpTimer / 2.2)*Math.cos(staticJumpAngle) + gsp*Math.sin(angle);
@@ -159,11 +159,11 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			jumpY = 0;
 			fall();
 		}*/
-/*		if(falling) {
+		if(falling) {
 			ysp += gravity;
-		}*//* else {
+		} else {
 			fall();
-		}*/
+		}
 		//motionX += xsp;
 		//motionY += ysp;
 		tileMap.entityCollision(x,y,motionX,motionY,this);
@@ -195,10 +195,6 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	    //jumpY = (jumpVelocityY)*Math.cos(staticJumpAngle);
 		//jumpX = (jumpVelocityY)*Math.sin(staticJumpAngle);
 		
-		
-		xsp += jmp*Math.sin(angle);
-		ysp += jmp*Math.cos(angle);
-		angle = 0;
 		
 		isAirBorne = true;
 		falling = true;

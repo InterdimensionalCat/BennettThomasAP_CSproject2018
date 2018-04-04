@@ -159,11 +159,11 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			jumpY = 0;
 			fall();
 		}*/
-/*		if(falling) {
+		if(falling) {
 			ysp += gravity;
-		}*//* else {
+		} else {
 			fall();
-		}*/
+		}
 		//motionX += xsp;
 		//motionY += ysp;
 		tileMap.entityCollision(x,y,motionX,motionY,this);
@@ -196,8 +196,8 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		//jumpX = (jumpVelocityY)*Math.sin(staticJumpAngle);
 		
 		
-		xsp += jmp*Math.sin(angle);
-		ysp += jmp*Math.cos(angle);
+		xsp -= jmp*Math.sin(angle);
+		ysp -= jmp*Math.cos(angle);
 		angle = 0;
 		
 		isAirBorne = true;

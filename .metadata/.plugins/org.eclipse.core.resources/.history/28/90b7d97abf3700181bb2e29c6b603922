@@ -40,7 +40,7 @@ public class Player extends Mob {
 	private final double dec = 0.5;
 	private final double frc = 0.06875;
 	private final double top = 6.0;
-	
+
 	
 
 	public Player(double x, double y, TileMap tileMap) {
@@ -202,10 +202,12 @@ public class Player extends Mob {
 		}*/
 		
 		if(KeyInput.wasPressed(KeyEvent.VK_SPACE)) {
-			jump(jmp);
+			jump(25, 3);
 		}
 		
-
+		if(!KeyInput.isDown(KeyEvent.VK_SPACE)) {
+			jumpTimer--;
+		}
 		
 		if(KeyInput.wasPressed(KeyEvent.VK_1)) {
 			Game.pauseTime+= 100;
@@ -256,10 +258,6 @@ public class Player extends Mob {
 			//jumpTimer/=2;
 		}
 		
-		if(!KeyInput.isDown(KeyEvent.VK_SPACE)&& ysp < -4) {
-			ysp = -4;
-		}
-		
 		/*if(!moving) {
 			//idle.run();
 			if(gsp < 1 && gsp > -1) {
@@ -293,7 +291,7 @@ public class Player extends Mob {
 			
 			moving = false;
 			
-			if(Math.abs(gsp) < frc) {
+			if(frc > gsp || gsp < - frc) {
 				gsp = 0;
 				turnRunLeft = false;
 				turnRunRight = false;
@@ -308,38 +306,29 @@ public class Player extends Mob {
 			
 			if(gsp < 0) {
 				gsp += frc;
-				if(gsp < -4.5) {
-					turnRunLeft = true;
-				}
-				
+				turnRunLeft = true;
 			}
 			
 		} else {
 			if(KeyInput.isDown(KeyEvent.VK_A)) {
 				moving = true;
+				turnRunLeft = false;
+				turnRunRight = false;
 				if(gsp > 0) {
 					gsp -= dec;
-					if(gsp > 4.5) {
-						turnRunRight = true;
-					}
 				} else {
 					gsp -= acc;
-					turnRunLeft = false;
-					turnRunRight = false;
 				}
 			}
 			
 			if(KeyInput.isDown(KeyEvent.VK_D)) {
 				moving = true;
+				turnRunLeft = false;
+				turnRunRight = false;
 				if(gsp < 0) {
 					gsp += dec;
-					if(gsp < -4.5) {
-						turnRunLeft = true;
-					}
 				} else {
 					gsp += acc;
-					turnRunLeft = false;
-					turnRunRight = false;
 				}
 			}
 		}
@@ -380,8 +369,8 @@ public class Player extends Mob {
 		}
 	}
 	
-	protected void jump(double velocityY) {
-		if(!falling) {
+	protected void jump(int time, double velocityY) {
+		if(jumpTimer <= 0) {
 			if(!InitAudio.musicFiles.get("PlayerJump1").isPlaying()) {
 				Game.fxmanager.playSound("PlayerJump1");
 			} else {
@@ -389,7 +378,7 @@ public class Player extends Mob {
 			}
 			
 			falling = true;
-			super.jump(velocityY);
+			super.jump(time, velocityY);
 		}
 	}
 	
