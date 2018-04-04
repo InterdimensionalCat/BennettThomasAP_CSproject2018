@@ -352,6 +352,8 @@ public class Player extends Mob {
 			gsp = -top;
 		}
 		
+		gsp += slp*Math.sin(angle);
+		
 		super.move();
 	}
 	

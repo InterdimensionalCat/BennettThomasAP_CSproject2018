@@ -22,7 +22,7 @@ public class Tile {
 	int x;
 	int y;
 	public Rectangle AABB;
-	public double angle;
+	//public double angle;
 	
 	public static final Rectangle constRect = new Rectangle(0,0,64,64);
 	
@@ -71,8 +71,8 @@ public class Tile {
 		this.x = 0;
 		this.y = 0;
 		this.AABB = constRect;
-		this.angle = getAngleFromHeightMask();
-		System.out.println(angle);
+		//this.angle = getAngleFromHeightMask();
+		//System.out.println(angle);
 		
 	}
 	
@@ -85,7 +85,7 @@ public class Tile {
 		this.x = x;
 		this.y = y;
 		this.AABB = new Rectangle(x,y,64,64);
-		this.angle = getAngleFromHeightMask();
+		//this.angle = getAngleFromHeightMask();
 	}
 	
 
@@ -190,8 +190,8 @@ public class Tile {
 		return t;
 	}
 	
-	public double getAngleFromHeightMask() {
-		return Math.atan((heightMask[heightMask.length - 1] - heightMask[0]) / 64);
+	public double getAngleFromHeightMask(double x1, double x2) {
+		return Math.atan(Math.min(x1, x2) / Math.max(x1, x2));
 	}
 	
 }

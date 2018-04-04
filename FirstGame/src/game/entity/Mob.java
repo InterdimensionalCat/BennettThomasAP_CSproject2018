@@ -48,7 +48,8 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	public double jumpY;
 	public double jumpX;
 	
-	private final double grv =0.21875;
+	protected final double grv = 0.21875;
+	protected final double slp = 0.125;
 	
 	boolean shouldJump;
 	protected final double jmp = -6.5;
@@ -125,16 +126,18 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		
 		if(falling) {
 			angle = 0;
+			xsp = gsp;
+			ysp += gravity;
+		} else {
+			xsp = gsp*Math.cos(angle);
+			ysp = -gsp*Math.sin(angle);
 		}
-
-		xsp += (gsp - lastgsp)*Math.cos(angle);
-		ysp += -(gsp - lastgsp)*Math.sin(angle);
 		
 		if(xsp < 1&& xsp > -1 && gsp == 0) {
 			xsp = 0;
 		}
 		
-		System.out.println(ysp);
+		System.out.println(Math.toDegrees(angle));
 		
 		if(falling) {
 			ysp += grv;

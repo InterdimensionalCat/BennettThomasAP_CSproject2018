@@ -502,6 +502,9 @@ public class TileMap {
 		double checkY2 = Double.MAX_VALUE;
 		double newY = Double.MAX_VALUE;
 		
+		double x1 = 0;
+		double x2 = 0;
+		
 		for(Tile t : usedTiles) {
 			boolean mustCheck = false;
 			if(!t.isSolid()) {
@@ -513,6 +516,7 @@ public class TileMap {
 				if(!((int)m.floorCheck1.getX2() - t.x >= 64 || (int)m.floorCheck1.getX2() - t.x < 0)) {
 					if(m.floorCheck1.getY2() > t.y + 64 - t.heightMask[(int)m.floorCheck1.getX2() - t.x]&& m.getMotionY() >= 0) {
 						checkY = t.y + 64 - t.heightMask[(int)m.floorCheck1.getX2() - t.x];
+						x1 = t.heightMask[(int)m.floorCheck1.getX2() - t.x];
 						mustCheck = true;
 					}
 				}
@@ -522,7 +526,10 @@ public class TileMap {
 				if(!((int)m.floorCheck2.getX2() - t.x >= 64 || (int)m.floorCheck2.getX2() - t.x < 0)) {
 					if(m.floorCheck2.getY2() > t.y + 64 - t.heightMask[(int)m.floorCheck2.getX2() - t.x]&& m.getMotionY() >= 0) {
 						checkY2 = t.y + 64 - t.heightMask[(int)m.floorCheck2.getX2() - t.x ];
+						x2 = t.heightMask[(int)m.floorCheck2.getX2() - t.x];
 						mustCheck = true;
+						
+						
 					}
 				}
 			}
@@ -536,14 +543,17 @@ public class TileMap {
 							m.falling = false;
 							m.setAirBorne(false);
 							m.setMotionY(0);
-							m.angle = t.angle;
+							//m.setMotionX(0);
+							
+							m.angle = t.getAngleFromHeightMask(x1, x2);
 						}
 					} else {
 						m.setY(newY - 64);
 						m.falling = false;
 						m.setAirBorne(false);
 						m.setMotionY(0);
-						m.angle = t.angle;
+						
+						m.angle = t.getAngleFromHeightMask(x1, x2);
 					}
 				}
 			}
