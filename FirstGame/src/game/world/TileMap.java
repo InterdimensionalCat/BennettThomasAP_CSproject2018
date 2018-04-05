@@ -574,6 +574,10 @@ public class TileMap {
 	
 	public void mobGroundFloor(Mob m) {
 		
+		if(m.falling && m.ysp < 0) {
+			return;
+		}
+		
 		double checkY = Double.MAX_VALUE;
 		double checkY2 = Double.MAX_VALUE;
 		double newY = Double.MAX_VALUE;
