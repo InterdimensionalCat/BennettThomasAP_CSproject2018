@@ -19,4 +19,7 @@
 <fullyQualifiedTypeName name="javax.sound.sampled.Line"/>
 <fullyQualifiedTypeName name="java.awt.geom.Line2D"/>
 <fullyQualifiedTypeName name="java.awt.geom.Line2D.Float"/>
+<fullyQualifiedTypeName name="game.entity.AngleState"/>
+<fullyQualifiedTypeName name="game.input.KeyInput"/>
+<fullyQualifiedTypeName name="java.awt.event.KeyEvent"/>
 </qualifiedTypeNameHistroy>

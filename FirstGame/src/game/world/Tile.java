@@ -28,9 +28,9 @@ public class Tile {
 	public static final Rectangle constRect = new Rectangle(0,0,64,64);
 	
 	public static final Tile tile1 = new Tile(0xFF000000, new Texture(terrain, 3, 1 , 64 , 64), TileType.SOLID, createSolidArray() , createSolidArray() , Math.toRadians(0));
-	public static final Tile tile2 = new Tile(0xFFFF0000, new Texture(terrain, 2, 1 , 64, 64), TileType.SLOPE_RIGHT_64_00, /*create64RightArray()*/ createSlopeRightArray(1,64), createSolidArray(), Math.toRadians(-45));
+	public static final Tile tile2 = new Tile(0xFFFF0000, new Texture(terrain, 2, 1 , 64, 64), TileType.SLOPE_RIGHT_64_00, /*create64RightArray()*/ createSlopeRightArray(1,64), createSolidArray(), Math.toRadians(-44));
 	
-	public static final Tile tile25 = new Tile(0xFFFF0000, new Texture(terrain, 2, 1 , 64, 64), TileType.SLOPE_RIGHT_64_00, /*create64RightArray()*/ createSlopeLeftArray(1,64), createSlopeLeftArray(1,64) , Math.toRadians(45));
+	public static final Tile tile25 = new Tile(0xFFFF0000, new Texture(terrain, 2, 1 , 64, 64), TileType.SLOPE_RIGHT_64_00, /*create64RightArray()*/ createSlopeLeftArray(1,64), createSlopeLeftArray(1,64) , Math.toRadians(44));
 	
 	
 	public static final Tile slope1 = new Tile(-6, setSlopeImage(createSlopeLeftArray(0,16)), TileType.SLOPE_RIGHT_64_00, createSlopeRightArray(0,16), createSolidArray(), Math.toRadians( - 11.25));
@@ -71,6 +71,13 @@ public class Tile {
 			}
 		}
 		
+		this.heightMask1 = heightMask1;
+		for(int i = 0; i < this.heightMask1.length; i++) {
+			if(this.heightMask1[i] == 0) {
+				this.heightMask1[i] = 1;
+			}
+		}
+		
 		this.x = 0;
 		this.y = 0;
 		this.AABB = constRect;
@@ -89,7 +96,7 @@ public class Tile {
 		this.y = y;
 		this.AABB = new Rectangle(x,y,64,64);
 		this.angle = t.angle;
-		this.heightMask1 = heightMask1;
+		this.heightMask1 = t.heightMask1;
 	}
 	
 

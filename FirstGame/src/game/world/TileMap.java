@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.Line;
 
 import game.Game;
+import game.entity.AngleState;
 import game.entity.Entity;
 import game.entity.EntityBoop;
 import game.entity.EntityGoal;
@@ -459,7 +460,7 @@ public class TileMap {
 			if(t.AABB.intersectsLine(m.centerLine)&&TileType.isCubeType(t.type)) {
 				if (m.getX() < t.x) {
 					if (m.falling) {
-						if (m.gsp > 0) {
+						if (m.xsp > 0) {
 							
 							
 							switch(m.angleState) {
@@ -470,7 +471,9 @@ public class TileMap {
 								m.setX(t.x - 58);	
 								break;
 							case RIGHT:
-								m.setY(t.y - 58);
+								if (t.y > m.getY()) {
+									m.setY(t.y - 58);
+								}
 								break;
 							case LEFT:
 								m.setY(t.y - 58);
@@ -479,7 +482,7 @@ public class TileMap {
 							
 							
 							//m.setX(t.x - 58);
-							m.gsp = 0;
+							m.xsp = 0;
 							//m.setMoving(false);
 							return true;
 						}
@@ -494,7 +497,9 @@ public class TileMap {
 							m.setX(t.x - 58);	
 							break;
 						case RIGHT:
-							m.setY(t.y + 58);
+							if (t.y < m.getY()) {
+								m.setY(t.y - 58);
+							}
 							break;
 						case LEFT:
 							m.setY(t.y + 58);
@@ -508,7 +513,7 @@ public class TileMap {
 					} 
 				} else {
 					if (m.falling) {
-						if (m.gsp < 0) {
+						if (m.xsp < 0) {
 							
 							switch(m.angleState) {
 							case FLOOR:
@@ -518,7 +523,9 @@ public class TileMap {
 								m.setX(t.x + 59);	
 								break;
 							case RIGHT:
-								m.setY(t.y - 59);
+								if (t.y < m.getY()) {
+									m.setY(t.y - 59);
+								}
 								break;
 							case LEFT:
 								m.setY(t.y - 59);
@@ -526,7 +533,7 @@ public class TileMap {
 							}
 							
 							//m.setX(t.x + 59);
-							m.gsp = 0;
+							m.xsp = 0;
 							//m.setMoving(false);
 							return true;
 						}
@@ -540,7 +547,9 @@ public class TileMap {
 							m.setX(t.x + 59);	
 							break;
 						case RIGHT:
-							m.setY(t.y - 59);
+							if (t.y > m.getY()) {
+								m.setY(t.y - 59);
+							}
 							break;
 						case LEFT:
 							m.setY(t.y - 59);
@@ -608,6 +617,7 @@ public class TileMap {
 						if(m.getY() + 64 > newY && m.getMotionY() >= 0) {
 							m.setY(newY - 64);
 							m.falling = false;
+							m.land();
 							m.setAirBorne(false);
 							m.setMotionY(0);
 							//m.setMotionX(0);
@@ -617,6 +627,7 @@ public class TileMap {
 					} else {
 						m.setY(newY - 64);
 						m.falling = false;
+						//m.land();
 						m.setAirBorne(false);
 						m.setMotionY(0);
 						
@@ -633,9 +644,6 @@ public void mobGroundAngled(Mob m) {
 		double checkY2 = Double.MAX_VALUE;
 		double newY = Double.MAX_VALUE;
 		
-		double x1 = 0;
-		double x2 = 0;
-		
 		for(Tile t : usedTiles) {
 			boolean mustCheck = false;
 			if(!t.isSolid()) {
@@ -644,30 +652,60 @@ public void mobGroundAngled(Mob m) {
 			
 			
 			if(m.floorCheck1.intersects(t.AABB)) {
-				if(!((int)m.floorCheck1.getX2() - t.x >= 64 || (int)m.floorCheck1.getX2() - t.x < 0)) {
-					if(m.floorCheck1.getY2() > t.y + 64 - t.heightMask[(int)m.floorCheck1.getX2() - t.x]&& m.getMotionY() >= 0) {
-						checkY = t.y + 64 - t.heightMask[(int)m.floorCheck1.getX2() - t.x];
-						x1 = t.heightMask[(int)m.floorCheck1.getX2() - t.x];
-						mustCheck = true;
+				if( true /*!((int)m.floorCheck1.getX2() - t.x >= 64 || (int)m.floorCheck1.getX2() - t.x < 0)*/) {
+					
+					
+					
+					if(m.angleState == AngleState.RIGHT) {
+						if(m.floorCheck1.getX2() > t.x + 64 - t.heightMask1[(int)m.floorCheck1.getY2() - t.y]) {
+							checkY = t.x + 64 - t.heightMask1[(int)m.floorCheck1.getY2() - t.y];
+							mustCheck = true;
+						}
+					}
+					
+					if(m.angleState == AngleState.LEFT) {
+						if (m.floorCheck1.getX2() < t.x + t.heightMask1[(int) m.floorCheck1.getY2() - t.y]) {
+							checkY = t.x + t.heightMask1[(int) m.floorCheck1.getY2() - t.y];
+							mustCheck = true;
+						}
 					}
 				}
 			}
 			
 			if(m.floorCheck2.intersects(t.AABB)) {
-				if(!((int)m.floorCheck2.getX2() - t.x >= 64 || (int)m.floorCheck2.getX2() - t.x < 0)) {
-					if(m.floorCheck2.getY2() > t.y + 64 - t.heightMask[(int)m.floorCheck2.getX2() - t.x]&& m.getMotionY() >= 0) {
-						checkY2 = t.y + 64 - t.heightMask[(int)m.floorCheck2.getX2() - t.x ];
-						x2 = t.heightMask[(int)m.floorCheck2.getX2() - t.x];
-						mustCheck = true;
-						
-						
+				if( true /*!((int)m.floorCheck1.getX2() - t.x >= 64 || (int)m.floorCheck1.getX2() - t.x < 0)*/) {
+					
+					
+					
+					if(m.angleState == AngleState.RIGHT) {
+						if(m.floorCheck2.getX2() > t.x + 64 - t.heightMask1[(int)m.floorCheck2.getY2() - t.y]) {
+							checkY2 = t.x + 64 - t.heightMask1[(int)m.floorCheck2.getY2() - t.y];
+							mustCheck = true;
+						}
 					}
+					
+					if(m.angleState == AngleState.LEFT) {
+						if (m.floorCheck2.getX2() < t.x + t.heightMask1[(int) m.floorCheck2.getY2() - t.y]) {
+							checkY2 = t.x + t.heightMask1[(int) m.floorCheck2.getY2() - t.y];
+							mustCheck = true;
+						}
+					}	  
 				}
 			}
 			
+		
+			
 			if(mustCheck) {
 				if(Math.min(checkY, checkY2) < newY) {
-					newY = Math.min(checkY, checkY2);
+					if(m.angleState == AngleState.LEFT && Math.min(checkY, checkY2) < newY) {
+						newX = Math.min(checkY, checkY2);
+					} else {
+						if(Math.max(checkY, checkY2) > newY) {
+							newX = Math.max(checkY, checkY2);
+						} else {
+						    continue;
+					    }
+					}
 					if(m.falling) {
 /*						if(m.getY() + 64 > newY && m.getMotionY() >= 0) {
 							m.setY(newY - 64);
@@ -679,12 +717,17 @@ public void mobGroundAngled(Mob m) {
 							m.angle = t.angle;
 						} */
 					} else {
-						m.setY(newY - 64);
+						m.setX(newY - 64);
 						m.falling = false;
+						//m.land();
 						m.setAirBorne(false);
-						m.setMotionY(0);
+						//m.setMotionY(0);
 						
-						m.angle = t.angle;
+						if (m.angleState == AngleState.RIGHT) {
+							m.angle = t.angle*Math.toRadians(90);
+						} else {
+							m.angle = t.angle*Math.toRadians(-90);
+						}
 					}
 				}
 			}
@@ -700,8 +743,12 @@ public void mobGroundAngled(Mob m) {
 		double centerX = posX + 32;
 		double centerY = posY + 32;
 
-		if (posX + motionX + 64 >= this.width * 64 || posX + motionX <= 0) {
-			m.setMotionX(0);
+		if (posX + motionX <= 0) {
+			m.setX(1);
+		}
+		
+		if(posX + motionX + 64 >= this.width * 64) {
+			m.setX(this.width * 64 - 65);
 		}
 
 		if (posY + motionY >= (this.height - 1) * 64) {
@@ -721,7 +768,14 @@ public void mobGroundAngled(Mob m) {
 
 		// floor collision (including slopes)
 		
-		mobGroundFloor(m);
+		if(m.angleState == AngleState.RIGHT || m.angleState == AngleState.LEFT) {
+			mobGroundAngled(m);
+		} else {
+			mobGroundFloor(m);
+		}
+		
+		
+		
 
 		for (Entity e : entities) {
 			if (e instanceof EntityBoop) {

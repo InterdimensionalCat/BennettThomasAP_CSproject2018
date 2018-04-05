@@ -3,8 +3,10 @@ package game.entity;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Line2D;
 
+import game.input.KeyInput;
 import game.render.textures.Texture;
 import game.world.TileMap;
 
@@ -52,7 +54,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	protected final double slp = 0.125;
 	
 	boolean shouldJump;
-	protected final double jmp = -6.5;
+	protected final double jmp = -8.5;
 	public AngleState angleState = AngleState.FLOOR;
 	
 	
@@ -128,7 +130,12 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		if(falling) {
 			angle = 0;
 			//xsp = gsp;
-			ysp += gravity;
+			ysp += grv;
+			
+			if(!KeyInput.isDown(KeyEvent.VK_SPACE)&&ysp < -3) { 
+				ysp = -3;
+			}
+			
 		} else {
 			xsp = gsp*Math.cos(angle);
 			ysp = -gsp*Math.sin(angle);
@@ -138,7 +145,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			xsp = 0;
 		}*/
 		
-		System.out.println(Math.toDegrees(angle));
+		//System.out.println(Math.toDegrees(angle));
 		
 		if(falling) {
 			//ysp += grv;
@@ -217,7 +224,8 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		//jumpX = (jumpVelocityY)*Math.sin(staticJumpAngle);
 		
 		
-		xsp += jmp*Math.sin(angle);
+		xsp += -jmp*Math.sin(angle);
+		System.out.println(-jmp*Math.sin(angle));
 		ysp += jmp*Math.cos(angle);
 		angle = 0;
 		
@@ -245,7 +253,13 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	
 	public void addSpeed(double spd) {
 		if(falling) {
-			xsp += spd;
+			if(Math.abs(spd) == 0.046875) {
+				xsp += spd*2;
+			} else {
+				if(Math.abs(spd) != 0.06875) {
+					xsp += spd;
+				}
+			}
 		} else {
 			gsp += spd;
 		}
@@ -256,6 +270,14 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			xsp *= spd;
 		} else {
 			gsp *= spd;
+		}
+	}
+	
+	public double getSpeed() {
+		if(falling) {
+			return xsp;
+		} else {
+			return gsp;
 		}
 	}
 	
@@ -329,6 +351,10 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			
 			break;
 		}
+	}
+	
+	public void land() {
+		gsp = xsp;
 	}
 	
 }
