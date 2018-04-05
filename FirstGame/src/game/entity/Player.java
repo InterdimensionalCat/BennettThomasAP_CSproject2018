@@ -232,11 +232,13 @@ public class Player extends Mob {
 		}
 		
 		if(KeyInput.wasPressed(KeyEvent.VK_Q)) {
-			gsp = -maxMotionX;
+			//gsp = -maxMotionX;
+			setSpeed(-maxMotionX);
 		}
 		
 		if(KeyInput.wasPressed(KeyEvent.VK_E)) {
-			gsp = maxMotionX;
+			//gsp = maxMotionX;
+			setSpeed(maxMotionX);
 		}
 		
 		if(KeyInput.wasReleased(KeyEvent.VK_A)||KeyInput.wasReleased(KeyEvent.VK_D)) {
@@ -294,20 +296,28 @@ public class Player extends Mob {
 			moving = false;
 			
 			if(Math.abs(gsp) < frc) {
-				gsp = 0;
+				//gsp = 0;
+				setSpeed(0);
 				turnRunLeft = false;
 				turnRunRight = false;
 			}
 			
 			if(gsp > 0) {
-				gsp -= frc;
+				//gsp -= frc;
+				
+				addSpeed(-frc);
+				
+				
 				if(gsp > 4.5) {
 					turnRunRight = true;
 				}
 			}
 			
 			if(gsp < 0) {
-				gsp += frc;
+				//gsp += frc;
+				
+				addSpeed(frc);
+				
 				if(gsp < -4.5) {
 					turnRunLeft = true;
 				}
@@ -318,12 +328,16 @@ public class Player extends Mob {
 			if(KeyInput.isDown(KeyEvent.VK_A)) {
 				moving = true;
 				if(gsp > 0) {
-					gsp -= dec;
+					//gsp -= dec;
+					addSpeed(-dec);
 					if(gsp > 4.5) {
 						turnRunRight = true;
 					}
 				} else {
-					gsp -= acc;
+					//gsp -= acc;
+					
+					addSpeed(-acc);
+					
 					turnRunLeft = false;
 					turnRunRight = false;
 				}
@@ -332,12 +346,18 @@ public class Player extends Mob {
 			if(KeyInput.isDown(KeyEvent.VK_D)) {
 				moving = true;
 				if(gsp < 0) {
-					gsp += dec;
+					//gsp += dec;
+					
+					addSpeed(dec);
+					
 					if(gsp < -4.5) {
 						turnRunLeft = true;
 					}
 				} else {
-					gsp += acc;
+					//gsp += acc;
+					
+					addSpeed(acc);
+					
 					turnRunLeft = false;
 					turnRunRight = false;
 				}
@@ -345,14 +365,18 @@ public class Player extends Mob {
 		}
 
 		if(gsp > top) {
-			gsp = top;
+			//gsp = top;
+			setSpeed(top);
 		}
 		
 		if(gsp < -top) {
-			gsp = -top;
+			//gsp = -top;
+			setSpeed(-top);
 		}
 		
-		gsp += slp*Math.sin(angle);
+		if(!falling) {
+			gsp += slp*Math.sin(angle);
+		}
 		
 		super.move();
 	}

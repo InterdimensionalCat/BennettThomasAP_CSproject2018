@@ -17,4 +17,6 @@
 <fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
 <fullyQualifiedTypeName name="game.Game"/>
 <fullyQualifiedTypeName name="javax.sound.sampled.Line"/>
+<fullyQualifiedTypeName name="java.awt.geom.Line2D"/>
+<fullyQualifiedTypeName name="java.awt.geom.Line2D.Float"/>
 </qualifiedTypeNameHistroy>

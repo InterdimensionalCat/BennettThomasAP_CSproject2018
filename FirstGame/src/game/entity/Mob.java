@@ -53,6 +53,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	
 	boolean shouldJump;
 	protected final double jmp = -6.5;
+	public AngleState angleState = AngleState.FLOOR;
 	
 	
 	public Mob(Texture texture, double x, double y, TileMap tileMap, Rectangle AABB) {
@@ -72,9 +73,9 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	public void updateLines(double x, double y) {
 		center.setLocation((int)(x+32),(int)(y+32));
 		
-		floorCheck1.setLine((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() + 42);
-		floorCheck2.setLine((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() + 42);
-		centerLine.setLine((float)center.getX() - 26, (float)center.getY() + 6, (float)center.getX() + 26, (float)center.getY() + 6);
+		//floorCheck1.setLine((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() + 42);
+		//floorCheck2.setLine((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() + 42);
+		//centerLine.setLine((float)center.getX() - 26, (float)center.getY() + 6, (float)center.getX() + 26, (float)center.getY() + 6);
 	}
 	
 	public abstract void setDead();
@@ -126,24 +127,24 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		
 		if(falling) {
 			angle = 0;
-			xsp = gsp;
+			//xsp = gsp;
 			ysp += gravity;
 		} else {
 			xsp = gsp*Math.cos(angle);
 			ysp = -gsp*Math.sin(angle);
 		}
 		
-		if(xsp < 1&& xsp > -1 && gsp == 0) {
+/*		if(xsp < 1&& xsp > -1 && gsp == 0) {
 			xsp = 0;
-		}
+		}*/
 		
 		System.out.println(Math.toDegrees(angle));
 		
 		if(falling) {
-			ysp += grv;
+			//ysp += grv;
 			if(ysp < 0 && ysp > -4) {
 				if(Math.abs(xsp) >= 0.125) {
-					gsp = gsp * 0.96875;
+					xsp = xsp * 0.96875;
 				}
 			}
 		}
@@ -190,6 +191,9 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		}
 		//motionX -= xsp;
 		//motionY -= ysp;
+		
+		changeAngleState(angle);
+		
 	}
 	
 	
@@ -231,6 +235,30 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		xsp = motionX;
 	}
 	
+	public void setSpeed(double spd) {
+		if(falling) {
+			xsp = spd;
+		} else {
+			gsp = spd;
+		}
+	}
+	
+	public void addSpeed(double spd) {
+		if(falling) {
+			xsp += spd;
+		} else {
+			gsp += spd;
+		}
+	}
+	
+	public void multSpeed(double spd) {
+		if(falling) {
+			xsp *= spd;
+		} else {
+			gsp *= spd;
+		}
+	}
+	
 	public void setAirBorne(boolean airBorne) {
 		this.isAirBorne = airBorne;
 	}
@@ -262,6 +290,45 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	public void setMoving(boolean moving) {
 		//System.out.println(moving);
 		this.moving = moving;
+	}
+	
+	public void changeAngleState(double angelIn) { //in radians
+		this.angleState = AngleState.index[(int)(Math.round(Math.abs(angle) / (Math.PI/2)) % 4)];
+		if(angle > 0 && angleState == AngleState.RIGHT) {
+			angleState = AngleState.LEFT;
+		}
+		
+		
+		switch(angleState) {
+		case RIGHT:
+			
+			floorCheck1.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() - 14, (float)center.getX() + 42, (float)center.getY() - 14));
+			floorCheck2.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() + 14, (float)center.getX() + 42, (float)center.getY() + 14));
+			centerLine.setLine(new Line2D.Float((float)center.getX() + 6, (float)center.getY() - 26, (float)center.getX() + 6, (float)center.getY() + 26));
+			
+			break;
+		case LEFT:
+			
+			floorCheck1.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() - 14, (float)center.getX() - 42, (float)center.getY() - 14));
+			floorCheck2.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() + 14, (float)center.getX() - 42, (float)center.getY() + 14));
+			centerLine.setLine(new Line2D.Float((float)center.getX() - 6, (float)center.getY() - 26, (float)center.getX() - 6, (float)center.getY() + 26));
+			
+			break;
+		case FLOOR:
+			
+			floorCheck1.setLine(new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() + 42));
+			floorCheck2.setLine(new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() + 42));
+			centerLine.setLine(new Line2D.Float((float)center.getX() - 26, (float)center.getY() + 6, (float)center.getX() + 26, (float)center.getY() + 6));
+			
+			break;	
+		case CEILING:
+			
+			floorCheck1.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() - 14, (float)center.getX() - 42, (float)center.getY() - 14));
+			floorCheck2.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() + 14, (float)center.getX() - 42, (float)center.getY() + 14));
+			centerLine.setLine(new Line2D.Float((float)center.getX() - 26, (float)center.getY() + 6, (float)center.getX() + 26, (float)center.getY() + 6));
+			
+			break;
+		}
 	}
 	
 }
