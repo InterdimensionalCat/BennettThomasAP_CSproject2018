@@ -375,8 +375,9 @@ public class Player extends Mob {
 				} else {
 					//gsp -= acc;
 					
-					addSpeed(-acc);
-					
+					if (!(getSpeed() <= -top)) {
+						addSpeed(-acc);
+					}
 					turnRunLeft = false;
 					turnRunRight = false;
 				}
@@ -395,7 +396,9 @@ public class Player extends Mob {
 				} else {
 					//gsp += acc;
 					
-					addSpeed(acc);
+					if (!(getSpeed() >= top)) {
+						addSpeed(acc);
+					}
 					
 					turnRunLeft = false;
 					turnRunRight = false;
@@ -403,7 +406,7 @@ public class Player extends Mob {
 			}
 		}
 
-		if(getSpeed() > top) {
+/*		if(getSpeed() > top) {
 			//gsp = top;
 			setSpeed(top);
 		}
@@ -411,7 +414,7 @@ public class Player extends Mob {
 		if(getSpeed() < -top) {
 			//gsp = -top;
 			setSpeed(-top);
-		}
+		}*/
 		
 		if(!falling) {
 			

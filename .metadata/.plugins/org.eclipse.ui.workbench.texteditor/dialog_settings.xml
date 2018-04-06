@@ -2,12 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="setTile" key="selection"/>
+		<item value="Ceiling" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="ceiling"/>
+			<item value="entityColli"/>
+			<item value="mobwallc"/>
+			<item value="mobwall"/>
+			<item value="entityColl"/>
+			<item value="-acc"/>
+			<item value="acc"/>
+			<item value="top"/>
 			<item value="setTile"/>
 			<item value="getTile"/>
 			<item value="ceilingFLoor"/>
@@ -15,14 +23,6 @@
 			<item value="mobangled"/>
 			<item value="mobground"/>
 			<item value="mobgournd"/>
-			<item value="mobFloorAngle"/>
-			<item value="mobFloorAngled"/>
-			<item value="game.debug"/>
-			<item value="render"/>
-			<item value="entityColl"/>
-			<item value="if(falling)"/>
-			<item value="land()"/>
-			<item value="land"/>
 		</list>
 		<list key="replacehistory">
 			<item value="floorCheck1"/>
@@ -38,10 +38,10 @@
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="395" key="DIALOG_WIDTH"/>
-		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
-		<item value="461" key="DIALOG_HEIGHT"/>
-		<item value="9" key="DIALOG_X_ORIGIN"/>
-		<item value="570" key="DIALOG_Y_ORIGIN"/>
+		<item value="290" key="DIALOG_WIDTH"/>
+		<item value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont" key="DIALOG_FONT_NAME"/>
+		<item value="409" key="DIALOG_HEIGHT"/>
+		<item value="749" key="DIALOG_X_ORIGIN"/>
+		<item value="568" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

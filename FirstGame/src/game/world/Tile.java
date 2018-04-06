@@ -94,7 +94,7 @@ public class Tile {
 		
 		heightMask2 = heightMask1;
 		if(TileType.isCubeType(this.type)) {
-			heightMask2 = createNoArray();
+			//heightMask2 = createNoArray();
 		}
 		
 	}

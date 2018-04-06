@@ -184,7 +184,12 @@ public class TileMap {
 							m.setX(t.x - 58);
 							
 						
-						m.gsp = 0;
+						
+						if(m.xsp >= 0) {
+							m.gsp = 0;
+							m.xsp = 0;
+						}
+						
 						//m.setMoving(false);
 						return true;
 					} 
@@ -208,7 +213,11 @@ public class TileMap {
 							
 						
 						//m.setX(t.x + 59);
-						m.gsp = 0;
+						
+						if(m.xsp <= 0) {
+							m.gsp = 0;
+							m.xsp = 0;
+						}
 						//m.setMoving(false);
 						return true;
 					} 
@@ -369,7 +378,7 @@ public void mobCeilingFloor(Mob m) {
 					newY = Math.max(checkY, checkY2);
 					if(m.falling) {
 						if(m.getY() > newY) {
-							m.setY(newY);
+							m.setY(newY + 64);
 							m.falling = false;
 							m.land();
 							m.setAirBorne(false);
@@ -379,7 +388,7 @@ public void mobCeilingFloor(Mob m) {
 							m.angle =  t.angle;
 						}
 					} else {
-						m.setY(newY);
+						m.setY(newY + 64);
 						m.falling = false;
 						//m.land();
 						m.setAirBorne(false);
@@ -578,6 +587,7 @@ public void mobAngledFloorLeft(Mob m) {
 		double centerX = posX + 32;
 		double centerY = posY + 32;
 
+		
 		if (posX + motionX <= 0) {
 			m.setX(1);
 		}
@@ -602,11 +612,14 @@ public void mobAngledFloorLeft(Mob m) {
 		
 		
 		if(m.angleState == AngleState.FLOOR) {
+			
 			mobWallCollision(m);
 			mobGroundFloor(m);
 		} else {
 			
-			mobAngledFloor(m);
+			//mobAngledFloor(m);
+			
+			mobWallCollisionAngled(m);
 			
 			switch(m.angleState) {
 			case RIGHT:
@@ -621,7 +634,6 @@ public void mobAngledFloorLeft(Mob m) {
 				mobCeilingFloor(m);
 				break;
 			}
-			mobWallCollisionAngled(m);
 		}
 
 		// floor collision (including slopes)
