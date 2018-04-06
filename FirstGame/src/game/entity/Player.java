@@ -67,10 +67,15 @@ public class Player extends Mob {
 		}
 
 		
-		g.setColor(Color.BLACK);
-		g.drawLine((int)centerLine.getX1() + offsetX, (int)centerLine.getY1()+ offsetY, (int)centerLine.getX2()+ offsetX, (int)centerLine.getY2()+ offsetY);
-		g.drawLine((int)floorCheck1.getX1() + offsetX, (int)floorCheck1.getY1()+ offsetY, (int)floorCheck1.getX2()+ offsetX, (int)floorCheck1.getY2()+ offsetY);
-		g.drawLine((int)floorCheck2.getX1() + offsetX, (int)floorCheck2.getY1()+ offsetY, (int)floorCheck2.getX2()+ offsetX, (int)floorCheck2.getY2()+ offsetY);
+		if (Game.debug) {
+			g.setColor(Color.BLACK);
+			g.drawLine((int) centerLine.getX1() + offsetX, (int) centerLine.getY1() + offsetY,
+					(int) centerLine.getX2() + offsetX, (int) centerLine.getY2() + offsetY);
+			g.drawLine((int) floorCheck1.getX1() + offsetX, (int) floorCheck1.getY1() + offsetY,
+					(int) floorCheck1.getX2() + offsetX, (int) floorCheck1.getY2() + offsetY);
+			g.drawLine((int) floorCheck2.getX1() + offsetX, (int) floorCheck2.getY1() + offsetY,
+					(int) floorCheck2.getX2() + offsetX, (int) floorCheck2.getY2() + offsetY);
+		}
 	}
 
 	@Override
@@ -312,7 +317,12 @@ public class Player extends Mob {
 	
 	public void move() {
 		
-		if(!(KeyInput.isDown(KeyEvent.VK_A)||KeyInput.isDown(KeyEvent.VK_D))) {
+		if(falling) {
+			rolling = false;
+			//gsp = 0;
+		}
+		
+		if(!(KeyInput.isDown(KeyEvent.VK_A)||KeyInput.isDown(KeyEvent.VK_D))||rolling) {
 			
 			moving = false;
 			
@@ -354,7 +364,7 @@ public class Player extends Mob {
 			}
 			
 		} else {
-			if(KeyInput.isDown(KeyEvent.VK_A)) {
+			if(KeyInput.isDown(KeyEvent.VK_A)&&!rolling) {
 				moving = true;
 				if(getSpeed() > 0) {
 					//gsp -= dec;
@@ -372,7 +382,7 @@ public class Player extends Mob {
 				}
 			}
 			
-			if(KeyInput.isDown(KeyEvent.VK_D)) {
+			if(KeyInput.isDown(KeyEvent.VK_D)&&!rolling) {
 				moving = true;
 				if(getSpeed() < 0) {
 					//gsp += dec;
@@ -404,7 +414,16 @@ public class Player extends Mob {
 		}
 		
 		if(!falling) {
-			gsp += slp*Math.sin(angle);
+			
+			if(rolling) {
+				if(Math.signum(Math.sin(angle)) != Math.signum(gsp)) {
+					gsp +=  0.078125*Math.sin(angle);
+				} else {
+					gsp +=  0.3125*Math.sin(angle);
+				}
+			} else {
+				gsp += slp*Math.sin(angle);
+			}
 		}
 		
 		super.move();

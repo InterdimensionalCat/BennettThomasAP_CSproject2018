@@ -89,6 +89,13 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		
 		if(falling) {
 			angle = 0;
+			gsp = 0;
+		}
+		
+		if(angleState != AngleState.FLOOR && Math.abs(gsp) < 2.5 && Math.toDegrees(Math.abs(angle)) > 75) {
+			gsp = 0;
+			falling = true;
+			angle = 0;
 		}
 		
 /*		jumpTimer--;
@@ -134,13 +141,17 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			//xsp = gsp;
 			ysp += grv;
 			
+			
 			if(!KeyInput.isDown(KeyEvent.VK_SPACE)&&ysp < -3) { 
 				ysp = -3;
 			}
 			
 		} else {
+			
 			xsp = gsp*Math.cos(angle);
-			ysp = -gsp*Math.sin(angle);
+			ysp = gsp*Math.sin(angle);
+			//System.out.println(xsp + " , " + ysp);
+			//System.out.println(Math.toDegrees(angle));
 		}
 		
 /*		if(xsp < 1&& xsp > -1 && gsp == 0) {
@@ -264,6 +275,8 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			}
 		} else {
 			
+
+			
 			if(rolling && (Math.abs(spd) == 0.046875 || Math.abs(spd) == 0.5)) {
 				return;
 			}
@@ -356,9 +369,9 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			break;	
 		case CEILING:
 			
-			floorCheck1.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() - 14, (float)center.getX() - 42, (float)center.getY() - 14));
-			floorCheck2.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() + 14, (float)center.getX() - 42, (float)center.getY() + 14));
-			centerLine.setLine(new Line2D.Float((float)center.getX() - 26, (float)center.getY() + 6, (float)center.getX() + 26, (float)center.getY() + 6));
+			floorCheck1.setLine(new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() - 42));
+			floorCheck2.setLine(new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() - 42));
+			centerLine.setLine(new Line2D.Float((float)center.getX() - 26, (float)center.getY() - 6, (float)center.getX() + 26, (float)center.getY() - 6));
 			
 			break;
 		}

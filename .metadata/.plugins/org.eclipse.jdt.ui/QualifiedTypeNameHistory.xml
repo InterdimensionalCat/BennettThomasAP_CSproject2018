@@ -9,7 +9,6 @@
 <fullyQualifiedTypeName name="game.utils.math.Triangle"/>
 <fullyQualifiedTypeName name="java.awt.Point"/>
 <fullyQualifiedTypeName name="game.entity.Player"/>
-<fullyQualifiedTypeName name="java.lang.Math"/>
 <fullyQualifiedTypeName name="game.render.textures.Animation"/>
 <fullyQualifiedTypeName name="game.utils.init.InitAnimations"/>
 <fullyQualifiedTypeName name="game.entity.ActionState"/>
@@ -22,4 +21,5 @@
 <fullyQualifiedTypeName name="game.entity.AngleState"/>
 <fullyQualifiedTypeName name="game.input.KeyInput"/>
 <fullyQualifiedTypeName name="java.awt.event.KeyEvent"/>
+<fullyQualifiedTypeName name="java.lang.Math"/>
 </qualifiedTypeNameHistroy>

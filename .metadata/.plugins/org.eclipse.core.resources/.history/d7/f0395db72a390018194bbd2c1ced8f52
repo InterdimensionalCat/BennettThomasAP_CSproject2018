@@ -1,0 +1,375 @@
+package game.entity;
+
+
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
+import java.awt.geom.Line2D;
+
+import game.input.KeyInput;
+import game.render.textures.Texture;
+import game.world.TileMap;
+
+public abstract class Mob extends Entity { //It means MOBile entity
+
+	protected double motionX;
+	protected double motionY;
+	protected double gravity;
+	protected double maxMotionY;
+	protected boolean isAirBorne;
+	protected int pushForceY;
+	public int tickerAir;
+	protected boolean moving;
+	protected double lastMoveY;
+	protected Rectangle AABB;
+	//public ActionState state;
+	public boolean hasCollision = true;
+	public boolean falling;
+	public double ysp;
+	
+	public Line2D floorCheck1;
+	public Line2D floorCheck2;
+	public Line2D centerLine;
+	
+	public Point center;
+	
+	public double angle = 0;
+	
+	public double gsp;
+	
+	public double lastgsp;
+	
+	public double xsp;
+	
+	public int jumpTimer;
+	
+	public double staticJumpAngle;
+	
+	public double jumpVelocityY;
+	
+	public double jumpY;
+	public double jumpX;
+	
+	protected final double grv = 0.21875;
+	protected final double slp = 0.125;
+	
+	boolean shouldJump;
+	protected final double jmp = -9;
+	public AngleState angleState = AngleState.FLOOR;
+	
+	public boolean rolling = false;
+	
+	
+	public Mob(Texture texture, double x, double y, TileMap tileMap, Rectangle AABB) {
+		super(texture, x, y, tileMap, AABB);
+		gravity = 0.5;
+		maxMotionY = 10;
+		tickerAir = 0;
+		this.AABB = AABB;
+		
+		center = new Point((int)(x+32),(int)(y+32));
+		
+		floorCheck1 = new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() + 42);
+		floorCheck2 = new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() + 42);
+		centerLine = new Line2D.Float((float)center.getX() - 26, (float)center.getY() + 6, (float)center.getX() + 26, (float)center.getY() + 6);
+	}
+	
+	public void updateLines(double x, double y) {
+		center.setLocation((int)(x+32),(int)(y+32));
+		
+		//floorCheck1.setLine((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() + 42);
+		//floorCheck2.setLine((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() + 42);
+		//centerLine.setLine((float)center.getX() - 26, (float)center.getY() + 6, (float)center.getX() + 26, (float)center.getY() + 6);
+	}
+	
+	public abstract void setDead();
+	
+	@Override
+	public void tick() {
+		
+		if(falling) {
+			angle = 0;
+		}
+		
+/*		jumpTimer--;
+		if(jumpTimer <= 0) {
+			jumpTimer = 0;
+			staticJumpAngle = 0;
+		}*/
+		
+/*		if(getMotionY() == 0) {
+			this.state = ActionState.ON_TILE;
+		} else {
+			if (motionY > 0) {
+				this.state = ActionState.FALLING;
+			} else {
+				this.state = ActionState.JUMPING;
+			}
+		}*/
+		
+/*		if(motionY != 0) {
+			this.isAirBorne = true;
+		} else {
+			this.isAirBorne = false;
+		}*/
+		
+		//fall();
+		move();
+/*		if (motionX != 0) {
+			moving = true;
+		} else {
+			moving = false;
+		}*/
+
+		if(y > TileMap.convertToPixels(this.tileMap.getHeight())) {
+			this.setDead();
+		}
+		
+	}
+	
+	public void move() {
+		
+		if(falling) {
+			angle = 0;
+			//xsp = gsp;
+			ysp += grv;
+			
+			if(!KeyInput.isDown(KeyEvent.VK_SPACE)&&ysp < -3) { 
+				ysp = -3;
+			}
+			
+		} else {
+			xsp = gsp*Math.cos(angle);
+			ysp = -gsp*Math.sin(angle);
+			System.out.println(xsp + " , " + ysp);
+			//System.out.println(Math.toDegrees(angle));
+		}
+		
+/*		if(xsp < 1&& xsp > -1 && gsp == 0) {
+			xsp = 0;
+		}*/
+		
+		//System.out.println(Math.toDegrees(angle));
+		
+		if(falling) {
+			//ysp += grv;
+			if(ysp < 0 && ysp > -4) {
+				if(Math.abs(xsp) >= 0.125) {
+					xsp = xsp * 0.96875;
+				}
+			}
+		}
+		
+/*		if(shouldJump) {
+			falling = true;
+			xsp += jmp*Math.sin(angle);
+			ysp += jmp*Math.cos(angle);
+			angle = 0;
+		}*/
+		
+/*		if(jumpTimer > 0) {
+		    jumpY = (jumpVelocityY*jumpTimer / 2.2)*Math.cos(staticJumpAngle) + gsp*Math.sin(angle);
+		    if(!((xsp >= 0 && xsp > jumpX) || (xsp <= 0 && xsp < jumpX)) || jumpTimer < 23) {
+		    	jumpX = (jumpVelocityY*jumpTimer / 2.2)*Math.sin(staticJumpAngle) - gsp*Math.cos(angle);
+		    } else {
+		    	jumpX = 0;
+		    }
+			ysp -= jumpY;
+			xsp -= jumpX;
+			//jumpX -= gsp*Math.cos(angle);
+			//jumpY -= -gsp*Math.sin(angle);
+			
+		} else {
+			jumpX = 0;
+			jumpY = 0;
+			fall();
+		}*/
+/*		if(falling) {
+			ysp += gravity;
+		}*//* else {
+			fall();
+		}*/
+		//motionX += xsp;
+		//motionY += ysp;
+		tileMap.entityCollision(x,y,motionX,motionY,this);
+		y+=  ysp;
+		//y+= gravityY;
+		x+=  xsp;
+		updateLines(x, y);
+		lastgsp = gsp;
+		if(lastgsp < 1 && lastgsp >  -1) {
+			//lastgsp = 0;
+		}
+		//motionX -= xsp;
+		//motionY -= ysp;
+		
+		changeAngleState(angle);
+		
+	}
+	
+	
+	protected void fall() {
+		if (falling) {
+			gravity *= 2;
+			//motionY += gravity;
+			if (gravity > maxMotionY) {
+				gravity = maxMotionY;
+			} 
+		} else {
+			gravity = 0.5;
+		}
+	}
+	
+	protected void jump(double velocityY) {
+		
+		//shouldJump = true;
+		
+	    //jumpY = (jumpVelocityY)*Math.cos(staticJumpAngle);
+		//jumpX = (jumpVelocityY)*Math.sin(staticJumpAngle);
+		
+		
+		xsp += -jmp*Math.sin(angle);
+		System.out.println(-jmp*Math.sin(angle));
+		ysp += jmp*Math.cos(angle);
+		angle = 0;
+		
+		isAirBorne = true;
+		falling = true;
+	}
+	
+	public void setMotionY(double motionY) {
+		//this.motionY = motionY;
+		ysp = motionY;
+	}
+	
+	public void setMotionX(double motionX) {
+		//this.motionX = motionX;
+		xsp = motionX;
+	}
+	
+	public void setSpeed(double spd) {
+		if(falling) {
+			xsp = spd;
+		} else {
+			gsp = spd;
+		}
+	}
+	
+	public void addSpeed(double spd) {
+		if(falling) {
+			if(Math.abs(spd) == 0.046875) {
+				xsp += spd*2;
+			} else {
+				if(Math.abs(spd) != 0.06875) {
+					xsp += spd;
+				}
+			}
+		} else {
+			
+
+			
+			if(rolling && (Math.abs(spd) == 0.046875 || Math.abs(spd) == 0.5)) {
+				return;
+			}
+			
+			if(rolling&&Math.abs(spd) != 0.06875) {
+				gsp+= spd/2;
+			} else {
+				gsp += spd;
+			}
+		}
+	}
+	
+	public void multSpeed(double spd) {
+		if(falling) {
+			xsp *= spd;
+		} else {
+			gsp *= spd;
+		}
+	}
+	
+	public double getSpeed() {
+		if(falling) {
+			return xsp;
+		} else {
+			return gsp;
+		}
+	}
+	
+	public void setAirBorne(boolean airBorne) {
+		this.isAirBorne = airBorne;
+	}
+
+	public boolean isAirBorne() {
+		return isAirBorne;
+	}
+
+	public double getMotionY() {
+		return motionY;
+	}
+	
+	public double getMotionX() {
+		return motionX;
+	}
+	
+	public boolean isMovingLeft() {
+		return gsp < 0;
+	}
+	
+	public boolean isMovingRight() {
+		return gsp > 0;
+	}
+	
+	public boolean isMoving() {
+		return moving;
+	}
+	
+	public void setMoving(boolean moving) {
+		//System.out.println(moving);
+		this.moving = moving;
+	}
+	
+	public void changeAngleState(double angelIn) { //in radians
+		this.angleState = AngleState.index[(int)(Math.round(Math.abs(angle) / (Math.PI/2)) % 4)];
+		if(angle > 0 && angleState == AngleState.RIGHT) {
+			angleState = AngleState.LEFT;
+		}
+		
+		
+		switch(angleState) {
+		case RIGHT:
+			
+			floorCheck1.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() - 14, (float)center.getX() + 42, (float)center.getY() - 14));
+			floorCheck2.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() + 14, (float)center.getX() + 42, (float)center.getY() + 14));
+			centerLine.setLine(new Line2D.Float((float)center.getX() + 6, (float)center.getY() - 26, (float)center.getX() + 6, (float)center.getY() + 26));
+			
+			break;
+		case LEFT:
+			
+			floorCheck1.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() - 14, (float)center.getX() - 42, (float)center.getY() - 14));
+			floorCheck2.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() + 14, (float)center.getX() - 42, (float)center.getY() + 14));
+			centerLine.setLine(new Line2D.Float((float)center.getX() - 6, (float)center.getY() - 26, (float)center.getX() - 6, (float)center.getY() + 26));
+			
+			break;
+		case FLOOR:
+			
+			floorCheck1.setLine(new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() + 42));
+			floorCheck2.setLine(new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() + 42));
+			centerLine.setLine(new Line2D.Float((float)center.getX() - 26, (float)center.getY() + 6, (float)center.getX() + 26, (float)center.getY() + 6));
+			
+			break;	
+		case CEILING:
+			
+			floorCheck1.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() - 14, (float)center.getX() - 42, (float)center.getY() - 14));
+			floorCheck2.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() + 14, (float)center.getX() - 42, (float)center.getY() + 14));
+			centerLine.setLine(new Line2D.Float((float)center.getX() - 26, (float)center.getY() + 6, (float)center.getX() + 26, (float)center.getY() + 6));
+			
+			break;
+		}
+	}
+	
+	public void land() {
+		gsp = xsp;
+	}
+	
+}
