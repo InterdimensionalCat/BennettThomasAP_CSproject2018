@@ -328,9 +328,9 @@ public void mobCeilingFloor(Mob m) {
 			return;
 		}
 		
-		double checkY = Double.MIN_NORMAL;
-		double checkY2 = Double.MIN_NORMAL;
-		double newY = Double.MIN_NORMAL;
+		double checkY = Double.MAX_VALUE;
+		double checkY2 = Double.MAX_VALUE;
+		double newY = Double.MAX_VALUE;
 		
 		double x1 = 0;
 		double x2 = 0;
@@ -344,7 +344,7 @@ public void mobCeilingFloor(Mob m) {
 			
 			if(m.floorCheck1.intersects(t.AABB)) {
 				if(!((int)m.floorCheck1.getX2() - t.x >= 64 || (int)m.floorCheck1.getX2() - t.x < 0)) {
-					if(m.floorCheck1.getY2() > t.y + 64 - t.heightMask2[(int)m.floorCheck1.getX2() - t.x]) {
+					if(m.floorCheck1.getY2() > t.y + 64 - t.heightMask2[(int)m.floorCheck1.getX2() - t.x]&& m.getMotionY() >= 0) {
 						checkY = t.y + 64 - t.heightMask2[(int)m.floorCheck1.getX2() - t.x];
 						x1 = t.heightMask[(int)m.floorCheck1.getX2() - t.x];
 						mustCheck = true;
@@ -354,7 +354,7 @@ public void mobCeilingFloor(Mob m) {
 			
 			if(m.floorCheck2.intersects(t.AABB)) {
 				if(!((int)m.floorCheck2.getX2() - t.x >= 64 || (int)m.floorCheck2.getX2() - t.x < 0)) {
-					if(m.floorCheck2.getY2() > t.y + 64 - t.heightMask2[(int)m.floorCheck2.getX2() - t.x]) {
+					if(m.floorCheck2.getY2() > t.y + 64 - t.heightMask2[(int)m.floorCheck2.getX2() - t.x]&& m.getMotionY() >= 0) {
 						checkY2 = t.y + 64 - t.heightMask2[(int)m.floorCheck2.getX2() - t.x ];
 						x2 = t.heightMask[(int)m.floorCheck2.getX2() - t.x];
 						mustCheck = true;
@@ -365,10 +365,10 @@ public void mobCeilingFloor(Mob m) {
 			}
 			
 			if(mustCheck) {
-				if(Math.max(checkY, checkY2) > newY) {
+				if(Math.max(checkY, checkY2) < newY) {
 					newY = Math.max(checkY, checkY2);
 					if(m.falling) {
-						if(m.getY() > newY) {
+						if(m.getY() + 64 > newY && m.getMotionY() >= 0) {
 							m.setY(newY);
 							m.falling = false;
 							m.land();
