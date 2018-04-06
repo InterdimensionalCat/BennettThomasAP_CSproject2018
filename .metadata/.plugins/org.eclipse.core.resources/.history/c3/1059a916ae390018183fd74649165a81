@@ -35,7 +35,6 @@ public class TileMap {
 
 	private static final int TILE_SIZE = 64;
 	private static final int TILE_SIZE_BITS = 6;
-	private double newX;
 
 	private Player player;
 	private ParallaxEngine parallaxEngine;
@@ -185,7 +184,12 @@ public class TileMap {
 							m.setX(t.x - 58);
 							
 						
-						m.gsp = 0;
+						
+						if(m.xsp >= 0) {
+							m.gsp = 0;
+							m.xsp = 0;
+						}
+						
 						//m.setMoving(false);
 						return true;
 					} 
@@ -209,7 +213,11 @@ public class TileMap {
 							
 						
 						//m.setX(t.x + 59);
-						m.gsp = 0;
+						
+						if(m.xsp <= 0) {
+							m.gsp = 0;
+							m.xsp = 0;
+						}
 						//m.setMoving(false);
 						return true;
 					} 
@@ -323,6 +331,81 @@ public class TileMap {
 	
 	
 	
+public void mobCeilingFloor(Mob m) {
+		
+		if(m.falling && m.ysp < 0) {
+			return;
+		}
+		
+		double checkY = Double.MIN_NORMAL;
+		double checkY2 = Double.MIN_NORMAL;
+		double newY = Double.MIN_NORMAL;
+		
+		double x1 = 0;
+		double x2 = 0;
+		
+		for(Tile t : usedTiles) {
+			boolean mustCheck = false;
+			if(!t.isSolid()) {
+				continue;
+			}
+			
+			
+			if(m.floorCheck1.intersects(t.AABB)) {
+				if(!((int)m.floorCheck1.getX2() - t.x >= 64 || (int)m.floorCheck1.getX2() - t.x < 0)) {
+					if(m.floorCheck1.getY2() > t.y + 64 - t.heightMask2[(int)m.floorCheck1.getX2() - t.x]) {
+						checkY = t.y + 64 - t.heightMask2[(int)m.floorCheck1.getX2() - t.x];
+						x1 = t.heightMask[(int)m.floorCheck1.getX2() - t.x];
+						mustCheck = true;
+					}
+				}
+			}
+			
+			if(m.floorCheck2.intersects(t.AABB)) {
+				if(!((int)m.floorCheck2.getX2() - t.x >= 64 || (int)m.floorCheck2.getX2() - t.x < 0)) {
+					if(m.floorCheck2.getY2() > t.y + 64 - t.heightMask2[(int)m.floorCheck2.getX2() - t.x]) {
+						checkY2 = t.y + 64 - t.heightMask2[(int)m.floorCheck2.getX2() - t.x ];
+						x2 = t.heightMask[(int)m.floorCheck2.getX2() - t.x];
+						mustCheck = true;
+						
+						
+					}
+				}
+			}
+			
+			if(mustCheck) {
+				if(Math.max(checkY, checkY2) > newY) {
+					newY = Math.max(checkY, checkY2);
+					if(m.falling) {
+						if(m.getY() > newY) {
+							m.setY(newY + 64);
+							m.falling = false;
+							m.land();
+							m.setAirBorne(false);
+							m.setMotionY(0);
+							//m.setMotionX(0);
+							
+							m.angle =  t.angle;
+						}
+					} else {
+						m.setY(newY + 64);
+						m.falling = false;
+						//m.land();
+						m.setAirBorne(false);
+						m.setMotionY(0);
+						
+						m.angle =  t.angle;
+						
+						if(m.angle == 0) {
+							m.angle = Math.toRadians(180);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	
 	
 	public void mobAngledFloor(Mob m) {
 		
@@ -412,6 +495,91 @@ public class TileMap {
 	
 	
 	
+public void mobAngledFloorLeft(Mob m) {
+		
+		double checkY = Double.MIN_NORMAL;
+		double checkY2 = Double.MIN_NORMAL;
+		double newY = Double.MIN_NORMAL;
+		
+		double x1 = 0;
+		double x2 = 0;
+		
+		for(Tile t : usedTiles) {
+			boolean mustCheck = false;
+			if(!t.isSolid()) {
+				continue;
+			}
+			
+
+			
+			
+			if(m.floorCheck1.intersects(t.AABB)) {
+				
+				
+				
+				if(!((int)m.floorCheck1.getY2() - t.y >= 64 || (int)m.floorCheck1.getY2() - t.y < 0)) {
+					if(m.floorCheck1.getX2() < t.x + 64 - t.heightMask2[(int)m.floorCheck1.getY2() - t.y]) {
+						checkY = t.x + 64 - t.heightMask[(int)m.floorCheck1.getY2() - t.y];
+						x1 = t.heightMask2[(int)m.floorCheck1.getY2() - t.y];
+						mustCheck = true;
+					}
+				}
+			}
+			
+			if(m.floorCheck2.intersects(t.AABB)) {
+				
+				
+				
+				
+				if(!((int)m.floorCheck2.getY2() - t.y >= 64 || (int)m.floorCheck2.getY2() - t.y < 0)) {
+					if(m.floorCheck2.getX2() < t.x + 64 - t.heightMask2[(int)m.floorCheck2.getY2() - t.y]) {
+						checkY2 = t.x + 64 - t.heightMask2[(int)m.floorCheck2.getY2() - t.y];
+						x2 = t.heightMask2[(int)m.floorCheck2.getY2() - t.y];
+						mustCheck = true;
+						
+						
+					}
+				}
+			}
+			
+			if(mustCheck) {
+				if(Math.max(checkY, checkY2) > newY) {
+					newY = Math.max(checkY, checkY2);
+					if(m.falling) {
+						if(m.getY() + 64 > newY && m.getMotionY() >= 0) {
+							m.setX(newY);
+							m.falling = false;
+							m.land();
+							m.setAirBorne(false);
+							//m.setMotionY(0);
+							//m.setMotionX(0);
+							
+							m.angle = t.angle;
+							if(m.angle == 0) {
+								m.angle = 89;
+							}
+						}
+					} else {
+						m.setX(newY);
+						m.falling = false;
+						//m.land();
+						m.setAirBorne(false);
+						//m.setMotionY(0);
+						
+						m.angle = t.angle;
+						if(m.angle == 0) {
+							m.angle = 89;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	
+	
+	
+	
 	
 	
 	
@@ -419,6 +587,7 @@ public class TileMap {
 		double centerX = posX + 32;
 		double centerY = posY + 32;
 
+		
 		if (posX + motionX <= 0) {
 			m.setX(1);
 		}
@@ -440,19 +609,35 @@ public class TileMap {
 
 		// wall collision
 		
+		
+		
 		if(m.angleState == AngleState.FLOOR) {
+			
 			mobWallCollision(m);
+			mobGroundFloor(m);
 		} else {
+			
+			//mobAngledFloor(m);
+			
 			mobWallCollisionAngled(m);
+			
+			switch(m.angleState) {
+			case RIGHT:
+				mobAngledFloor(m);
+				break;
+				
+			case LEFT:
+				mobAngledFloorLeft(m);
+				break;
+				
+			case CEILING:
+				mobCeilingFloor(m);
+				break;
+			}
 		}
 
 		// floor collision (including slopes)
 		
-		if(m.angleState == AngleState.RIGHT || m.angleState == AngleState.LEFT) {
-			mobAngledFloor(m);
-		} else {
-			mobGroundFloor(m);
-		}
 		
 		
 		
@@ -750,13 +935,30 @@ public class TileMap {
 			
 			
 			
-			setTile(18, 13, Tile.tile11);
+			//setTile(18, 13, Tile.tile11);
 			setTile(19, 12, Tile.tile11);
 			setTile(20, 11, Tile.tile2);
 			setTile(21, 10, Tile.tile2);
 			setTile(22, 9, Tile.tile1);
 			setTile(22, 8, Tile.tile1);
-			setTile(21, 7, Tile.tile1);
+			setTile(21, 7, Tile.tile111);
+			setTile(20, 6, Tile.tile1111);
+			setTile(19, 5, Tile.tile1);
+			
+			
+			setTile(26, 13, Tile.tile26);
+			setTile(25, 12, Tile.tile26);
+			setTile(24, 11, Tile.tile25);
+			setTile(23, 10, Tile.tile25);
+			setTile(23, 7, Tile.tile266);
+			setTile(23, 6, Tile.tile1);
+			
+			
+			//setTile(30, 13, Tile.tile1);
+			setTile(30, 12, Tile.tile1);
+			setTile(30, 11, Tile.tile1);
+			setTile(30, 10, Tile.tile2);
+			setTile(31, 9, Tile.tile11);
 			
 			  setTile(11, 13, Tile.slope5);
 			  setTile(12, 13, Tile.slope6); 

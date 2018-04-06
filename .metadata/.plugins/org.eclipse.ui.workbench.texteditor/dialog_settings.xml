@@ -2,27 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="Ceiling" key="selection"/>
+		<item value="CeilingFloor" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="ceilingFloor"/>
+			<item value="mobangledFloorLeft"/>
+			<item value="mobangledFloorLet"/>
+			<item value="mob"/>
+			<item value="angledLeft"/>
+			<item value="anglelef"/>
+			<item value="angledL"/>
+			<item value="floorCollisionAngledLeft"/>
+			<item value="leftFloor"/>
+			<item value="ceilingfloor"/>
 			<item value="ceiling"/>
+			<item value="mobAngledFloorLeft"/>
+			<item value="mobAngledFloorLet"/>
 			<item value="entityColli"/>
 			<item value="mobwallc"/>
-			<item value="mobwall"/>
-			<item value="entityColl"/>
-			<item value="-acc"/>
-			<item value="acc"/>
-			<item value="top"/>
-			<item value="setTile"/>
-			<item value="getTile"/>
-			<item value="ceilingFLoor"/>
-			<item value="mobAngledFloorLeft"/>
-			<item value="mobangled"/>
-			<item value="mobground"/>
-			<item value="mobgournd"/>
 		</list>
 		<list key="replacehistory">
 			<item value="floorCheck1"/>
