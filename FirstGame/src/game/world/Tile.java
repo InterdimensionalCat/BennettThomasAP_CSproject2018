@@ -21,6 +21,7 @@ public class Tile {
 	protected double[] heightMask;
 	protected double[] heightMask1;
 	protected double[] heightMask2;
+	protected double[] heightMask3;
 	int x;
 	int y;
 	public Rectangle AABB;
@@ -38,6 +39,7 @@ public class Tile {
 	public static final Tile tile25 = new Tile(0xFFFF0000, new Texture("grassSlopeLeft"), TileType.SLOPE_RIGHT_64_00, /*create64RightArray()*/ createSlopeLeftArray(1,64), createSlopeLeftArray(1,64) , Math.toRadians(45));
 	public static final Tile tile26 = new Tile(0xFFFF0000, new Texture("grassSlopeLeft"), TileType.SLOPE_RIGHT_64_00, /*create64RightArray()*/ createSlopeLeftArray(1,64), createSlopeLeftArray(1,64) , Math.toRadians(44));
 	public static final Tile tile266 = new Tile(0xFFFF0000, new Texture("grassSlopeLeft"), TileType.SLOPE_RIGHT_64_00, /*create64RightArray()*/ createSlopeRightArray(1,64), createSlopeRightArray(1,64) , Math.toRadians(134));
+	public static final Tile tile2666 = new Tile(0xFFFF0000, new Texture("grassSlopeLeft"), TileType.SLOPE_RIGHT_64_00, /*create64RightArray()*/ createSlopeRightArray(1,64), createSlopeLeftArray(1,64) , Math.toRadians(135));
 	
 	
 	public static final Tile slope1 = new Tile(-6, setSlopeImage(createSlopeLeftArray(0,16)), TileType.SLOPE_RIGHT_64_00, createSlopeRightArray(0,16), createSolidArray(), Math.toRadians( - 11.25));
@@ -93,8 +95,9 @@ public class Tile {
 		//System.out.println(angle);
 		
 		heightMask2 = heightMask1;
+		heightMask3 = heightMask;
 		if(TileType.isCubeType(this.type)) {
-			//heightMask2 = createNoArray();
+			heightMask3 = createNoArray();
 		}
 		
 	}
@@ -112,6 +115,7 @@ public class Tile {
 		//leftAngle = -t.angle;
 		this.heightMask1 = t.heightMask1;
 		heightMask2 = t.heightMask2;
+		heightMask3 = t.heightMask3;
 	}
 	
 

@@ -1,0 +1,1051 @@
+package game.world;
+
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.imageio.ImageIO;
+import javax.sound.sampled.Line;
+
+import game.Game;
+import game.entity.AngleState;
+import game.entity.Entity;
+import game.entity.EntityBoop;
+import game.entity.EntityGoal;
+import game.entity.EntityMovingTile;
+import game.entity.Mob;
+import game.entity.PlatformType;
+import game.entity.Player;
+import game.render.ParallaxEngine;
+import game.render.ParallaxLayer;
+import game.render.textures.Texture;
+import game.utils.math.Triangle;
+
+public class TileMap {
+
+	private String name;
+	private int width, height;
+	private Tile[] tiles; // MAKE THIS A DOUBLE ARRAY BOI
+
+	private static final int TILE_SIZE = 64;
+	private static final int TILE_SIZE_BITS = 6;
+
+	private Player player;
+	private ParallaxEngine parallaxEngine;
+	private ArrayList<Entity> entities;
+
+	private ArrayList<Triangle> slopeTriangles = new ArrayList<Triangle>();
+	
+	public ArrayList<Tile> usedTiles = new ArrayList<Tile>();
+
+	private boolean isOnMovingTile;
+
+	boolean first;
+
+	double newPosY;
+
+	public TileMap(String name) {
+		entities = new ArrayList<Entity>();
+		ParallaxLayer layer1 = new ParallaxLayer(new Texture("background13"), (int) ((16 * 0.25) * -0.23));
+		ParallaxLayer layer2 = new ParallaxLayer(new Texture("background2"), (int) ((16 * 0.25) * -0.3));
+		ParallaxLayer layer3 = new ParallaxLayer(new Texture("background32"), (int) ((16 * 0.25) * -0.6));
+		this.parallaxEngine = new ParallaxEngine(layer1, layer2, layer3);
+		load(name);
+	}
+
+	public Tile getTile(int x, int y) {
+		if (x < 0 || x >= width || y < 0 || y >= height) {
+			return null;
+		} else {
+			return tiles[x + y * width];
+		}
+	}
+
+	public void setTile(int x, int y, Tile tile) {
+		tiles[x + y * width] = tile; // proper math?
+		usedTiles.add(new Tile(tile,x*64,y*64));
+	}
+
+	public static int convertToTiles(int pixel) {
+		return pixel >> TILE_SIZE_BITS;
+	}
+
+	public static int convertToPixels(int tile) {
+		return tile << TILE_SIZE_BITS;
+	}
+
+	public static int getTilePos(int posIn) {
+		return (posIn >> TILE_SIZE_BITS) << TILE_SIZE_BITS;
+	}
+
+	public void tick() {
+		player.tick();
+		if (player.isMovingLeft()) {
+			parallaxEngine.setLeft();
+		} else {
+			if (player.isMovingRight()) {
+				parallaxEngine.setRight();
+			}
+		}
+		if (player.isMoving()) {
+			parallaxEngine.setMove(player.getMotionX());
+		}
+		for (int i = 0; i < entities.size(); i++) {
+			entities.get(i).tick();
+		}
+	}
+
+	public void render(Graphics2D g2d, int screenWidth, int screenHeight) {
+
+		int mapWidth = convertToPixels(width);
+		int mapHeight = convertToPixels(height);
+		int offsetX = (int) (screenWidth / 2 - player.getX() - TILE_SIZE / 2);
+		int offsetY = (int) (screenHeight / 2 - player.getY() - TILE_SIZE / 2);
+		offsetX = Math.min(offsetX, 0);
+		offsetX = Math.max(offsetX, screenWidth - mapWidth);
+		offsetY = Math.min(offsetY, 0);
+		offsetY = Math.max(offsetY, screenHeight - mapHeight);
+
+		int firstX = convertToTiles(-offsetX);
+		int lastX = firstX + convertToTiles(screenWidth) + 1;
+		int firstY = convertToTiles(-offsetY);
+		int lastY = firstY + convertToTiles(screenHeight) + 1;
+
+		parallaxEngine.render(g2d);
+
+		for (int y = firstY; y <= lastY; y++) {
+			for (int x = firstX; x <= lastX; x++) {
+				if (Game.showTileMap) {
+					g2d.setColor(Color.RED);
+					g2d.drawRect(convertToPixels(x) + offsetX, convertToPixels(y) + offsetY, 64, 64);
+				}
+			}
+		}
+		
+		for(Tile t : usedTiles) {
+			t.render(g2d, t.x + offsetX, t.y + offsetY);
+		}
+
+		for (int i = 0; i < entities.size(); i++) {
+			entities.get(i).render(g2d, offsetX, offsetY);
+		}
+		player.render(g2d, offsetX, offsetY);
+
+	}
+
+	
+	
+	
+	public void mobFallingOff(double centerX, double centerY, Mob m) {
+		for(Tile t : usedTiles) {
+			if(!t.isSolid()) {
+				continue;
+			}
+			if((t.AABB.intersectsLine(m.floorCheck1) || t.AABB.intersectsLine(m.floorCheck2))) {
+				return;
+			}
+		}
+		
+		m.falling = true;
+	}
+
+	public boolean mobWallCollision(Mob m) {
+		
+		for(Tile t : usedTiles) {
+			if(!t.isSolid()) {
+				continue;
+			}
+			
+			
+			if(t.AABB.intersectsLine(m.centerLine)&&TileType.isCubeType(t.type)) {
+				if (m.getX() < t.x) {
+					if (m.falling) {
+						if (m.xsp > 0) {
+							
+							
+
+							m.setX(t.x - 58);
+
+							
+							
+							//m.setX(t.x - 58);
+							m.xsp = 0;
+							//m.setMoving(false);
+							return true;
+						}
+					} else {
+						
+							m.setX(t.x - 58);
+							
+						
+						
+						if(m.xsp >= 0) {
+							m.gsp = 0;
+							m.xsp = 0;
+						}
+						
+						//m.setMoving(false);
+						return true;
+					} 
+				} else {
+					if (m.falling) {
+						if (m.xsp < 0) {
+							
+
+								m.setX(t.x + 59);
+								
+							
+							//m.setX(t.x + 59);
+							m.xsp = 0;
+							//m.setMoving(false);
+							return true;
+						}
+					} else {
+						
+						
+						m.setX(t.x + 59);
+							
+						
+						//m.setX(t.x + 59);
+						
+						if(m.xsp <= 0) {
+							m.gsp = 0;
+							m.xsp = 0;
+						}
+						//m.setMoving(false);
+						return true;
+					} 
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	
+	
+	
+	public boolean mobWallCollisionAngled(Mob m) {
+		
+		for(Tile t : usedTiles) {
+			if(!t.isSolid()) {
+				continue;
+			}
+			
+			
+			if(t.AABB.intersectsLine(m.centerLine)&&TileType.isCubeType(t.type)) {
+				
+				
+				m.falling = true;
+				m.angle = 0;
+				m.xsp = 0;
+				m.ysp = 0;
+				m.gsp = 0;
+				return true;
+				
+			}
+		}
+		
+		return false;
+	}
+	
+	
+	
+	
+	public void mobGroundFloor(Mob m) {
+		
+		if(m.falling && m.ysp < 0) {
+			return;
+		}
+		
+		double checkY = Double.MAX_VALUE;
+		double checkY2 = Double.MAX_VALUE;
+		double newY = Double.MAX_VALUE;
+		
+		double x1 = 0;
+		double x2 = 0;
+		
+		for(Tile t : usedTiles) {
+			boolean mustCheck = false;
+			if(!t.isSolid()) {
+				continue;
+			}
+			
+			
+			if(m.floorCheck1.intersects(t.AABB)) {
+				if(!((int)m.floorCheck1.getX2() - t.x >= 64 || (int)m.floorCheck1.getX2() - t.x < 0)) {
+					if(m.floorCheck1.getY2() > t.y + 64 - t.heightMask[(int)m.floorCheck1.getX2() - t.x]&& m.getMotionY() >= 0) {
+						checkY = t.y + 64 - t.heightMask[(int)m.floorCheck1.getX2() - t.x];
+						x1 = t.heightMask[(int)m.floorCheck1.getX2() - t.x];
+						mustCheck = true;
+					}
+				}
+			}
+			
+			if(m.floorCheck2.intersects(t.AABB)) {
+				if(!((int)m.floorCheck2.getX2() - t.x >= 64 || (int)m.floorCheck2.getX2() - t.x < 0)) {
+					if(m.floorCheck2.getY2() > t.y + 64 - t.heightMask[(int)m.floorCheck2.getX2() - t.x]&& m.getMotionY() >= 0) {
+						checkY2 = t.y + 64 - t.heightMask[(int)m.floorCheck2.getX2() - t.x ];
+						x2 = t.heightMask[(int)m.floorCheck2.getX2() - t.x];
+						mustCheck = true;
+						
+						
+					}
+				}
+			}
+			
+			if(mustCheck) {
+				if(Math.min(checkY, checkY2) < newY) {
+					newY = Math.min(checkY, checkY2);
+					if(m.falling) {
+						if(m.getY() + 64 > newY && m.getMotionY() >= 0) {
+							m.setY(newY - 64);
+							m.falling = false;
+							m.land();
+							m.setAirBorne(false);
+							m.setMotionY(0);
+							//m.setMotionX(0);
+							
+							m.angle =  t.angle;
+						}
+					} else {
+						m.setY(newY - 64);
+						m.falling = false;
+						//m.land();
+						m.setAirBorne(false);
+						m.setMotionY(0);
+						
+						m.angle =  t.angle;
+					}
+				}
+			}
+		}
+	}
+	
+	
+	
+	
+public void mobCeilingFloor(Mob m) {
+		
+		if(m.falling && m.ysp < 0) {
+			return;
+		}
+		
+		double checkY = Double.MIN_NORMAL;
+		double checkY2 = Double.MIN_NORMAL;
+		double newY = Double.MIN_NORMAL;
+		
+		double x1 = 0;
+		double x2 = 0;
+		
+		for(Tile t : usedTiles) {
+			boolean mustCheck = false;
+			if(!t.isSolid()) {
+				continue;
+			}
+			
+			
+			if(m.floorCheck1.intersects(t.AABB)) {
+				if(!((int)m.floorCheck1.getX2() - t.x >= 64 || (int)m.floorCheck1.getX2() - t.x < 0)) {
+					if(m.floorCheck1.getY2() < t.y +  t.heightMask2[(int)m.floorCheck1.getX2() - t.x]) {
+						checkY = t.y +  t.heightMask2[(int)m.floorCheck1.getX2() - t.x];
+						x1 = t.heightMask[(int)m.floorCheck1.getX2() - t.x];
+						mustCheck = true;
+					}
+				}
+			}
+			
+			if(m.floorCheck2.intersects(t.AABB)) {
+				if(!((int)m.floorCheck2.getX2() - t.x >= 64 || (int)m.floorCheck2.getX2() - t.x < 0)) {
+					if(m.floorCheck2.getY2() < t.y +  t.heightMask2[(int)m.floorCheck2.getX2() - t.x]) {
+						checkY2 = t.y +  t.heightMask2[(int)m.floorCheck2.getX2() - t.x];
+						x2 = t.heightMask[(int)m.floorCheck2.getX2() - t.x];
+						mustCheck = true;
+						
+						
+					}
+				}
+			}
+			
+			if(mustCheck) {
+				if(Math.max(checkY, checkY2) > newY) {
+					newY = Math.max(checkY, checkY2);
+					if(m.falling) {
+						if(true/*m.getY() > newY*/) {
+							m.setY(newY);
+							m.falling = false;
+							m.land();
+							m.setAirBorne(false);
+							m.setMotionY(0);
+							//m.setMotionX(0);
+							
+							m.angle =  t.angle;
+						}
+					} else {
+						
+						m.setY(newY);
+						
+						m.falling = false;
+						//m.land();
+						m.setAirBorne(false);
+						m.setMotionY(0);
+						
+						m.angle =  t.angle;
+						
+						if(m.angle == 0) {
+							m.angle = Math.toRadians(180);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	
+	
+	public void mobAngledFloor(Mob m) {
+		
+		double checkY = Double.MAX_VALUE;
+		double checkY2 = Double.MAX_VALUE;
+		double newY = Double.MAX_VALUE;
+		
+		double x1 = 0;
+		double x2 = 0;
+		
+		for(Tile t : usedTiles) {
+			boolean mustCheck = false;
+			if(!t.isSolid()) {
+				continue;
+			}
+			
+
+			
+			
+			if(m.floorCheck1.intersects(t.AABB)) {
+				
+				
+				
+				
+				if(!((int)m.floorCheck1.getY2() - t.y >= 64 || (int)m.floorCheck1.getY2() - t.y < 0)) {
+					if(m.floorCheck1.getX2() > t.x + 64 - t.heightMask[(int)m.floorCheck1.getY2() - t.y]) {
+						checkY = t.x + 64 - t.heightMask[(int)m.floorCheck1.getY2() - t.y];
+						x1 = t.heightMask[(int)m.floorCheck1.getY2() - t.y];
+						mustCheck = true;
+					}
+				}
+			}
+			
+			if(m.floorCheck2.intersects(t.AABB)) {
+				
+				
+				
+				
+				if(!((int)m.floorCheck2.getY2() - t.y >= 64 || (int)m.floorCheck2.getY2() - t.y < 0)) {
+					if(m.floorCheck2.getX2() > t.x + 64 - t.heightMask[(int)m.floorCheck2.getY2() - t.y]) {
+						checkY2 = t.x + 64 - t.heightMask[(int)m.floorCheck2.getY2() - t.y ];
+						x2 = t.heightMask[(int)m.floorCheck2.getY2() - t.y];
+						mustCheck = true;
+						
+						
+					}
+				}
+			}
+			
+			if(mustCheck) {
+				if(Math.min(checkY, checkY2) < newY) {
+					newY = Math.min(checkY, checkY2);
+					if(m.falling) {
+						if(m.getY() + 64 > newY && m.getMotionY() >= 0) {
+							m.setX(newY - 64);
+							m.falling = false;
+							m.land();
+							m.setAirBorne(false);
+							//m.setMotionY(0);
+							//m.setMotionX(0);
+							
+							m.angle = t.angle;
+							if(m.angle == 0) {
+								m.angle = -89;
+							}
+						}
+					} else {
+						m.setX(newY - 64);
+						m.falling = false;
+						//m.land();
+						m.setAirBorne(false);
+						//m.setMotionY(0);
+						
+						m.angle = t.angle;
+						if(m.angle == 0) {
+							m.angle = -89;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+public void mobAngledFloorLeft(Mob m) {
+		
+		double checkY = Double.MIN_NORMAL;
+		double checkY2 = Double.MIN_NORMAL;
+		double newY = Double.MIN_NORMAL;
+		
+		double x1 = 0;
+		double x2 = 0;
+		
+		for(Tile t : usedTiles) {
+			boolean mustCheck = false;
+			if(!t.isSolid()) {
+				continue;
+			}
+			
+
+			
+			
+			if(m.floorCheck1.intersects(t.AABB)) {
+				
+				
+				
+				if(!((int)m.floorCheck1.getY2() - t.y >= 64 || (int)m.floorCheck1.getY2() - t.y < 0)) {
+					if(m.floorCheck1.getX2() < t.x + 64 - t.heightMask3[(int)m.floorCheck1.getY2() - t.y]) {
+						checkY = t.x + 64 - t.heightMask3[(int)m.floorCheck1.getY2() - t.y];
+						x1 = t.heightMask3[(int)m.floorCheck1.getY2() - t.y];
+						mustCheck = true;
+					}
+				}
+			}
+			
+			if(m.floorCheck2.intersects(t.AABB)) {
+				
+				
+				
+				
+				if(!((int)m.floorCheck2.getY2() - t.y >= 64 || (int)m.floorCheck2.getY2() - t.y < 0)) {
+					if(m.floorCheck2.getX2() < t.x + 64 - t.heightMask3[(int)m.floorCheck2.getY2() - t.y]) {
+						checkY2 = t.x + 64 - t.heightMask3[(int)m.floorCheck2.getY2() - t.y];
+						x2 = t.heightMask3[(int)m.floorCheck2.getY2() - t.y];
+						mustCheck = true;
+						
+						
+					}
+				}
+			}
+			
+			if(mustCheck) {
+				if(Math.max(checkY, checkY2) > newY) {
+					newY = Math.max(checkY, checkY2);
+					if(m.falling) {
+						if(m.getY() + 64 > newY && m.getMotionY() >= 0) {
+							m.setX(newY);
+							m.falling = false;
+							m.land();
+							m.setAirBorne(false);
+							//m.setMotionY(0);
+							//m.setMotionX(0);
+							
+							m.angle = t.angle;
+							if(m.angle == 0) {
+								m.angle = 89;
+							}
+						}
+					} else {
+						m.setX(newY);
+						m.falling = false;
+						//m.land();
+						m.setAirBorne(false);
+						//m.setMotionY(0);
+						
+						m.angle = t.angle;
+						if(m.angle == 0) {
+							m.angle = 89;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	public void entityCollision(double posX, double posY, double motionX, double motionY, Mob m) {
+		double centerX = posX + 32;
+		double centerY = posY + 32;
+
+		
+		if (posX + motionX <= 0) {
+			m.setX(1);
+		}
+		
+		if(posX + motionX + 64 >= this.width * 64) {
+			m.setX(this.width * 64 - 65);
+		}
+
+		if (posY + motionY >= (this.height - 1) * 64) {
+			m.setDead();
+			return;
+		}
+
+		if (posY + motionY <= 0) {
+			m.setMotionY(0);
+		}
+
+		mobFallingOff(centerX, centerY, m);
+
+		// wall collision
+		
+		
+		
+		if(m.angleState == AngleState.FLOOR) {
+			
+			mobWallCollision(m);
+			mobGroundFloor(m);
+		} else {
+			
+			//mobAngledFloor(m);
+			
+			mobWallCollisionAngled(m);
+			
+			switch(m.angleState) {
+			case RIGHT:
+				mobAngledFloor(m);
+				break;
+				
+			case LEFT:
+				mobAngledFloorLeft(m);
+				break;
+				
+			case CEILING:
+				mobCeilingFloor(m);
+				break;
+			}
+		}
+
+		// floor collision (including slopes)
+		
+		
+		
+		
+
+		for (Entity e : entities) {
+			if (e instanceof EntityBoop) {
+				enemyCollision((EntityBoop) e);
+			}
+			if(e instanceof EntityMovingTile) {
+				
+			}
+		}
+
+	}
+
+	
+	public boolean enemyCollision(EntityBoop b) {
+		if (player.getAABB().intersects(b.getAABB())) {
+			if (b.getY() - player.getY() < 48) {
+				b.onHit(player);
+			} else {
+				b.onKillHit(player);
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+
+
+	public boolean calculateNPCCollision(Mob mob, double posX, double posY, double motionX, double motionY) {
+		boolean returnType = false;
+		double toX = posX + motionX;
+		double toY = posY + motionY;
+		double newX = -1.0;
+		mob.getAABB().setBounds((int) toX, (int) posY, mob.getAABB().width, mob.getAABB().height);
+
+		if (getTile(convertToTiles((int) mob.getAABB().getMaxX()),
+				convertToTiles((int) mob.getAABB().getMinY() + 1)) != null) { // this is the top right corner
+			Tile tile = getTile(convertToTiles((int) mob.getAABB().getMaxX()),
+					convertToTiles((int) mob.getAABB().getMinY() + 1));
+			if (tile.type == TileType.SOLID) {
+				newX = convertToPixels(convertToTiles((int) mob.getAABB().getMaxX())) - mob.getAABB().getWidth() - 1
+						- 5;
+				mob.setX(newX);
+				mob.getAABB().setBounds((int) newX, (int) posY, mob.getAABB().width, mob.getAABB().height);
+				mob.setMotionX(0);
+			    mob.setMoving(false);
+
+				returnType = true;
+
+			} else {
+				if (tile.type == TileType.SLOPE_RIGHT_64_00) {
+					newX = toX;
+					if (Game.debug) {
+						System.out.println("Walking up a slope");
+					}
+				}
+			}
+		}
+
+		if (getTile(convertToTiles((int) mob.getAABB().getMaxX()),
+				convertToTiles((int) mob.getAABB().getMaxY() - 1)).type.isNotAir()) { // this is the bottom right corner
+			Tile tile = getTile(convertToTiles((int) mob.getAABB().getMaxX()),
+					convertToTiles((int) mob.getAABB().getMaxY() - 1));
+			if (tile.type == TileType.SOLID) {
+				newX = convertToPixels(convertToTiles((int) mob.getAABB().getMaxX())) - mob.getAABB().getWidth() - 1
+						- 5;
+				mob.setX(newX);
+				mob.getAABB().setBounds((int) newX, (int) posY, mob.getAABB().width, mob.getAABB().height);
+				mob.setMotionX(0);
+				mob.setMoving(false);
+				returnType = true;
+
+			} else {
+				if (tile.type == TileType.SLOPE_RIGHT_64_00) {
+
+				}
+			}
+		}
+
+		if (getTile(convertToTiles((int) mob.getAABB().getMinX()),
+				convertToTiles((int) mob.getAABB().getMinY() + 1)).type.isNotAir()) { // this is the top left corner
+			newX = convertToPixels(convertToTiles((int) mob.getAABB().getMaxX()))
+					- 5/* this is the offset from mob.getAABB() hitbox to texture */ + 1;
+			mob.setX(newX);
+			mob.getAABB().setBounds((int) newX, (int) posY, mob.getAABB().width, mob.getAABB().height);
+			mob.setMotionX(0);
+			mob.setMoving(false);
+
+			returnType = true;
+
+		}
+
+		if (getTile(convertToTiles((int) mob.getAABB().getMinX()),
+				convertToTiles((int) mob.getAABB().getMaxY() - 1)).type.isNotAir() && !isOnMovingTile) { // this is the bottom
+																									// left corner
+			newX = convertToPixels(convertToTiles((int) mob.getAABB().getMaxX()))
+					- 5/* this is the offset from mob.getAABB() hitbox to texture */ + 1;
+			mob.setX(newX);
+			mob.getAABB().setBounds((int) newX, (int) posY, mob.getAABB().width, mob.getAABB().height);
+			mob.setMotionX(0);
+			mob.setMoving(false);
+
+			returnType = true;
+
+		}
+
+		if (newX == -1.0) {
+			newX = toX;
+		}
+
+		if ((int) newX < 0) { // colliding with the map boundry
+			mob.setX(1);
+			mob.setMotionX(0);
+			mob.setMoving(false);
+			returnType = true;
+		}
+
+		if ((int) newX + 64 > convertToPixels(this.width)) {
+			mob.setX(convertToPixels(this.width) - 64); // must change this
+			mob.setMotionX(0);
+			mob.setMoving(false);
+			returnType = true;
+		}
+
+		// horz is first, now vert;
+
+		mob.getAABB().setBounds((int) newX, (int) toY, mob.getAABB().width, mob.getAABB().height);
+
+		if (getTile(convertToTiles((int) mob.getAABB().getMaxX() - 1),
+				convertToTiles((int) mob.getAABB().getMinY())).type.isNotAir()) { // this is the top right corner
+			mob.setMotionY(motionY / 4);
+
+		}
+
+		if (getTile(convertToTiles((int) mob.getAABB().getMinX() + 1),
+				convertToTiles((int) mob.getAABB().getMinY())).type.isNotAir()) { // this is the top left corner
+			mob.setMotionY(motionY / 4);
+
+		}
+
+		if (getTile(convertToTiles((int) mob.getAABB().getMaxX() - 1),
+				convertToTiles((int) mob.getAABB().getMaxY())).type.isNotAir() && !isOnMovingTile) { // this is the bottom right
+																								// corner
+			Tile tile = getTile(convertToTiles((int) mob.getAABB().getMaxX() - 1),
+					convertToTiles((int) mob.getAABB().getMaxY()));
+			if (tile.type == TileType.SOLID) {
+				mob.setY(convertToPixels(convertToTiles((int) posY + 10)));
+				mob.setMotionY(0);
+				mob.setMoving(false);
+			} else {
+				if (tile.type == TileType.SLOPE_RIGHT_64_00) {
+
+				}
+			}
+		}
+
+		if (getTile(convertToTiles((int) mob.getAABB().getMinX() + 1),
+				convertToTiles((int) mob.getAABB().getMaxY())).type.isNotAir()) { // this is the bottom left corner
+			Tile tile = getTile(convertToTiles((int) mob.getAABB().getMinX() + 1),
+					convertToTiles((int) mob.getAABB().getMaxY()));
+			if (tile.type == TileType.SOLID) {
+				mob.setY(convertToPixels(convertToTiles((int) posY + 10)));
+				mob.setMotionY(0);
+				mob.setMoving(false);
+			} else {
+				if (tile.type == TileType.SLOPE_RIGHT_64_00) {
+
+				}
+			}
+		}
+
+		isOnMovingTile = false;
+
+		// Entity Collision
+		for (Entity e : entities) {
+			if (e instanceof EntityMovingTile && mob.hasCollision) {
+				EntityMovingTile movingTile = (EntityMovingTile) e;
+
+				if (mob.getAABB().getMaxY() > movingTile.getAABB().getMinY()
+						&& mob.getAABB().getMaxY() < movingTile.getAABB().getMaxY()
+						&& mob.getAABB().getMaxX() > movingTile.getAABB().getMinX()
+						&& mob.getAABB().getMaxX() < movingTile.getAABB().getMaxX()
+						&& mob.getY() + 60 <= movingTile.getAABB().getMinY()) { // this is the bottom right corner
+
+					mob.setY(movingTile.getAABB().getMinY() - 62);
+					mob.setMotionY(0);
+					mob.setAirBorne(false);
+					movingTile.setCollided(true);
+					isOnMovingTile = true;
+
+					if (movingTile.getMotionY() > 0) {
+						mob.setY(movingTile.getAABB().getMinY() - 62);
+					} else {
+						mob.setMotionX(mob.getMotionX() + movingTile.getMotionX());
+					}
+
+
+
+					mob.setX(mob.getX() + movingTile.getMotionX());
+
+				} else {
+					if (mob.getAABB().getMaxY() > movingTile.getAABB().getMinY()
+							&& mob.getAABB().getMaxY() < movingTile.getAABB().getMaxY()
+							&& mob.getAABB().getMinX() < movingTile.getAABB().getMaxX()
+							&& mob.getAABB().getMinX() > movingTile.getAABB().getMinX()
+							&& mob.getY() + 60 <= movingTile.getAABB().getMinY()) { // this is the bottom left corner
+
+						mob.setY(movingTile.getAABB().getMinY() - 62);
+						mob.setMotionY(0);
+						mob.setAirBorne(false);
+						movingTile.setCollided(true);
+						isOnMovingTile = true;
+
+						if (movingTile.getMotionY() > 0) {
+							mob.setY(movingTile.getAABB().getMinY() - 62);
+						}
+
+						if (!mob.isMoving()/* && movingTile.getPlatformType() == PlatformType.HORIZONTAL_MOVING */) {
+							mob.setMotionX(movingTile.getMotionX() * 2.4); // 2.4 is a constant that prevents traction
+																			// from slowing down the player
+							mob.setMotionY(movingTile.getMotionY());
+						}
+
+					}
+				}
+			} else {
+				if (e instanceof EntityBoop) {
+					EntityBoop boop = (EntityBoop) e;
+					if (player.getAABB().intersects(boop.getAABB())) {
+						if (boop.getY() - player.getY() < 48) {
+							//boop.onHit(player);
+						} else {
+							//boop.onKillHit(player);
+						}
+					}
+				}
+			}
+		}
+		return returnType;
+	}
+
+	public void load(String name) {
+		usedTiles.clear();
+		this.name = name;
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(new File("src/assets/levels/" + name + ".png"));
+			System.out.println("read: " + name);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		this.name = name;
+		this.width = image.getWidth();
+		this.height = image.getHeight();
+		tiles = new Tile[width * height];
+		int[] pixels = image.getRGB(0, 0, width, height, null, 0, width);
+
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				int id = pixels[x + y * width];
+				setTile(x, y, Tile.getFromID(-2));
+				if (id == 0xFF0000FF) {
+					player = new Player(convertToPixels(x), convertToPixels(y), this);
+					player.setPlayerSpawnX(convertToPixels(x));
+					player.setPlayerSpawnY(convertToPixels(y));
+				} else {
+					if (Tile.getFromID(id) != null) {
+						setTile(x, y, Tile.getFromID(id));
+						if (Tile.getFromID(id).type == TileType.SLOPE_RIGHT_64_00) {
+							slopeTriangles.add(new Triangle(new Point(convertToPixels(x), convertToPixels(y) + 64), 64,
+									Math.PI / 4));
+						}
+					} else {
+						if (id == 0xFF010101) {
+							System.out.println("Goal is " + convertToPixels(x) + " ," + convertToPixels(y));
+						} else {
+							if (id == 0xFF000001) {
+								System.out.println(convertToPixels(x) + " ," + convertToPixels(y));
+							}
+						}
+					}
+				}
+			}
+
+			setTile(6, 13, Tile.slope1);
+			setTile(7, 13, Tile.slope2);
+			setTile(8, 13, Tile.slope3);
+			setTile(9, 13, Tile.slope4);
+			setTile(10, 13, Tile.tile1);
+			
+			
+			
+			//setTile(18, 13, Tile.tile11);
+			setTile(19, 12, Tile.tile11);
+			setTile(20, 11, Tile.tile2);
+			setTile(21, 10, Tile.tile2);
+			setTile(22, 9, Tile.tile1);
+			setTile(22, 8, Tile.tile1);
+			setTile(21, 7, Tile.tile111);
+			setTile(20, 6, Tile.tile1111);
+			setTile(19, 5, Tile.tile1);
+			setTile(18, 5, Tile.tile1);
+			setTile(17, 5, Tile.tile1);
+			setTile(16, 6, Tile.tile2666);
+			setTile(15, 7, Tile.tile266);
+			setTile(14, 8, Tile.tile1);
+			setTile(14, 9, Tile.tile1);
+			setTile(15, 10, Tile.tile25);
+			setTile(16, 11, Tile.tile26);
+			setTile(17, 12, Tile.tile26);
+			
+			
+			setTile(26, 13, Tile.tile26);
+			setTile(25, 12, Tile.tile26);
+			setTile(24, 11, Tile.tile25);
+			setTile(23, 10, Tile.tile25);
+			setTile(23, 7, Tile.tile266);
+			setTile(23, 6, Tile.tile1);
+			
+			
+			//setTile(30, 13, Tile.tile1);
+			setTile(30, 12, Tile.tile1);
+			setTile(30, 11, Tile.tile1);
+			setTile(30, 10, Tile.tile2);
+			setTile(31, 9, Tile.tile11);
+			
+			  setTile(11, 13, Tile.slope5);
+			  setTile(12, 13, Tile.slope6); 
+			  setTile(13, 13,Tile.slope7); 
+			  setTile(14, 13, Tile.slope8);
+			 
+
+			/*
+			 * EntityMovingTile movingTile = new EntityMovingTile(new Texture("movingTile"),
+			 * 1000, 300, this, new Rectangle(100, 100, 128, 20), 200,
+			 * PlatformType.VERTICAL_MOVING); EntityMovingTile movingTile1 = new
+			 * EntityMovingTile(new Texture("movingTile"), 100, 500, this, new
+			 * Rectangle(100, 100, 128, 20), 100, PlatformType.HORIZONTAL_MOVING);
+			 * EntityMovingTile movingTile2 = new EntityMovingTile(new
+			 * Texture("movingTile"), 1500, 300, this, new Rectangle(100, 100, 128, 20),
+			 * 100, PlatformType.FALLING); EntityGoal goal = new EntityGoal(new Texture(new
+			 * Texture("SpriteMap1"), 4, 1 , 64, 64), 1000.0, 400.0, this, new
+			 * Rectangle(1000, 400, 64, 64)); addEntity(movingTile); addEntity(movingTile1);
+			 * addEntity(movingTile2); addEntity(goal);
+			 */
+
+		}
+
+	}
+
+	public void unload() {
+		for (Entity e : entities) {
+			e.setDead();
+			e = null;
+		}
+		entities.clear();
+
+	}
+
+	public String getLevelName() {
+		return name;
+	}
+
+	public void setEntityList(Entity[] arr) {
+		entities.clear();
+		for (Entity e : arr) {
+			entities.add(e);
+		}
+	}
+
+	public void addEntity(Entity e) {
+		if (!(e instanceof Player)) {
+			entities.add(e);
+		}
+	}
+
+	public void removeEntity(Entity e) {
+		if (!(e instanceof Player)) {
+			entities.remove(e);
+		}
+	}
+
+	public ArrayList<Entity> getEntities() {
+		return entities;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void killEntity(Entity e) {
+		removeEntity(e);
+		// e = null;
+	}
+
+}
