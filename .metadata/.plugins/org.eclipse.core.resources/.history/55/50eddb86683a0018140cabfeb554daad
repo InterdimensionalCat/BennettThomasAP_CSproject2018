@@ -35,7 +35,12 @@ public class Player extends Mob {
 	boolean conflict = false;
 	boolean leftPriority;
 	boolean rightPriority;
-
+	
+	private final double acc =  0.046875;
+	private final double dec = 0.5;
+	private final double frc = 0.06875;
+	private double top = 6.0;
+	
 	
 
 	public Player(double x, double y, TileMap tileMap) {
@@ -44,7 +49,7 @@ public class Player extends Mob {
 
 		this.AABB = new Rectangle((int)x,(int)y,64,64);
 		this.tileMap = tileMap;
-		this.maxMotionX = 10.0;
+		this.maxMotionX = 15.0;
 		this.idle = InitAnimations.animations.get("Player_idle");
 		//this.state = ActionState.FALLING;
 		falling = false;
@@ -55,21 +60,40 @@ public class Player extends Mob {
 		idle.render(g, x + offsetX, y + offsetY);
 		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Deaths: " + deathCount, 10, 30);
 		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Score: " + score, 10, 60);
-		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Speed: " + (int)gsp, 10, 90);
+		if(falling) {
+			Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Speed: " + (int)xsp, 10, 90);
+		} else {
+			Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Speed: " + (int)gsp, 10, 90);
+		}
+
 		
-		g.setColor(Color.BLACK);
-		g.drawLine((int)centerLine.getX1() + offsetX, (int)centerLine.getY1()+ offsetY, (int)centerLine.getX2()+ offsetX, (int)centerLine.getY2()+ offsetY);
-		g.drawLine((int)floorCheck1.getX1() + offsetX, (int)floorCheck1.getY1()+ offsetY, (int)floorCheck1.getX2()+ offsetX, (int)floorCheck1.getY2()+ offsetY);
-		g.drawLine((int)floorCheck2.getX1() + offsetX, (int)floorCheck2.getY1()+ offsetY, (int)floorCheck2.getX2()+ offsetX, (int)floorCheck2.getY2()+ offsetY);
+		if (Game.debug) {
+			g.setColor(Color.BLACK);
+			g.drawLine((int) centerLine.getX1() + offsetX, (int) centerLine.getY1() + offsetY,
+					(int) centerLine.getX2() + offsetX, (int) centerLine.getY2() + offsetY);
+			g.drawLine((int) floorCheck1.getX1() + offsetX, (int) floorCheck1.getY1() + offsetY,
+					(int) floorCheck1.getX2() + offsetX, (int) floorCheck1.getY2() + offsetY);
+			g.drawLine((int) floorCheck2.getX1() + offsetX, (int) floorCheck2.getY1() + offsetY,
+					(int) floorCheck2.getX2() + offsetX, (int) floorCheck2.getY2() + offsetY);
+		}
 	}
 
 	@Override
 	public void tick() {
 
+		
+		if(!rolling) {
+			top = 6;
+		} else {
+			if(Math.abs(gsp) < 0.5) {
+				rolling = false;
+				top = 6;
+			}
+		}
 
 		
-		turnRunRight = false;
-		turnRunLeft = false;
+		//turnRunRight = false;
+		//turnRunLeft = false;
 		if (invincibleTime > 0) {
 			invincibleTime--;
 		}
@@ -80,7 +104,7 @@ public class Player extends Mob {
 		leftPriority = false;
 		rightPriority = false;
 		
-		if(KeyInput.isDown(KeyEvent.VK_A)&&KeyInput.isDown(KeyEvent.VK_D)) {
+/*		if(KeyInput.isDown(KeyEvent.VK_A)&&KeyInput.isDown(KeyEvent.VK_D)) {
 			if(gsp > 0) {
 				rightPriority = true;
 			} else {
@@ -91,15 +115,15 @@ public class Player extends Mob {
 					rightPriority = true;
 			    }
 			}
-		}
+		}*/
 		
-		if(KeyInput.isDown(KeyEvent.VK_A)&&!rightPriority) {
+/*		if(KeyInput.isDown(KeyEvent.VK_A)&&!rightPriority) {
 		    //this.state = this.state.toMoving();
 		    moving = true;
 			if(this.isAirBorne()) {
 				if (!(gsp > 0)) {
 					//motionX -= 6.0;
-					gsp += -nextRestricted(-gsp) * 6;
+					gsp += -nextRestricted(-gsp) *//** 6*//*;
 					if (gsp < -maxMotionX) {
 						gsp = -maxMotionX;
 					}
@@ -114,13 +138,13 @@ public class Player extends Mob {
 				} else {
 					gsp -= 2.0;
 					
-					if(gsp < -9.5) {
-						gsp = -10;
+					if(gsp < -maxMotionX + 0.5) {
+						gsp = -maxMotionX;
 					}
 					
 				}
 			} else {
-/*				motionX -= 0.3;*/
+				motionX -= 0.3;
 				if (!(gsp > 0)) {
 					tickerMove++;
 					gsp += -nextRestricted(-gsp);
@@ -128,8 +152,8 @@ public class Player extends Mob {
 						gsp *= 2;
 					}
 					
-					if(gsp < -9.5) {
-						gsp = -10;
+					if(gsp < -maxMotionX + 0.5) {
+						gsp = -maxMotionX;
 					}
 					
 				} else {
@@ -146,37 +170,37 @@ public class Player extends Mob {
 				turnRunRight = true;
 			}
 			
-		}
+		}*/
 		
 		
 		
-		if(KeyInput.isDown(KeyEvent.VK_D)&&!leftPriority) {
+/*		if(KeyInput.isDown(KeyEvent.VK_D)&&!leftPriority) {
 			//this.state = this.state.toMoving();
 			moving = true;
 			if(this.isAirBorne()) {
 				if (!(gsp < 0)) {
 					//motionX += 6.0;
-					gsp += nextRestricted(gsp) * 6;
+					gsp += nextRestricted(gsp) *//** 6*//*;
 					if (gsp > maxMotionX) {
 						gsp = maxMotionX;
 					}
 					if (gsp < 2) {
 						gsp *= 2;
 					}
-					if (gsp > 9.5) {
-						gsp = 10;
+					if (gsp > maxMotionX - 0.5) {
+						gsp = maxMotionX;
 					} 
 				} else {
 					gsp += 2.0;
 					
-					if (gsp > 9.5) {
-						gsp = 10;
+					if (gsp > maxMotionX - 0.5) {
+						gsp = maxMotionX;
 					} 
 					
 				}
 				
 			} else {
-/*				motionX += 0.3;*/
+				motionX += 0.3;
 				if(!(gsp < 0)) {
 					tickerMove++;
 					gsp += nextRestricted(gsp);
@@ -194,15 +218,20 @@ public class Player extends Mob {
 			if(gsp < 0) {
 				turnRunLeft = true;
 			}
-		}
+		}*/
 		
 		if(KeyInput.wasPressed(KeyEvent.VK_SPACE)) {
-			jump(30, 1.1);
+			jump(jmp);
 		}
 		
-		if(!KeyInput.isDown(KeyEvent.VK_SPACE)) {
-			jumpTimer--;
+		if(KeyInput.wasPressed(KeyEvent.VK_S)) {
+			if (Math.abs(gsp)  >  0.53125) {
+				rolling = true;
+			}
+			top = 16;
 		}
+		
+
 		
 		if(KeyInput.wasPressed(KeyEvent.VK_1)) {
 			Game.pauseTime+= 100;
@@ -221,23 +250,27 @@ public class Player extends Mob {
 			invincibleTime += 180;
 		}
 		
+
+		
 		if(KeyInput.wasPressed(KeyEvent.VK_F)) {
 			playerSpawnX = (int)x;
 			playerSpawnY = (int)y;
 		}
 		
 		if(KeyInput.wasPressed(KeyEvent.VK_Q)) {
-			gsp = -10.0;
+			//gsp = -maxMotionX;
+			setSpeed(-maxMotionX);
 		}
 		
 		if(KeyInput.wasPressed(KeyEvent.VK_E)) {
-			gsp = 10.0;
+			//gsp = maxMotionX;
+			setSpeed(maxMotionX);
 		}
 		
 		if(KeyInput.wasReleased(KeyEvent.VK_A)||KeyInput.wasReleased(KeyEvent.VK_D)) {
 			//motionX /= 4;
-			this.moving = false;
-			tickerMove = 0;
+			//this.moving = false;
+			//tickerMove = 0;
 		}
 		
 		if(KeyInput.isDown(KeyEvent.VK_A)&&KeyInput.isDown(KeyEvent.VK_D)) {
@@ -251,7 +284,11 @@ public class Player extends Mob {
 			//jumpTimer/=2;
 		}
 		
-		if(!moving) {
+		if(!KeyInput.isDown(KeyEvent.VK_SPACE)&& ysp < -4) {
+			//ysp = -4;
+		}
+		
+		/*if(!moving) {
 			//idle.run();
 			if(gsp < 1 && gsp > -1) {
 				gsp = 0;
@@ -268,7 +305,7 @@ public class Player extends Mob {
 			if(isAirBorne) {
 				//motionX = 0;
 			}
-		}
+		}*/
 		
 		animate();
 		
@@ -276,6 +313,123 @@ public class Player extends Mob {
 		//System.out.println(motionX);
 		
 		this.AABB.setLocation((int)x, (int)y);
+	}
+	
+	public void move() {
+		
+		if(falling) {
+			rolling = false;
+			//gsp = 0;
+		}
+		
+		if(!(KeyInput.isDown(KeyEvent.VK_A)||KeyInput.isDown(KeyEvent.VK_D))||rolling) {
+			
+			moving = false;
+			
+			if(Math.abs(gsp) < frc) {
+				gsp = 0;
+				//setSpeed(0);
+				turnRunLeft = false;
+				turnRunRight = false;
+			}
+			
+	/*		if(falling) {
+				if(Math.abs(xsp) < frc) {
+					setSpeed(0);
+					turnRunLeft = false;
+					turnRunRight = false;
+				}
+			}*/
+			
+			if(getSpeed() > 0) {
+				//gsp -= frc;
+				
+				addSpeed(-frc);
+				
+				
+				if(getSpeed() > 4.5) {
+					turnRunRight = true;
+				}
+			}
+			
+			if(getSpeed() < 0) {
+				//gsp += frc;
+				
+				addSpeed(frc);
+				
+				if(getSpeed() < -4.5) {
+					turnRunLeft = true;
+				}
+				
+			}
+			
+		} else {
+			if(KeyInput.isDown(KeyEvent.VK_A)&&!rolling) {
+				moving = true;
+				if(getSpeed() > 0) {
+					//gsp -= dec;
+					addSpeed(-dec);
+					if(getSpeed() > 4.5) {
+						turnRunRight = true;
+					}
+				} else {
+					//gsp -= acc;
+					
+					if (!(getSpeed() <= -top)) {
+						addSpeed(-acc);
+					}
+					turnRunLeft = false;
+					turnRunRight = false;
+				}
+			}
+			
+			if(KeyInput.isDown(KeyEvent.VK_D)&&!rolling) {
+				moving = true;
+				if(getSpeed() < 0) {
+					//gsp += dec;
+					
+					addSpeed(dec);
+					
+					if(getSpeed() < -4.5) {
+						turnRunLeft = true;
+					}
+				} else {
+					//gsp += acc;
+					
+					if (!(getSpeed() >= top)) {
+						addSpeed(acc);
+					}
+					
+					turnRunLeft = false;
+					turnRunRight = false;
+				}
+			}
+		}
+
+/*		if(getSpeed() > top) {
+			//gsp = top;
+			setSpeed(top);
+		}
+		
+		if(getSpeed() < -top) {
+			//gsp = -top;
+			setSpeed(-top);
+		}*/
+		
+		if(!falling) {
+			
+			if(rolling) {
+				if(Math.signum(Math.sin(angle)) != Math.signum(gsp)) {
+					gsp +=  0.078125*Math.sin(angle);
+				} else {
+					gsp +=  0.3125*Math.sin(angle);
+				}
+			} else {
+				gsp += slp*Math.sin(angle);
+			}
+		}
+		
+		super.move();
 	}
 	
 	public void setDead() {
@@ -303,8 +457,8 @@ public class Player extends Mob {
 		}
 	}
 	
-	protected void jump(int time, double velocityY) {
-		if(jumpTimer <= 0) {
+	protected void jump(double velocityY) {
+		if(!falling) {
 			if(!InitAudio.musicFiles.get("PlayerJump1").isPlaying()) {
 				Game.fxmanager.playSound("PlayerJump1");
 			} else {
@@ -312,11 +466,18 @@ public class Player extends Mob {
 			}
 			
 			falling = true;
-			super.jump(time, velocityY);
+			super.jump(velocityY);
 		}
 	}
 	
 	protected void animate() {
+		
+		if(rolling) {
+			this.idle = InitAnimations.animations.get("Player_jump");
+			InitAnimations.animations.get("Player_jump").run();
+			return;
+		}
+		
 		if(!moving && (!isAirBorne&&!falling)) {
 			this.idle = InitAnimations.animations.get("Player_idle");
 			if (InitAnimations.animations.get("Player_run").getFlip() == true)  {

@@ -29,6 +29,8 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	
 	public Line2D floorCheck1;
 	public Line2D floorCheck2;
+	public Line2D ceilCheck1;
+	public Line2D ceilCheck2;
 	public Line2D centerLine;
 	
 	public Point center;
@@ -72,6 +74,8 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		floorCheck1 = new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() + 42);
 		floorCheck2 = new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() + 42);
 		centerLine = new Line2D.Float((float)center.getX() - 26, (float)center.getY() + 6, (float)center.getX() + 26, (float)center.getY() + 6);
+		ceilCheck1 = new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() - 42);
+		ceilCheck2 = new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() - 42);
 	}
 	
 	public void updateLines(double x, double y) {
@@ -339,10 +343,20 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	}
 	
 	public void changeAngleState(double angelIn) { //in radians
+		
+		
+		if(this.angleState != AngleState.index[(int)(Math.round(Math.abs(angle) / (Math.PI/2)) % 4)] && Math.abs(gsp) < 2.5 && Math.abs(Math.toRadians(angle)) > 75){
+			falling = true;
+			angle = 0;
+		}
+		
 		this.angleState = AngleState.index[(int)(Math.round(Math.abs(angle) / (Math.PI/2)) % 4)];
 		if(angle > 0 && angleState == AngleState.RIGHT) {
 			angleState = AngleState.LEFT;
 		}
+		
+		ceilCheck1 = new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() - 42);
+		ceilCheck2 = new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() - 42);
 		
 		
 		switch(angleState) {

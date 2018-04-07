@@ -3,8 +3,10 @@ package game.entity;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Line2D;
 
+import game.input.KeyInput;
 import game.render.textures.Texture;
 import game.world.TileMap;
 
@@ -27,6 +29,8 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	
 	public Line2D floorCheck1;
 	public Line2D floorCheck2;
+	public Line2D ceilCheck1;
+	public Line2D ceilCheck2;
 	public Line2D centerLine;
 	
 	public Point center;
@@ -52,8 +56,10 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	protected final double slp = 0.125;
 	
 	boolean shouldJump;
-	protected final double jmp = -6.5;
+	protected final double jmp = -9;
 	public AngleState angleState = AngleState.FLOOR;
+	
+	public boolean rolling = false;
 	
 	
 	public Mob(Texture texture, double x, double y, TileMap tileMap, Rectangle AABB) {
@@ -68,6 +74,8 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		floorCheck1 = new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() + 42);
 		floorCheck2 = new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() + 42);
 		centerLine = new Line2D.Float((float)center.getX() - 26, (float)center.getY() + 6, (float)center.getX() + 26, (float)center.getY() + 6);
+		ceilCheck1 = new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() - 42);
+		ceilCheck2 = new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() - 42);
 	}
 	
 	public void updateLines(double x, double y) {
@@ -84,6 +92,13 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	public void tick() {
 		
 		if(falling) {
+			angle = 0;
+			gsp = 0;
+		}
+		
+		if(angleState != AngleState.FLOOR && Math.abs(gsp) < 2.5 && Math.toDegrees(Math.abs(angle)) > 75) {
+			gsp = 0;
+			falling = true;
 			angle = 0;
 		}
 		
@@ -127,24 +142,33 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		
 		if(falling) {
 			angle = 0;
-			xsp = gsp;
-			ysp += gravity;
+			//xsp = gsp;
+			ysp += grv;
+			
+			
+			if(!KeyInput.isDown(KeyEvent.VK_SPACE)&&ysp < -3) { 
+				ysp = -3;
+			}
+			
 		} else {
+			
 			xsp = gsp*Math.cos(angle);
-			ysp = -gsp*Math.sin(angle);
+			ysp = gsp*Math.sin(angle);
+			//System.out.println(xsp + " , " + ysp);
+			//System.out.println(Math.toDegrees(angle));
 		}
 		
-		if(xsp < 1&& xsp > -1 && gsp == 0) {
+/*		if(xsp < 1&& xsp > -1 && gsp == 0) {
 			xsp = 0;
-		}
+		}*/
 		
-		System.out.println(Math.toDegrees(angle));
+		//System.out.println(Math.toDegrees(angle));
 		
 		if(falling) {
 			//ysp += grv;
 			if(ysp < 0 && ysp > -4) {
 				if(Math.abs(xsp) >= 0.125) {
-					gsp = gsp * 0.96875;
+					xsp = xsp * 0.96875;
 				}
 			}
 		}
@@ -217,7 +241,8 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		//jumpX = (jumpVelocityY)*Math.sin(staticJumpAngle);
 		
 		
-		xsp += jmp*Math.sin(angle);
+		xsp += -jmp*Math.sin(angle);
+		System.out.println(-jmp*Math.sin(angle));
 		ysp += jmp*Math.cos(angle);
 		angle = 0;
 		
@@ -233,6 +258,55 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	public void setMotionX(double motionX) {
 		//this.motionX = motionX;
 		xsp = motionX;
+	}
+	
+	public void setSpeed(double spd) {
+		if(falling) {
+			xsp = spd;
+		} else {
+			gsp = spd;
+		}
+	}
+	
+	public void addSpeed(double spd) {
+		if(falling) {
+			if(Math.abs(spd) == 0.046875) {
+				xsp += spd*2;
+			} else {
+				if(Math.abs(spd) != 0.06875) {
+					xsp += spd;
+				}
+			}
+		} else {
+			
+
+			
+			if(rolling && (Math.abs(spd) == 0.046875 || Math.abs(spd) == 0.5)) {
+				return;
+			}
+			
+			if(rolling&&Math.abs(spd) != 0.06875) {
+				gsp+= spd/2;
+			} else {
+				gsp += spd;
+			}
+		}
+	}
+	
+	public void multSpeed(double spd) {
+		if(falling) {
+			xsp *= spd;
+		} else {
+			gsp *= spd;
+		}
+	}
+	
+	public double getSpeed() {
+		if(falling) {
+			return xsp;
+		} else {
+			return gsp;
+		}
 	}
 	
 	public void setAirBorne(boolean airBorne) {
@@ -269,10 +343,20 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	}
 	
 	public void changeAngleState(double angelIn) { //in radians
+		
+		
+		if(this.angleState != AngleState.index[(int)(Math.round(Math.abs(angle) / (Math.PI/2)) % 4)] && Math.abs(gsp) < 2.5) {
+			falling = true;
+			angle = 0;
+		}
+		
 		this.angleState = AngleState.index[(int)(Math.round(Math.abs(angle) / (Math.PI/2)) % 4)];
 		if(angle > 0 && angleState == AngleState.RIGHT) {
 			angleState = AngleState.LEFT;
 		}
+		
+		ceilCheck1 = new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() - 42);
+		ceilCheck2 = new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() - 42);
 		
 		
 		switch(angleState) {
@@ -299,12 +383,16 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			break;	
 		case CEILING:
 			
-			floorCheck1.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() - 14, (float)center.getX() - 42, (float)center.getY() - 14));
-			floorCheck2.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() + 14, (float)center.getX() - 42, (float)center.getY() + 14));
-			centerLine.setLine(new Line2D.Float((float)center.getX() - 26, (float)center.getY() + 6, (float)center.getX() + 26, (float)center.getY() + 6));
+			floorCheck1.setLine(new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() - 42));
+			floorCheck2.setLine(new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() - 42));
+			centerLine.setLine(new Line2D.Float((float)center.getX() - 26, (float)center.getY() - 6, (float)center.getX() + 26, (float)center.getY() - 6));
 			
 			break;
 		}
+	}
+	
+	public void land() {
+		gsp = xsp;
 	}
 	
 }

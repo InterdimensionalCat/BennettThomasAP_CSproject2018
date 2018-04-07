@@ -38,7 +38,7 @@ public class Tile {
 	
 	public static final Tile tile25 = new Tile(0xFFFF0000, new Texture("grassSlopeLeft"), TileType.SLOPE_RIGHT_64_00, /*create64RightArray()*/ createSlopeLeftArray(1,64), createSlopeLeftArray(1,64) , Math.toRadians(45));
 	public static final Tile tile26 = new Tile(0xFFFF0000, new Texture("grassSlopeLeft"), TileType.SLOPE_RIGHT_64_00, /*create64RightArray()*/ createSlopeLeftArray(1,64), createSlopeLeftArray(1,64) , Math.toRadians(44));
-	public static final Tile tile266 = new Tile(0xFFFF0000, new Texture("grassSlopeLeft"), TileType.SLOPE_RIGHT_64_00, /*create64RightArray()*/ createSlopeRightArray(1,64), createSlopeLeftArray(1,64) , Math.toRadians(134));
+	public static final Tile tile266 = new Tile(0xFFFF0000, new Texture("grassSlopeLeft"), TileType.SLOPE_RIGHT_64_00, /*create64RightArray()*/ createSlopeRightArray(1,64), createSlopeRightArray(1,64) , Math.toRadians(134));
 	public static final Tile tile2666 = new Tile(0xFFFF0000, new Texture("grassSlopeLeft"), TileType.SLOPE_RIGHT_64_00, /*create64RightArray()*/ createSlopeRightArray(1,64), createSlopeLeftArray(1,64) , Math.toRadians(135));
 	
 	

@@ -38,7 +38,7 @@ public class Tile {
 	
 	public static final Tile tile25 = new Tile(0xFFFF0000, new Texture("grassSlopeLeft"), TileType.SLOPE_RIGHT_64_00, /*create64RightArray()*/ createSlopeLeftArray(1,64), createSlopeLeftArray(1,64) , Math.toRadians(45));
 	public static final Tile tile26 = new Tile(0xFFFF0000, new Texture("grassSlopeLeft"), TileType.SLOPE_RIGHT_64_00, /*create64RightArray()*/ createSlopeLeftArray(1,64), createSlopeLeftArray(1,64) , Math.toRadians(44));
-	public static final Tile tile266 = new Tile(0xFFFF0000, new Texture("grassSlopeLeft"), TileType.SLOPE_RIGHT_64_00, /*create64RightArray()*/ createSlopeRightArray(1,64), createSlopeLeftArray(1,64) , Math.toRadians(134));
+	public static final Tile tile266 = new Tile(0xFFFF0000, new Texture("grassSlopeLeft"), TileType.SLOPE_RIGHT_64_00, /*create64RightArray()*/ createSlopeRightArray(1,64), createSlopeRightArray(1,64) , Math.toRadians(134));
 	public static final Tile tile2666 = new Tile(0xFFFF0000, new Texture("grassSlopeLeft"), TileType.SLOPE_RIGHT_64_00, /*create64RightArray()*/ createSlopeRightArray(1,64), createSlopeLeftArray(1,64) , Math.toRadians(135));
 	
 	
@@ -97,16 +97,8 @@ public class Tile {
 		heightMask2 = heightMask1;
 		heightMask3 = heightMask;
 		if(TileType.isCubeType(this.type)) {
-			//heightMask3 = createNoArray();
+			heightMask3 = createNoArray();
 		}
-		
-		double[] arr = new double[heightMask3.length];
-		
-		for(int i = 0; i < heightMask3.length; i++) {
-			arr[i] = heightMask3[heightMask3.length - 1 - i];
-		}
-		
-		heightMask3 = arr;
 		
 	}
 	
