@@ -612,8 +612,6 @@ public boolean mobCeilingCollision(Mob m) {
 						&& m.getY() < t.y + t.heightMask2[(int) m.ceilCheck1.getX2() - t.x]) {
 					m.falling = true;
 					m.ysp = 0.5;
-					m.xsp = 0;
-					m.gsp = 0;
 					return true;
 				}
 			}
@@ -624,8 +622,6 @@ public boolean mobCeilingCollision(Mob m) {
 						&& m.getY() < t.y + t.heightMask2[(int) m.ceilCheck2.getX2() - t.x]) {
 					m.falling = true;
 					m.ysp = 0.5;
-					m.xsp = 0;
-					m.gsp = 0;
 					return true;
 				}
 			}

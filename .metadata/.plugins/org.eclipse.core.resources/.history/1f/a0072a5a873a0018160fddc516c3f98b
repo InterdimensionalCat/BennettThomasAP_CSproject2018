@@ -590,10 +590,10 @@ public void mobAngledFloorLeft(Mob m) {
 	
 	
 
-public boolean mobCeilingCollision(Mob m) {
+public void mobCeilingCollision(Mob m) {
 	
 	if(!m.falling) {
-		return false;
+		return;
 	}
 	
 	double checkY = Double.MIN_NORMAL;
@@ -611,10 +611,8 @@ public boolean mobCeilingCollision(Mob m) {
 				if (m.ceilCheck1.intersects(t.AABB)
 						&& m.getY() < t.y + t.heightMask2[(int) m.ceilCheck1.getX2() - t.x]) {
 					m.falling = true;
-					m.ysp = 0.5;
-					m.xsp = 0;
-					m.gsp = 0;
-					return true;
+					m.ysp += 0.5;
+					return;
 				}
 			}
 		
@@ -623,10 +621,8 @@ public boolean mobCeilingCollision(Mob m) {
 				if (m.ceilCheck2.intersects(t.AABB)
 						&& m.getY() < t.y + t.heightMask2[(int) m.ceilCheck2.getX2() - t.x]) {
 					m.falling = true;
-					m.ysp = 0.5;
-					m.xsp = 0;
-					m.gsp = 0;
-					return true;
+					m.ysp += 0.5;
+					return;
 				}
 			}
 		
@@ -662,8 +658,6 @@ public boolean mobCeilingCollision(Mob m) {
 			}
 		}*/
 	}
-	
-	return false;
 }
 
 	
@@ -701,10 +695,7 @@ public boolean mobCeilingCollision(Mob m) {
 		if(m.angleState == AngleState.FLOOR) {
 			
 			mobWallCollision(m);
-			
-			if(!mobCeilingCollision(m)) {
-				mobGroundFloor(m);
-			}
+			mobGroundFloor(m);
 		} else {
 			
 			//mobAngledFloor(m);
@@ -729,7 +720,7 @@ public boolean mobCeilingCollision(Mob m) {
 		//ceiling collision (including slopes)
 		
 		
-
+		mobCeilingCollision(m);
 		
 
 		for (Entity e : entities) {
@@ -1024,7 +1015,6 @@ public boolean mobCeilingCollision(Mob m) {
 			setTile(10, 13, Tile.tile1);
 			
 			setTile(3, 11, Tile.tile1);
-			setTile(4, 11, Tile.tile2666);
 			
 			
 			
