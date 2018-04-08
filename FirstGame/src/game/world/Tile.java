@@ -61,11 +61,22 @@ public class Tile {
 	public static final Tile tile8 = new Tile(0xFF111111, new Texture(terrain, 1, 3 , 64, 64), TileType.SOLID, createSolidArray(), createSolidArray() , Math.toRadians(0));
 	public static final Tile tile9 = new Tile(0xFF222222, new Texture(terrain, 2, 3 , 64, 64), TileType.SOLID, createSolidArray(), createSolidArray() , Math.toRadians(0));
 	
+	
+	public static final Tile g1_26r = new Tile(-100, new Texture("g1_26r"), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-11.25));
+	public static final Tile g1_26l = new Tile(-100, new Texture("g1_26l"), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(11.25));
+	public static final Tile g27_64r = new Tile(-100, new Texture("g27_64r"), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-45));
+	public static final Tile g27_64l = new Tile(-100, new Texture("g27_64l"), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(45));
+	public static final Tile g0_64r = new Tile(-100, new Texture("g0_64r"), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-90 + 11.25));
+	public static final Tile g0_64l = new Tile(-100, new Texture("g0_64l"), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(90 - 11.25));
+	
+	
 	private Tile(int id, Texture sprite, TileType type, double[] heightMask, double[] heightMask1, double angle) { //creates tile type constants
 		this.id = id;
 		this.sprite = sprite;
 		tileMap.put(id, this);
 		this.type = type;
+		
+		this.heightMask = this.createFloorMask();
 		
 		if (this.type.isNotAir()) {
 			solid = true;
@@ -73,10 +84,10 @@ public class Tile {
 			solid = false;
 		}
 		
-		this.heightMask = heightMask;
+		//this.heightMask = heightMask;
 		for(int i = 0; i < this.heightMask.length; i++) {
 			if(this.heightMask[i] == 0) {
-				this.heightMask[i] = 1;
+				//this.heightMask[i] = 1;
 			}
 		}
 		
@@ -107,6 +118,12 @@ public class Tile {
 		}
 		
 		heightMask3 = arr;
+		
+		
+		
+/*		if(isTransparent(sprite.getImage(),0,0)) {
+			System.out.println("yes");
+		}*/
 		
 	}
 	
@@ -239,5 +256,29 @@ public class Tile {
 	public double getAngleFromHeightMask(double x1, double x2) {
 		return Math.atan(Math.min(x1, x2) / Math.max(x1, x2));
 	}
+	
+	public double[] createFloorMask() {
+		BufferedImage b = this.sprite.getImage();
+		int sum = 0;
+		double[] heightMask = new double[b.getWidth()];
+		for (int j = 0; j < b.getWidth(); j++) {
+			for(int i = b.getHeight() - 1; i >= 0; i--) {
+				if(isTransparent(b,j,i) || i == 0) {
+					heightMask[j] = sum;
+					sum = 0;
+					break;
+				} else {
+					sum++;
+				}
+					
+			}
+		}
+		return heightMask;
+	}
+	
+    public static boolean isTransparent(BufferedImage image, int x, int y ) {
+        int pixel = image.getRGB(x,y);
+        return (pixel>>24) == 0x00;
+    }
 	
 }

@@ -77,8 +77,8 @@ public class Player extends Mob {
 					(int) floorCheck2.getX2() + offsetX, (int) floorCheck2.getY2() + offsetY);
 			g.drawLine((int) ceilCheck1.getX1() + offsetX, (int) ceilCheck1.getY1() + offsetY,
 					(int) ceilCheck1.getX2() + offsetX, (int) ceilCheck1.getY2() + offsetY);
-			g.drawLine((int) ceilCheck2.getX1() + offsetX, (int) ceilCheck2.getY1() + offsetY,
-					(int) ceilCheck2.getX2() + offsetX, (int) ceilCheck2.getY2() + offsetY);
+			/*g.drawLine((int) ceilCheck2.getX1() + offsetX, (int) ceilCheck2.getY1() + offsetY,
+					(int) ceilCheck2.getX2() + offsetX, (int) ceilCheck2.getY2() + offsetY);*/
 		}
 	}
 
@@ -351,7 +351,7 @@ public class Player extends Mob {
 				addSpeed(-frc);
 				
 				
-				if(getSpeed() > 4.5) {
+				if(getSpeed() > 4.5 && angleState == AngleState.FLOOR) {
 					turnRunRight = true;
 				}
 			}
@@ -361,7 +361,7 @@ public class Player extends Mob {
 				
 				addSpeed(frc);
 				
-				if(getSpeed() < -4.5) {
+				if(getSpeed() < -4.5 && angleState == AngleState.FLOOR) {
 					turnRunLeft = true;
 				}
 				
@@ -373,7 +373,7 @@ public class Player extends Mob {
 				if(getSpeed() > 0) {
 					//gsp -= dec;
 					addSpeed(-dec);
-					if(getSpeed() > 4.5) {
+					if(getSpeed() > 4.5 && angleState == AngleState.FLOOR) {
 						turnRunRight = true;
 					}
 				} else {
@@ -394,7 +394,7 @@ public class Player extends Mob {
 					
 					addSpeed(dec);
 					
-					if(getSpeed() < -4.5) {
+					if(getSpeed() < -4.5 && angleState == AngleState.FLOOR) {
 						turnRunLeft = true;
 					}
 				} else {

@@ -2,27 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="entityColl" key="selection"/>
+		<item value="turnRunLeft = true" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="turnRunLeft = true"/>
+			<item value="turnRunRight = true"/>
+			<item value="turnRunLeft"/>
+			<item value="turnRun"/>
+			<item value="gsp &gt; 4.5"/>
+			<item value="Math.abs(gsp)"/>
+			<item value="75"/>
+			<item value="setspeed"/>
+			<item value="move"/>
+			<item value="setSpeed"/>
+			<item value="ceil"/>
+			<item value="render"/>
+			<item value="ceilCheck"/>
 			<item value="entityColl"/>
 			<item value="ceilingColl"/>
-			<item value="ceiling"/>
-			<item value="ceilngC"/>
-			<item value="mobgroundfloor"/>
-			<item value="floorC"/>
-			<item value="ysp /= 4"/>
-			<item value="ysp /=4"/>
-			<item value="ysp ?= 4"/>
-			<item value="setTile"/>
-			<item value="ceilingCollision"/>
-			<item value="Math.abs(gsp)"/>
-			<item value="gsp &lt; 2.5"/>
-			<item value="floor"/>
-			<item value="mobCeil"/>
 		</list>
 		<list key="replacehistory">
 			<item value="ceil"/>

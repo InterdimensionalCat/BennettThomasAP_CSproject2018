@@ -30,7 +30,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	public Line2D floorCheck1;
 	public Line2D floorCheck2;
 	public Line2D ceilCheck1;
-	public Line2D ceilCheck2;
+	//public Line2D ceilCheck2;
 	public Line2D centerLine;
 	
 	public Point center;
@@ -61,6 +61,8 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	
 	public boolean rolling = false;
 	
+	int horzLock;
+	
 	
 	public Mob(Texture texture, double x, double y, TileMap tileMap, Rectangle AABB) {
 		super(texture, x, y, tileMap, AABB);
@@ -74,8 +76,8 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		floorCheck1 = new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() + 42);
 		floorCheck2 = new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() + 42);
 		centerLine = new Line2D.Float((float)center.getX() - 26, (float)center.getY() + 6, (float)center.getX() + 26, (float)center.getY() + 6);
-		ceilCheck1 = new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() - 42);
-		ceilCheck2 = new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() - 42);
+		ceilCheck1 = new Line2D.Float((float)x + 10, (float)y, (float)x+54, (float)y);
+		//ceilCheck2 = new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() - 42);
 	}
 	
 	public void updateLines(double x, double y) {
@@ -96,10 +98,17 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			gsp = 0;
 		}
 		
-		if(angleState != AngleState.FLOOR && Math.abs(gsp) < 2.5 && Math.toDegrees(Math.abs(angle)) > 75) {
-			gsp = 0;
-			falling = true;
-			angle = 0;
+		if(angleState != AngleState.FLOOR && Math.abs(gsp) < 2.5 /*&& Math.toDegrees(Math.abs(angle)) > 75*/) {
+			if(horzLock <= 0) {
+				gsp = 0;
+				falling = true;
+				angle = 0;
+				horzLock = 30;
+			} else {
+				if(horzLock <= 10) {
+					horzLock = 10;
+				}
+			}
 		}
 		
 /*		jumpTimer--;
@@ -151,6 +160,10 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			}
 			
 		} else {
+			
+			if(horzLock > 0) {
+				horzLock--;
+			}
 			
 			xsp = gsp*Math.cos(angle);
 			ysp = gsp*Math.sin(angle);
@@ -281,7 +294,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			
 
 			
-			if(rolling && (Math.abs(spd) == 0.046875 || Math.abs(spd) == 0.5)) {
+			if((rolling || (horzLock > 0 && !falling))&& (Math.abs(spd) == 0.046875 || Math.abs(spd) == 0.5)) {
 				return;
 			}
 			
@@ -345,18 +358,19 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	public void changeAngleState(double angelIn) { //in radians
 		
 		
-		if(this.angleState != AngleState.index[(int)(Math.round(Math.abs(angle) / (Math.PI/2)) % 4)] && Math.abs(gsp) < 2.5 && Math.abs(Math.toRadians(angle)) > 75){
+/*		if(this.angleState != AngleState.index[(int)(Math.round(Math.abs(angle) / (Math.PI/2)) % 4)] && Math.abs(gsp) < 2.5 && Math.abs(Math.toRadians(angle)) > 75){
 			falling = true;
 			angle = 0;
-		}
+			horzLock = 30;
+		}*/
 		
 		this.angleState = AngleState.index[(int)(Math.round(Math.abs(angle) / (Math.PI/2)) % 4)];
 		if(angle > 0 && angleState == AngleState.RIGHT) {
 			angleState = AngleState.LEFT;
 		}
 		
-		ceilCheck1 = new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() - 42);
-		ceilCheck2 = new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() - 42);
+		ceilCheck1 = new Line2D.Float((float)x + 10, (float)y, (float)x+54, (float)y);
+		//ceilCheck2 = new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() - 42);
 		
 		
 		switch(angleState) {
