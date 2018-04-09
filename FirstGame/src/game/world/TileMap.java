@@ -147,8 +147,23 @@ public class TileMap {
 			if(!t.isSolid()) {
 				continue;
 			}
-			if((t.AABB.intersectsLine(m.floorCheck1) || t.AABB.intersectsLine(m.floorCheck2))) {
-				return;
+			
+			
+			if(t.AABB.intersectsLine(m.floorCheck1)|| t.AABB.intersectsLine(m.floorCheck2)) {
+				if(m.angleState != AngleState.FLOOR) {
+					return;
+				} else {
+					if(!((int)m.floorCheck2.getX2() - t.x >= 64 || (int)m.floorCheck2.getX2() - t.x < 0)) {
+						if( (t.AABB.intersectsLine(m.floorCheck2)&&(m.floorCheck2.getY2() > t.y + 64 - t.heightMaskFloor[(int)m.floorCheck2.getX2() - t.x]))) {
+							return;
+						}
+					}
+					if(!((int)m.floorCheck1.getX2() - t.x >= 64 || (int)m.floorCheck1.getX2() - t.x < 0)) {
+						if((t.AABB.intersectsLine(m.floorCheck1)&&(m.floorCheck1.getY2() > t.y + 64 - t.heightMaskFloor[(int)m.floorCheck1.getX2() - t.x]))) {
+							return;
+						}
+					}
+				}
 			}
 		}
 		
@@ -280,9 +295,9 @@ public class TileMap {
 			
 			if(m.floorCheck1.intersects(t.AABB) && m.getY() < t.y + 5) {
 				if(!((int)m.floorCheck1.getX2() - t.x >= 64 || (int)m.floorCheck1.getX2() - t.x < 0)) {
-					if(m.floorCheck1.getY2() > t.y + 64 - t.heightMask[(int)m.floorCheck1.getX2() - t.x]&& m.getMotionY() >= 0) {
-						checkY = t.y + 64 - t.heightMask[(int)m.floorCheck1.getX2() - t.x];
-						x1 = t.heightMask[(int)m.floorCheck1.getX2() - t.x];
+					if(m.floorCheck1.getY2() > t.y + 64 - t.heightMaskFloor[(int)m.floorCheck1.getX2() - t.x]&& m.getMotionY() >= 0) {
+						checkY = t.y + 64 - t.heightMaskFloor[(int)m.floorCheck1.getX2() - t.x];
+						x1 = t.heightMaskFloor[(int)m.floorCheck1.getX2() - t.x];
 						mustCheck = true;
 					}
 				}
@@ -290,9 +305,9 @@ public class TileMap {
 			
 			if(m.floorCheck2.intersects(t.AABB) && m.getY() < t.y + 5) {
 				if(!((int)m.floorCheck2.getX2() - t.x >= 64 || (int)m.floorCheck2.getX2() - t.x < 0)) {
-					if(m.floorCheck2.getY2() > t.y + 64 - t.heightMask[(int)m.floorCheck2.getX2() - t.x]&& m.getMotionY() >= 0) {
-						checkY2 = t.y + 64 - t.heightMask[(int)m.floorCheck2.getX2() - t.x ];
-						x2 = t.heightMask[(int)m.floorCheck2.getX2() - t.x];
+					if(m.floorCheck2.getY2() > t.y + 64 - t.heightMaskFloor[(int)m.floorCheck2.getX2() - t.x]&& m.getMotionY() >= 0) {
+						checkY2 = t.y + 64 - t.heightMaskFloor[(int)m.floorCheck2.getX2() - t.x ];
+						x2 = t.heightMaskFloor[(int)m.floorCheck2.getX2() - t.x];
 						mustCheck = true;
 						
 						
@@ -341,8 +356,7 @@ public void mobCeilingFloor(Mob m) {
 		double checkY2 = Double.MIN_NORMAL;
 		double newY = Double.MIN_NORMAL;
 		
-		double x1 = 0;
-		double x2 = 0;
+
 		
 		for(Tile t : usedTiles) {
 			boolean mustCheck = false;
@@ -353,9 +367,8 @@ public void mobCeilingFloor(Mob m) {
 			
 			if(m.floorCheck1.intersects(t.AABB)) {
 				if(!((int)m.floorCheck1.getX2() - t.x >= 64 || (int)m.floorCheck1.getX2() - t.x < 0)) {
-					if(m.floorCheck1.getY2() < t.y +  t.heightMask2[(int)m.floorCheck1.getX2() - t.x]) {
-						checkY = t.y +  t.heightMask2[(int)m.floorCheck1.getX2() - t.x];
-						x1 = t.heightMask[(int)m.floorCheck1.getX2() - t.x];
+					if(m.floorCheck1.getY2() < t.y +  t.heightMaskCeil[(int)m.floorCheck1.getX2() - t.x]) {
+						checkY = t.y +  t.heightMaskCeil[(int)m.floorCheck1.getX2() - t.x];
 						mustCheck = true;
 					}
 				}
@@ -363,9 +376,8 @@ public void mobCeilingFloor(Mob m) {
 			
 			if(m.floorCheck2.intersects(t.AABB)) {
 				if(!((int)m.floorCheck2.getX2() - t.x >= 64 || (int)m.floorCheck2.getX2() - t.x < 0)) {
-					if(m.floorCheck2.getY2() < t.y +  t.heightMask2[(int)m.floorCheck2.getX2() - t.x]) {
-						checkY2 = t.y +  t.heightMask2[(int)m.floorCheck2.getX2() - t.x];
-						x2 = t.heightMask[(int)m.floorCheck2.getX2() - t.x];
+					if(m.floorCheck2.getY2() < t.y +  t.heightMaskCeil[(int)m.floorCheck2.getX2() - t.x]) {
+						checkY2 = t.y +  t.heightMaskCeil[(int)m.floorCheck2.getX2() - t.x];
 						mustCheck = true;
 						
 						
@@ -437,9 +449,9 @@ public void mobCeilingFloor(Mob m) {
 				
 				
 				if(!((int)m.floorCheck1.getY2() - t.y >= 64 || (int)m.floorCheck1.getY2() - t.y < 0)) {
-					if(m.floorCheck1.getX2() > t.x + 64 - t.heightMask[(int)m.floorCheck1.getY2() - t.y]) {
-						checkY = t.x + 64 - t.heightMask[(int)m.floorCheck1.getY2() - t.y];
-						x1 = t.heightMask[(int)m.floorCheck1.getY2() - t.y];
+					if(m.floorCheck1.getX2() > t.x + 64 - t.heightMaskRight[(int)m.floorCheck1.getY2() - t.y]) {
+						checkY = t.x + 64 - t.heightMaskRight[(int)m.floorCheck1.getY2() - t.y];
+						x1 = t.heightMaskRight[(int)m.floorCheck1.getY2() - t.y];
 						mustCheck = true;
 					}
 				}
@@ -451,9 +463,9 @@ public void mobCeilingFloor(Mob m) {
 				
 				
 				if(!((int)m.floorCheck2.getY2() - t.y >= 64 || (int)m.floorCheck2.getY2() - t.y < 0)) {
-					if(m.floorCheck2.getX2() > t.x + 64 - t.heightMask[(int)m.floorCheck2.getY2() - t.y]) {
-						checkY2 = t.x + 64 - t.heightMask[(int)m.floorCheck2.getY2() - t.y ];
-						x2 = t.heightMask[(int)m.floorCheck2.getY2() - t.y];
+					if(m.floorCheck2.getX2() > t.x + 64 - t.heightMaskRight[(int)m.floorCheck2.getY2() - t.y]) {
+						checkY2 = t.x + 64 - t.heightMaskRight[(int)m.floorCheck2.getY2() - t.y ];
+						x2 = t.heightMaskRight[(int)m.floorCheck2.getY2() - t.y];
 						mustCheck = true;
 						
 						
@@ -528,9 +540,9 @@ public void mobAngledFloorLeft(Mob m) {
 				
 				
 				if(!((int)m.floorCheck1.getY2() - t.y >= 64 || (int)m.floorCheck1.getY2() - t.y < 0)) {
-					if(m.floorCheck1.getX2() < t.x +  t.heightMask3[(int)m.floorCheck1.getY2() - t.y]) {
-						checkY = t.x + t.heightMask3[(int)m.floorCheck1.getY2() - t.y];
-						x1 = t.heightMask3[(int)m.floorCheck1.getY2() - t.y];
+					if(m.floorCheck1.getX2() < t.x +  t.heightMaskLeft[(int)m.floorCheck1.getY2() - t.y]) {
+						checkY = t.x + t.heightMaskLeft[(int)m.floorCheck1.getY2() - t.y];
+						x1 = t.heightMaskLeft[(int)m.floorCheck1.getY2() - t.y];
 						mustCheck = true;
 					}
 				}
@@ -542,9 +554,9 @@ public void mobAngledFloorLeft(Mob m) {
 				
 				
 				if(!((int)m.floorCheck2.getY2() - t.y >= 64 || (int)m.floorCheck2.getY2() - t.y < 0)) {
-					if(m.floorCheck2.getX2() < t.x +  t.heightMask3[(int)m.floorCheck2.getY2() - t.y]) {
-						checkY2 = t.x +  t.heightMask3[(int)m.floorCheck2.getY2() - t.y];
-						x2 = t.heightMask3[(int)m.floorCheck2.getY2() - t.y];
+					if(m.floorCheck2.getX2() < t.x +  t.heightMaskLeft[(int)m.floorCheck2.getY2() - t.y]) {
+						checkY2 = t.x +  t.heightMaskLeft[(int)m.floorCheck2.getY2() - t.y];
+						x2 = t.heightMaskLeft[(int)m.floorCheck2.getY2() - t.y];
 						mustCheck = true;
 						
 						
@@ -609,7 +621,7 @@ public boolean mobCeilingCollision(Mob m) {
 
 			if (!((int) m.ceilCheck1.getX2() - t.x >= 64 || (int) m.ceilCheck1.getX2() - t.x < 0)) {
 				if (m.ceilCheck1.intersects(t.AABB)
-						&& m.getY() < t.y + t.heightMask2[(int) m.ceilCheck1.getX2() - t.x]) {
+						&& m.getY() < t.y + t.heightMaskCeil[(int) m.ceilCheck1.getX2() - t.x]) {
 					m.ysp = 1.0;
 					m.falling = true;
 					m.xsp = 0;
@@ -621,7 +633,7 @@ public boolean mobCeilingCollision(Mob m) {
 			
 			if (!((int) m.ceilCheck1.getX1() - t.x >= 64 || (int) m.ceilCheck1.getX1() - t.x < 0)) {
 				if (m.ceilCheck1.intersects(t.AABB)
-						&& m.getY() < t.y + t.heightMask2[(int) m.ceilCheck1.getX1() - t.x]) {
+						&& m.getY() < t.y + t.heightMaskCeil[(int) m.ceilCheck1.getX1() - t.x]) {
 					m.falling = true;
 					m.ysp = 1.0;
 					m.xsp = 0;
@@ -1022,11 +1034,11 @@ public boolean mobCeilingCollision(Mob m) {
 			setTile(6, 13, Tile.g27_64l);
 			setTile(6, 12, Tile.g0_64l);
 			setTile(7, 13, Tile.g1_26l);
-			setTile(9, 13, Tile.g27_64r);
-			setTile(9, 12, Tile.g0_64r);
-			setTile(8, 13, Tile.g1_26r);
+			setTile(15, 13, Tile.g27_64r);
+			setTile(15, 12, Tile.g0_64r);
+			setTile(14, 13, Tile.g1_26r);
 			
-			/*setTile(6, 13, Tile.slope1);
+/*			setTile(6, 13, Tile.slope1);
 			setTile(7, 13, Tile.slope2);
 			setTile(8, 13, Tile.slope3);
 			setTile(9, 13, Tile.slope4);
@@ -1077,7 +1089,8 @@ public boolean mobCeilingCollision(Mob m) {
 			  setTile(12, 13, Tile.slope6); 
 			  setTile(13, 13,Tile.slope7); 
 			  setTile(14, 13, Tile.slope8);*/
-			 
+			  
+			  
 
 			/*
 			 * EntityMovingTile movingTile = new EntityMovingTile(new Texture("movingTile"),
