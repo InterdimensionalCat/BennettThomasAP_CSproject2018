@@ -76,7 +76,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		floorCheck1 = new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() + 42);
 		floorCheck2 = new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() + 42);
 		centerLine = new Line2D.Float((float)center.getX() - 26, (float)center.getY() + 6, (float)center.getX() + 26, (float)center.getY() + 6);
-		ceilCheck1 = new Line2D.Float((float)x + 10, (float)y, (float)x+54, (float)y);
+		ceilCheck1 = new Line2D.Float((float)x + 32 - 14, (float)y, (float)x + 32 + 14, (float)y);
 		//ceilCheck2 = new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() - 42);
 	}
 	
@@ -371,7 +371,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			angleState = AngleState.LEFT;
 		}
 		
-		ceilCheck1 = new Line2D.Float((float)x + 10, (float)y, (float)x+54, (float)y);
+		ceilCheck1 = new Line2D.Float((float)x + 32 - 14, (float)y, (float)x + 32 + 14, (float)y);
 		//ceilCheck2 = new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() - 42);
 		
 		

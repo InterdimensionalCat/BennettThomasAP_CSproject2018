@@ -213,7 +213,7 @@ public class TileMap {
 						if (m.xsp < 0) {
 							
 
-								m.setX(t.x + 59);
+							m.setX(t.x + 59);
 								
 							
 							//m.setX(t.x + 59);
@@ -434,6 +434,9 @@ public void mobCeilingFloor(Mob m) {
 		double x1 = 0;
 		double x2 = 0;
 		
+		double a1 = -1;
+		double a2 = -1;
+		
 		for(Tile t : usedTiles) {
 			boolean mustCheck = false;
 			if(!t.isSolid()) {
@@ -451,6 +454,14 @@ public void mobCeilingFloor(Mob m) {
 				if(!((int)m.floorCheck1.getY2() - t.y >= 64 || (int)m.floorCheck1.getY2() - t.y < 0)) {
 					if(m.floorCheck1.getX2() > t.x + 64 - t.heightMaskRight[(int)m.floorCheck1.getY2() - t.y]) {
 						checkY = t.x + 64 - t.heightMaskRight[(int)m.floorCheck1.getY2() - t.y];
+						
+						a1 = (int)m.floorCheck1.getY2() - t.y;
+						System.out.println(checkY);
+						
+						if(checkY == 896.0 - 64) {
+							System.out.print("");
+						}
+						
 						x1 = t.heightMaskRight[(int)m.floorCheck1.getY2() - t.y];
 						mustCheck = true;
 					}
@@ -465,6 +476,11 @@ public void mobCeilingFloor(Mob m) {
 				if(!((int)m.floorCheck2.getY2() - t.y >= 64 || (int)m.floorCheck2.getY2() - t.y < 0)) {
 					if(m.floorCheck2.getX2() > t.x + 64 - t.heightMaskRight[(int)m.floorCheck2.getY2() - t.y]) {
 						checkY2 = t.x + 64 - t.heightMaskRight[(int)m.floorCheck2.getY2() - t.y ];
+						
+						a2 = (int)m.floorCheck2.getY2() - t.y;
+						
+						System.out.println(checkY2);
+						
 						x2 = t.heightMaskRight[(int)m.floorCheck2.getY2() - t.y];
 						mustCheck = true;
 						
@@ -489,9 +505,13 @@ public void mobCeilingFloor(Mob m) {
 							if(m.angle == 0) {
 								m.angle = -89;
 							}
+							
+							return;
 						}
 					} else {
 						m.setX(newY - 64);
+						System.out.println(newY - 64);
+						System.out.println(a2 +", " +a1);
 						m.falling = false;
 						//m.land();
 						m.setAirBorne(false);
@@ -501,6 +521,8 @@ public void mobCeilingFloor(Mob m) {
 						if(m.angle == 0) {
 							m.angle = -89;
 						}
+						
+						return;
 					}
 				}
 			}
@@ -1037,6 +1059,9 @@ public boolean mobCeilingCollision(Mob m) {
 			setTile(15, 13, Tile.g27_64r);
 			setTile(15, 12, Tile.g0_64r);
 			setTile(14, 13, Tile.g1_26r);
+			
+			setTile(16, 12, Tile.tile1);
+			setTile(16, 11, Tile.tile1);
 			
 /*			setTile(6, 13, Tile.slope1);
 			setTile(7, 13, Tile.slope2);

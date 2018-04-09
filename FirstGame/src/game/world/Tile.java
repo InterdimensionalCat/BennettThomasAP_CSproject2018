@@ -75,10 +75,10 @@ public class Tile {
 	
 	public static final Tile g1_26r = new Tile(-100, new Texture(SlopeTest, 1, 3 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-20));
 	public static final Tile g1_26l = new Tile(-100, new Texture(SlopeTestL, 3, 3 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(20));
-	public static final Tile g27_64r = new Tile(-100, new Texture(SlopeTest, 2, 3 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-40));
-	public static final Tile g27_64l = new Tile(-100, new Texture(SlopeTestL, 2, 3 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(40));
-	public static final Tile g0_64r = new Tile(-100, new Texture(SlopeTest, 2, 2 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-60));
-	public static final Tile g0_64l = new Tile(-100, new Texture(SlopeTestL, 2, 2 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(60));
+	public static final Tile g27_64r = new Tile(-100, new Texture(SlopeTest, 2, 3 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-44));
+	public static final Tile g27_64l = new Tile(-100, new Texture(SlopeTestL, 2, 3 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(44));
+	public static final Tile g0_64r = new Tile(-100, new Texture(SlopeTest, 2, 2 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-85));
+	public static final Tile g0_64l = new Tile(-100, new Texture(SlopeTestL, 2, 2 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(85));
 	
 	
 	private Tile(int id, Texture sprite, TileType type, double[] heightMask, double[] heightMask1, double angle) { //creates tile type constants
