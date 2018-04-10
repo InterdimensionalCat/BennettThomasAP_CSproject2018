@@ -376,9 +376,7 @@ public void mobCeilingFloor(Mob m) {
 				continue;
 			}
 			
-			if(t.type == TileType.SLOPE_LEFT_64_00) {
-				System.out.println("aaa");
-			}
+
 			
 			
 			if(m.floorCheck1.intersects(t.AABB)) {
@@ -387,6 +385,9 @@ public void mobCeilingFloor(Mob m) {
 						checkY = t.y +  t.heightMaskCeil[(int)m.floorCheck1.getX2() - t.x];
 						mustCheck = true;
 						
+						if(t.type == TileType.SLOPE_LEFT_64_00) {
+							System.out.println("aaa");
+						}
 						
 					}
 				}
@@ -398,7 +399,9 @@ public void mobCeilingFloor(Mob m) {
 						checkY2 = t.y +  t.heightMaskCeil[(int)m.floorCheck2.getX2() - t.x];
 						mustCheck = true;
 						
-
+						if(t.type == TileType.SLOPE_LEFT_64_00) {
+							System.out.println("aaa");
+						}
 						
 					}
 				}
@@ -417,6 +420,7 @@ public void mobCeilingFloor(Mob m) {
 							//m.setMotionX(0);
 							
 							m.angle =  t.angle;
+							return;
 						}
 					} else {
 						
@@ -433,6 +437,7 @@ public void mobCeilingFloor(Mob m) {
 							System.out.println("yes");
 							m.angle = Math.toRadians(180);
 						}
+						return;
 					}
 				}
 			}
@@ -1171,10 +1176,10 @@ public boolean mobCeilingCollision(Mob m) {
 			setTile(18 + 5, 2+ 4, Tile.c3_1LC);
 			setTile(19 + 5, 2+ 4, Tile.c4_1LC);
 			
-			setChunk(17,6,Tile.straightSlopeRC);
-			setChunk(17 - 4,6,Tile.betterSlopeLeftCeil);
+			//setChunk(17,6,Tile.straightSlopeRC);
+			//setChunk(17 - 4,6,Tile.betterSlopeLeftCeil);
 			
-			//setChunk(17,6+4,Tile.betterSlopeLeftCeil);
+			setChunk(17,6+4,Tile.betterSlopeLeftCeil);
 			
 /*			setTile(6, 13, Tile.g27_64l);
 			setTile(6, 12, Tile.g0_64l);

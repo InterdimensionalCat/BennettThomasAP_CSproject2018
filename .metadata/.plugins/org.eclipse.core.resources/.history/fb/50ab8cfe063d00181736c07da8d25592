@@ -32,9 +32,6 @@ public class Chunk {
 			if(Arrays.equals(map[i].heightMaskCeil, map[i].heightMaskFloor)&&Arrays.equals(map[i].heightMaskCeil, map[i].heightMaskRight)&&Arrays.equals(map[i].heightMaskCeil, map[i].heightMaskLeft)&&Arrays.equals(Tile.air.heightMaskFloor, map[i].heightMaskFloor)) {
 				map[i] = Tile.air;
 			}
-			if(i == 4) {
-				map[i].type = TileType.SLOPE_LEFT_64_00;
-			}
 		}
 		
 	}

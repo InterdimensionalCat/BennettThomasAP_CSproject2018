@@ -1171,10 +1171,10 @@ public boolean mobCeilingCollision(Mob m) {
 			setTile(18 + 5, 2+ 4, Tile.c3_1LC);
 			setTile(19 + 5, 2+ 4, Tile.c4_1LC);
 			
-			setChunk(17,6,Tile.straightSlopeRC);
-			setChunk(17 - 4,6,Tile.betterSlopeLeftCeil);
+			//setChunk(17,6,Tile.straightSlopeRC);
+			//setChunk(17 - 4,6,Tile.betterSlopeLeftCeil);
 			
-			//setChunk(17,6+4,Tile.betterSlopeLeftCeil);
+			setChunk(17,6+4,Tile.betterSlopeLeftCeil);
 			
 /*			setTile(6, 13, Tile.g27_64l);
 			setTile(6, 12, Tile.g0_64l);
