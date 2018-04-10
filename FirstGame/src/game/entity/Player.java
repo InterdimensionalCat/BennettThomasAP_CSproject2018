@@ -79,6 +79,7 @@ public class Player extends Mob {
 					(int) ceilCheck1.getX2() + offsetX, (int) ceilCheck1.getY2() + offsetY);
 			/*g.drawLine((int) ceilCheck2.getX1() + offsetX, (int) ceilCheck2.getY1() + offsetY,
 					(int) ceilCheck2.getX2() + offsetX, (int) ceilCheck2.getY2() + offsetY);*/
+			g.drawRect((int)x + offsetX, (int)y + offsetY, 64, 64);
 		}
 	}
 
