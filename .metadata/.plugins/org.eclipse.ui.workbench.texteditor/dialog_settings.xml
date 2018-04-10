@@ -9,6 +9,7 @@
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
 			<item value="ceilingfloor"/>
+			<item value="groundFloor"/>
 			<item value="groundfloor"/>
 			<item value="floor"/>
 			<item value="angledfloor"/>
@@ -22,7 +23,6 @@
 			<item value="ceilingFloor"/>
 			<item value="ceilingColl"/>
 			<item value="chunk"/>
-			<item value="setTile"/>
 		</list>
 		<list key="replacehistory">
 			<item value="ceil"/>

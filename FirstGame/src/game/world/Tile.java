@@ -158,7 +158,7 @@ public class Tile {
 	
 	public static final Chunk straightSlopeRC = new Chunk(new Texture("straightSlopeRC"), 4, new double[] {-135,0,0,0,0,-135,0,0,0,0,-135,0,0,0,0,-135} , -50);
 	
-	public static final Chunk betterSlopeLeftCeil = new Chunk(new Texture("betterSlopeLeftCeil"), 4, new double[] {0, 224, 210 , 195, 224 , 225 ,0 , 0, 240,0 ,0 ,0 , 255 ,0,0,0} , -100);
+	public static final Chunk betterSlopeLeftCeil = new Chunk(new Texture("betterSlopeLeftCeil"), 4, new double[] {0, 136, 150 , 165, 134 , 135 ,0 , 0, 120 ,0 ,0 ,0 , 105 ,0,0,0} , -100);
 	
 	
 	protected Tile(int id, Texture sprite, TileType type, double[] heightMask, double[] heightMask1, double angle) { //creates tile type constants
