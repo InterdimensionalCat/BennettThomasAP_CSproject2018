@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.Line;
@@ -70,6 +71,14 @@ public class TileMap {
 	public void setTile(int x, int y, Tile tile) {
 		tiles[x + y * width] = tile; // proper math?
 		usedTiles.add(new Tile(tile,x*64,y*64));
+	}
+	
+	public void setChunk(int x, int y, Chunk c) {
+		for(int i = 0; i < c.size; i++) {
+			for(int j = 0; j < c.size; j++) {
+				setTile(x + j, y + i, c.map[j + i*c.size]);
+			}
+		}
 	}
 
 	public static int convertToTiles(int pixel) {
@@ -168,6 +177,8 @@ public class TileMap {
 		}
 		
 		m.falling = true;
+/*		m.xsp = m.gsp*Math.cos(m.angle);
+		m.ysp = -m.gsp*Math.sin(m.angle);*/
 		m.gsp = 0;
 	}
 
@@ -368,7 +379,7 @@ public void mobCeilingFloor(Mob m) {
 			
 			if(m.floorCheck1.intersects(t.AABB)) {
 				if(!((int)m.floorCheck1.getX2() - t.x >= 64 || (int)m.floorCheck1.getX2() - t.x < 0)) {
-					if(m.floorCheck1.getY2() < t.y +  t.heightMaskCeil[(int)m.floorCheck1.getX2() - t.x]) {
+					if(m.floorCheck1.getY2() < t.y +  t.heightMaskCeil[(int)m.floorCheck1.getX2() - t.x]&&t.heightMaskCeil[(int)m.floorCheck1.getX2() - t.x] != 0) {
 						checkY = t.y +  t.heightMaskCeil[(int)m.floorCheck1.getX2() - t.x];
 						mustCheck = true;
 					}
@@ -377,7 +388,7 @@ public void mobCeilingFloor(Mob m) {
 			
 			if(m.floorCheck2.intersects(t.AABB)) {
 				if(!((int)m.floorCheck2.getX2() - t.x >= 64 || (int)m.floorCheck2.getX2() - t.x < 0)) {
-					if(m.floorCheck2.getY2() < t.y +  t.heightMaskCeil[(int)m.floorCheck2.getX2() - t.x]) {
+					if(m.floorCheck2.getY2() < t.y +  t.heightMaskCeil[(int)m.floorCheck2.getX2() - t.x]&&t.heightMaskCeil[(int)m.floorCheck2.getX2() - t.x] != 0) {
 						checkY2 = t.y +  t.heightMaskCeil[(int)m.floorCheck2.getX2() - t.x];
 						mustCheck = true;
 						
@@ -413,6 +424,7 @@ public void mobCeilingFloor(Mob m) {
 						m.angle =  t.angle;
 						
 						if(m.angle == 0) {
+							System.out.println("yes");
 							m.angle = Math.toRadians(180);
 						}
 						return;
@@ -506,7 +518,7 @@ public void mobCeilingFloor(Mob m) {
 							
 							m.angle = t.angle;
 							if(m.angle == 0) {
-								m.angle = -89;
+								m.angle = Math.toRadians(-90);
 							}
 							
 							//return;
@@ -522,7 +534,7 @@ public void mobCeilingFloor(Mob m) {
 						
 						m.angle = t.angle;
 						if(m.angle == 0) {
-							m.angle = -89;
+							m.angle = Math.toRadians(-90);
 						}
 						
 						//return;
@@ -605,13 +617,10 @@ public void mobAngledFloorLeft(Mob m) {
 							
 							m.angle = t.angle;
 							if(m.angle == 0) {
-								m.angle = 89;
+								m.angle = Math.toRadians(90);
 							}
 						}
 					} else {
-						if(x2 == 64.0||x1 == 64.0) {
-							System.out.println("yes");
-						}
 						m.setX(newY);
 						m.falling = false;
 						//m.land();
@@ -620,7 +629,7 @@ public void mobAngledFloorLeft(Mob m) {
 						
 						m.angle = t.angle;
 						if(m.angle == 0) {
-							m.angle = 89;
+							m.angle = Math.toRadians(90);
 						}
 					}
 				}
@@ -1083,56 +1092,84 @@ public boolean mobCeilingCollision(Mob m) {
 			setTile(11, 11, Tile.s4_2);
 			setTile(11, 10, Tile.s4_1);
 			
-			setTile(12, 7, Tile.c1_4);
-			setTile(13, 7, Tile.c2_4);
-			setTile(14, 7, Tile.c3_4);
-			setTile(15, 7, Tile.c4_4);
+			setTile(12, 5, Tile.c1_4);
+			setTile(13, 5, Tile.c2_4);
+			setTile(14, 5, Tile.c3_4);
+			setTile(15, 5, Tile.c4_4);
 			
-			setTile(12, 6, Tile.c1_3);
-			setTile(13, 6, Tile.c2_3);
-			setTile(14, 6, Tile.c3_3);
-			setTile(15, 6, Tile.c4_3);
+			setTile(12, 4, Tile.c1_3);
+			setTile(13, 4, Tile.c2_3);
+			setTile(14, 4, Tile.c3_3);
+			setTile(15, 4, Tile.c4_3);
 			
-			setTile(12, 5, Tile.c1_2);
-			setTile(13, 5, Tile.c2_2);
-			setTile(14, 5, Tile.c3_2);
-			setTile(15, 5, Tile.c4_2);
+			setTile(12, 3, Tile.c1_2);
+			setTile(13, 3, Tile.c2_2);
+			setTile(14, 3, Tile.c3_2);
+			setTile(15, 3, Tile.c4_2);
 			
 			//setTile(8, 4, Tile.c1_1);
-			setTile(13, 4, Tile.c2_1);
-			setTile(14, 4, Tile.c3_1);
-			setTile(15, 4, Tile.c4_1);
-			setTile(16, 4, Tile.tile1);
-			setTile(17, 4, Tile.tile1);
-			setTile(18, 4, Tile.tile1);
-			setTile(19, 4, Tile.tile1);
+			setTile(13, 2, Tile.c2_1);
+			setTile(14, 2, Tile.c3_1);
+			setTile(15, 2, Tile.c4_1);
+			setTile(16, 2, Tile.tile1);
+			setTile(17, 2, Tile.tile1);
+			setTile(18, 2, Tile.tile1);
+			setTile(19, 2, Tile.tile1);
+			setTile(20, 2, Tile.tile1);
 			
 			setTile(12, 9, Tile.tile5);
 			setTile(12, 8, Tile.tile5);
+			setTile(12, 7, Tile.tile5);
+			setTile(12, 6, Tile.tile5);
 			
 			
-			setTile(16 + 4, 7, Tile.c1_4L);
-			setTile(17 + 4, 7, Tile.c2_4L);
-			setTile(18 + 4, 7, Tile.c3_4L);
-			setTile(19 + 4, 7, Tile.c4_4L);
+			setTile(16 + 5, 5, Tile.c1_4L);
+			setTile(17 + 5, 5, Tile.c2_4L);
+			setTile(18 + 5, 5, Tile.c3_4L);
+			setTile(19 + 5, 5, Tile.c4_4L);
 			
-			setTile(16 + 4, 6, Tile.c1_3L);
-			setTile(17 + 4, 6, Tile.c2_3L);
-			setTile(18 + 4, 6, Tile.c3_3L);
-			setTile(19 + 4, 6, Tile.c4_3L);
+			setTile(16 + 5, 4, Tile.c1_3L);
+			setTile(17 + 5, 4, Tile.c2_3L);
+			setTile(18 + 5, 4, Tile.c3_3L);
+			setTile(19 + 5, 4, Tile.c4_3L);
 			
-			setTile(16 + 4, 5, Tile.c1_2L);
-			setTile(17 + 4, 5, Tile.c2_2L);
-			setTile(18 + 4, 5, Tile.c3_2L);
-			setTile(19 + 4, 5, Tile.c4_2L);
+			setTile(16 + 5, 3, Tile.c1_2L);
+			setTile(17 + 5, 3, Tile.c2_2L);
+			setTile(18 + 5, 3, Tile.c3_2L);
+			setTile(19 + 5, 3, Tile.c4_2L);
 			
-			setTile(16 + 4, 4, Tile.c1_1L);
-			setTile(17 + 4, 4, Tile.c2_1L);
-			setTile(18 + 4, 4, Tile.c3_1L);
+			setTile(16 + 5, 2, Tile.c1_1L);
+			setTile(17 + 5, 2, Tile.c2_1L);
+			setTile(18 + 5, 2, Tile.c3_1L);
+			
+			
 			//setTile(15, 4, Tile.c4_1L);
 
 			
+			setTile(16 + 5, 5+ 4, Tile.c1_4LC);
+			setTile(17 + 5, 5+ 4, Tile.c2_4LC);
+			setTile(18 + 5, 5+ 4, Tile.c3_4LC);
+			//setTile(19 + 4, 5, Tile.c4_4LC);
 			
+			setTile(16 + 5, 4+ 4, Tile.c1_3LC);
+			setTile(17 + 5, 4+ 4, Tile.c2_3LC);
+			setTile(18 + 5, 4+ 4, Tile.c3_3LC);
+			setTile(19 + 5, 4+ 4, Tile.c4_3LC);
+			
+			setTile(16 + 5, 3+ 4, Tile.c1_2LC);
+			setTile(17 + 5, 3+ 4, Tile.c2_2LC);
+			setTile(18 + 5, 3+ 4, Tile.c3_2LC);
+			setTile(19 + 5, 3+ 4, Tile.c4_2LC);
+			
+			setTile(16 + 5, 2+ 4, Tile.c1_1LC);
+			setTile(17 + 5, 2+ 4, Tile.c2_1LC);
+			setTile(18 + 5, 2+ 4, Tile.c3_1LC);
+			setTile(19 + 5, 2+ 4, Tile.c4_1LC);
+			
+			//setChunk(17,6,Tile.straightSlopeRC);
+			//setChunk(17 - 4,6,Tile.betterSlopeLeftCeil);
+			
+			setChunk(17,6+4,Tile.betterSlopeLeftCeil);
 			
 /*			setTile(6, 13, Tile.g27_64l);
 			setTile(6, 12, Tile.g0_64l);

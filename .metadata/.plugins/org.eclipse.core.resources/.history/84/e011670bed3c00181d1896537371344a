@@ -1,0 +1,27 @@
+package game.world;
+
+import game.render.textures.Texture;
+
+/** 
+ *4x4 tile maps, so 256x256px.
+ *Done because many spritemaps for tiles are just 4x4's that are the copied into the world so this makes it easier
+ *Square spritemaps only.
+ */
+
+
+public class Chunk {
+	
+	
+	public Tile[] map;
+	public Texture texture;
+	
+	public Chunk(Texture t, int size, double[] angles, int id) {
+		this.texture = t;
+		for(int i = 0; i < size; i++) { // y value
+			for(int j = 0; j < size; j++) { // x value
+				map[j + i*size] = new Tile(id, new Texture(texture, i + 1, j + 1 , 64, 64), TileType.TEST, new double[] {} , new double[] {} , Math.toRadians(angles[j + i*size]));
+			}
+		}
+		
+	}
+}
