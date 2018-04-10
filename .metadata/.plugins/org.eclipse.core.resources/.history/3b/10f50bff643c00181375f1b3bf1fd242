@@ -1069,7 +1069,6 @@ public boolean mobCeilingCollision(Mob m) {
 			setTile(1, 12, Tile.s1_3L);
 			setTile(1, 11, Tile.s1_2L);
 			setTile(1, 10, Tile.s1_1L);
-			
 			setTile(0, 9, Tile.tile6);
 			setTile(0, 8, Tile.tile6);
 			
@@ -1082,56 +1081,8 @@ public boolean mobCeilingCollision(Mob m) {
 			setTile(11, 12, Tile.s4_3);
 			setTile(11, 11, Tile.s4_2);
 			setTile(11, 10, Tile.s4_1);
-			
-			setTile(12, 7, Tile.c1_4);
-			setTile(13, 7, Tile.c2_4);
-			setTile(14, 7, Tile.c3_4);
-			setTile(15, 7, Tile.c4_4);
-			
-			setTile(12, 6, Tile.c1_3);
-			setTile(13, 6, Tile.c2_3);
-			setTile(14, 6, Tile.c3_3);
-			setTile(15, 6, Tile.c4_3);
-			
-			setTile(12, 5, Tile.c1_2);
-			setTile(13, 5, Tile.c2_2);
-			setTile(14, 5, Tile.c3_2);
-			setTile(15, 5, Tile.c4_2);
-			
-			//setTile(8, 4, Tile.c1_1);
-			setTile(13, 4, Tile.c2_1);
-			setTile(14, 4, Tile.c3_1);
-			setTile(15, 4, Tile.c4_1);
-			setTile(16, 4, Tile.tile1);
-			setTile(17, 4, Tile.tile1);
-			setTile(18, 4, Tile.tile1);
-			setTile(19, 4, Tile.tile1);
-			
 			setTile(12, 9, Tile.tile5);
 			setTile(12, 8, Tile.tile5);
-			
-			
-			setTile(16 + 4, 7, Tile.c1_4L);
-			setTile(17 + 4, 7, Tile.c2_4L);
-			setTile(18 + 4, 7, Tile.c3_4L);
-			setTile(19 + 4, 7, Tile.c4_4L);
-			
-			setTile(16 + 4, 6, Tile.c1_3L);
-			setTile(17 + 4, 6, Tile.c2_3L);
-			setTile(18 + 4, 6, Tile.c3_3L);
-			setTile(19 + 4, 6, Tile.c4_3L);
-			
-			setTile(16 + 4, 5, Tile.c1_2L);
-			setTile(17 + 4, 5, Tile.c2_2L);
-			setTile(18 + 4, 5, Tile.c3_2L);
-			setTile(19 + 4, 5, Tile.c4_2L);
-			
-			setTile(16 + 4, 4, Tile.c1_1L);
-			setTile(17 + 4, 4, Tile.c2_1L);
-			setTile(18 + 4, 4, Tile.c3_1L);
-			//setTile(15, 4, Tile.c4_1L);
-
-			
 			
 			
 /*			setTile(6, 13, Tile.g27_64l);

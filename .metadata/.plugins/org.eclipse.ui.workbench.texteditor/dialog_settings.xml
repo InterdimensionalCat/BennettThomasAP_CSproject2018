@@ -2,27 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="move" key="selection"/>
+		<item value="setTile" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="move"/>
-			<item value="mobWallCOll"/>
-			<item value="entityColl"/>
-			<item value="fallingOff"/>
-			<item value="groundfloor"/>
-			<item value="entityCOll"/>
-			<item value="tileMap"/>
-			<item value="rightmask"/>
+			<item value="setTile"/>
 			<item value="angledFloor"/>
-			<item value="heightMask"/>
-			<item value="heightMask1"/>
+			<item value="floorleft"/>
+			<item value="mobAngledFloorLeft"/>
+			<item value="mobangled"/>
+			<item value="render"/>
+			<item value="angledFloorLeft"/>
+			<item value="fallingOff"/>
+			<item value="setMove"/>
+			<item value="move"/>
+			<item value="paral"/>
 			<item value="ceilingfloor"/>
-			<item value="ceiling floor"/>
-			<item value="ceiliingflor"/>
-			<item value="turnRunLeft = true"/>
+			<item value="angled"/>
+			<item value="an"/>
+			<item value="angledfloor"/>
 		</list>
 		<list key="replacehistory">
 			<item value="ceil"/>
@@ -39,10 +39,10 @@
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="290" key="DIALOG_WIDTH"/>
-		<item value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont" key="DIALOG_FONT_NAME"/>
-		<item value="409" key="DIALOG_HEIGHT"/>
-		<item value="1000" key="DIALOG_X_ORIGIN"/>
-		<item value="568" key="DIALOG_Y_ORIGIN"/>
+		<item value="336" key="DIALOG_WIDTH"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="440" key="DIALOG_HEIGHT"/>
+		<item value="1071" key="DIALOG_X_ORIGIN"/>
+		<item value="153" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>
