@@ -2,27 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="CeilingFloor" key="selection"/>
+		<item value="usedTiles" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="ceilingfloor"/>
-			<item value="groundFloor"/>
-			<item value="groundfloor"/>
-			<item value="floor"/>
-			<item value="angledfloor"/>
-			<item value="floorangled"/>
-			<item value="angle == 0"/>
-			<item value="setchunk"/>
-			<item value="addchunk"/>
-			<item value="addChunk"/>
-			<item value="ceilngFloor"/>
-			<item value="yes"/>
-			<item value="ceilingFloor"/>
-			<item value="ceilingColl"/>
-			<item value="chunk"/>
+			<item value="usedTiles"/>
+			<item value="mobground"/>
+			<item value="mobFloor"/>
+			<item value="checkTiles"/>
+			<item value="entityColl"/>
+			<item value="mobGroundFloor"/>
+			<item value="mobGround"/>
+			<item value="for(tile t : usedTiles)"/>
+			<item value="for(tile t"/>
+			<item value="VK_"/>
+			<item value="mobFallingOff"/>
+			<item value="entityCollision"/>
+			<item value="jump("/>
+			<item value="jump"/>
+			<item value="mobFalling"/>
 		</list>
 		<list key="replacehistory">
 			<item value="ceil"/>
@@ -42,7 +42,7 @@
 		<item value="336" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		<item value="440" key="DIALOG_HEIGHT"/>
-		<item value="1071" key="DIALOG_X_ORIGIN"/>
-		<item value="153" key="DIALOG_Y_ORIGIN"/>
+		<item value="1728" key="DIALOG_X_ORIGIN"/>
+		<item value="187" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

@@ -18,7 +18,7 @@ public class Tile {
 	private static final Texture CurveTestL = new Texture("betterCurveLeft");
 	private static final Texture CurveTestLC = new Texture("betterCurveLeftCeil");
 	private static final Texture SlopeTestC = new Texture("SlopeTestC");
-	private static final Texture SlopeTestL = new Texture("betterSlopeLeft");
+	//private static final Texture SlopeTestL = new Texture("betterSlopeLeft");
 	private static final Texture SlopeTestLC = new Texture("SlopeTestLC");
 	private static final Map<Integer, Tile> tileMap = new HashMap<Integer, Tile>();
 	public Texture sprite;
@@ -77,11 +77,11 @@ public class Tile {
 	
 	
 	
-	public static final Tile g1_26l = new Tile(-100, new Texture(SlopeTestL, 3, 3 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(20));
+	//public static final Tile g1_26l = new Tile(-100, new Texture(SlopeTestL, 3, 3 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(20));
 	
-	public static final Tile g27_64l = new Tile(-100, new Texture(SlopeTestL, 2, 3 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(44));
+	//public static final Tile g27_64l = new Tile(-100, new Texture(SlopeTestL, 2, 3 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(44));
 	
-	public static final Tile g0_64l = new Tile(-100, new Texture(SlopeTestL, 2, 2 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(85));
+	//public static final Tile g0_64l = new Tile(-100, new Texture(SlopeTestL, 2, 2 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(85));
 	
 	
 	public static final Tile s1_4 = new Tile(-100, new Texture(SlopeTest, 1, 4 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-15));
@@ -140,22 +140,23 @@ public class Tile {
 	public static final Tile c1_3LC = new Tile(-100, new Texture(CurveTestLC, 1, 3 , 64, 64), TileType.SOLID, createSolidArray() , createSolidArray() , Math.toRadians(0));
 	public static final Tile c2_3LC = new Tile(-100, new Texture(CurveTestLC, 2, 3 , 64, 64), TileType.SOLID, createSolidArray() , createSolidArray() , Math.toRadians(0));
 	public static final Tile c3_3LC = new Tile(-100, new Texture(CurveTestLC, 3, 3 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(135));
-	public static final Tile c4_3LC = new Tile(-100, new Texture(CurveTestLC, 4, 3 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(135));
+	public static final Tile c4_3LC = new Tile(-100, new Texture(CurveTestLC, 4, 3 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(130));
 	public static final Tile c1_4LC = new Tile(-100, new Texture(CurveTestLC, 1, 4 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(165));
 	public static final Tile c2_4LC = new Tile(-100, new Texture(CurveTestLC, 2, 4 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(150));
-	public static final Tile c3_4LC = new Tile(-100, new Texture(CurveTestLC, 3, 4 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(135));
+	public static final Tile c3_4LC = new Tile(-100, new Texture(CurveTestLC, 3, 4 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(140));
 	//public static final Tile c4_4LC = new Tile(-100, new Texture(CurveTestL, 4, 4 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(75));
 	
 	
-	public static final Tile s4_4L = new Tile(-100, new Texture(SlopeTestL, 4, 4 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(15));
+/*	public static final Tile s4_4L = new Tile(-100, new Texture(SlopeTestL, 4, 4 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(15));
 	public static final Tile s3_4L = new Tile(-100, new Texture(SlopeTestL, 3, 4 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(30));
 	public static final Tile s2_4L = new Tile(-100, new Texture(SlopeTestL, 2, 4 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(44));
 	public static final Tile s1_4L = new Tile(-100, new Texture(SlopeTestL, 1, 4 , 64, 64), TileType.SOLID, createSolidArray() , createSolidArray() , Math.toRadians(0));
 	public static final Tile s2_3L = new Tile(-100, new Texture(SlopeTestL, 2, 3 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(45));
 	public static final Tile s1_3L = new Tile(-100, new Texture(SlopeTestL, 1, 3 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(46));
 	public static final Tile s1_2L = new Tile(-100, new Texture(SlopeTestL, 1, 2 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(60));
-	public static final Tile s1_1L = new Tile(-100, new Texture(SlopeTestL, 1, 1 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(75));
+	public static final Tile s1_1L = new Tile(-100, new Texture(SlopeTestL, 1, 1 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(75));*/
 	
+	public static final Chunk SlopeTestL = new Chunk(new Texture("betterSlopeLeft"), 4, new double[] {75, 0, 0 , 0, 60 , 0 ,0 , 0, 46 , 45 ,0 ,0 , 0 ,44 ,30,15}, -75);	
 	public static final Chunk straightSlopeRC = new Chunk(new Texture("straightSlopeRC"), 4, new double[] {-135,0,0,0,0,-135,0,0,0,0,-135,0,0,0,0,-135} , -50);
 	
 	public static final Chunk betterSlopeLeftCeil = new Chunk(new Texture("betterSlopeLeftCeil"), 4, new double[] {0, 136, 150 , 165, 134 , 135 ,0 , 0, 120 ,0 ,0 ,0 , 105 ,0,0,0} , -100);

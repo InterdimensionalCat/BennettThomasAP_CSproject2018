@@ -462,7 +462,7 @@ public class Player extends Mob {
 		}
 	}
 	
-	protected void jump(double velocityY) {
+	public void jump(double velocityY) {
 		if(!falling) {
 			if(!InitAudio.musicFiles.get("PlayerJump1").isPlaying()) {
 				Game.fxmanager.playSound("PlayerJump1");

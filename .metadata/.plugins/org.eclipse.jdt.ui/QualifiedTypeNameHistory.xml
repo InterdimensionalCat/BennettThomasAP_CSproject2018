@@ -25,4 +25,5 @@
 <fullyQualifiedTypeName name="game.render.textures.Texture"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="game.world.Tile"/>
 </qualifiedTypeNameHistroy>

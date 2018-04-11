@@ -157,7 +157,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			ysp += grv;
 			
 			
-			if(!KeyInput.isDown(KeyEvent.VK_SPACE)&&ysp < -3) { 
+			if(KeyInput.wasReleased(KeyEvent.VK_SPACE)&&ysp < -3) { 
 				ysp = -3;
 			}
 			
@@ -248,7 +248,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		}
 	}
 	
-	protected void jump(double velocityY) {
+	public void jump(double velocityY) {
 		
 		//shouldJump = true;
 		
