@@ -3,6 +3,7 @@ package game.entity;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.util.Random;
 
 import game.Game;
 import game.render.textures.Animation;
@@ -20,6 +21,8 @@ public class EntityBoop extends Mob {
 	private boolean displaced;
 	private Animation currentState;
 	private boolean jumper;
+	private final double acc =  0.046875;
+	private final Random xposRand = new Random();
 
 	public EntityBoop(double x, double y, TileMap tileMap, double speed, double displacement, boolean jumper) {
 		super(new Texture("BoopWalk1"), x, y, tileMap, new Rectangle((int)x, (int)y, 64, 64));
@@ -29,6 +32,13 @@ public class EntityBoop extends Mob {
 		this.displacement = displacement;
 		this.currentState = InitAnimations.animations.get("Boop_walk");
 		this.jumper = jumper;
+		this.abspd = 10.0;
+		if(xposRand.nextBoolean()) {
+			this.x += xposRand.nextDouble()*displacement;
+		} else {
+			this.x -= xposRand.nextDouble()*displacement;
+		}
+		System.out.print("");
 		//this.state = ActionState.MOB_AIR_MOVING;
 	}
 	
@@ -52,11 +62,11 @@ public class EntityBoop extends Mob {
 	@Override
 	public void tick() {
 		if (!dead) {
-			if (Math.abs(x - spawnPointX) > displacement || displaced) {
+/*			if (Math.abs(x - spawnPointX) > displacement || displaced) {
 				this.motionX = -motionX;
 				this.speed = -speed;
 				displaced = false;
-			}
+			}*/
 			
 
 			
@@ -91,12 +101,41 @@ public class EntityBoop extends Mob {
 	@Override
 	public void move() {
 
-		if(tileMap.calculateNPCCollision(this, x, y, motionX, motionY)) {
+/*		if(tileMap.calculateNPCCollision(this, x, y, motionX, motionY)) {
 			motionX = -speed;
 			speed = -speed;
 		}  
 		y+= getMotionY();
-		x+= getMotionX();
+		x+= getMotionX();*/
+		
+/*		if(Math.abs(x - spawnPointX) > displacement*0.7 && !(Math.abs(x - spawnPointX) / (x - spawnPointX) == Math.abs(speed) / speed)) {
+			gsp /= 2;
+			xsp /= 2;
+		}*/
+		
+		
+		if(Math.abs(x - spawnPointX) > displacement*0.7 && !(Math.abs(x - spawnPointX) > displacement)) {
+			displaced = false;
+		}
+		
+		if(Math.abs(x - spawnPointX) > displacement && !displaced) {
+			speed = -speed;
+			//gsp = speed*2;
+			//xsp = speed*2;
+			gsp = 0;
+			xsp = 0;
+			displaced = true;
+		}
+		
+		if (falling) {
+			xsp += speed * acc;
+		} else {
+			gsp += speed * acc;
+		} 
+
+		super.move();
+		
+		AABB.setBounds((int)x, (int)y,AABB.width, AABB.height);
 	}
 	
 	@Override

@@ -28,7 +28,7 @@ public class Player extends Mob {
 	private int deathCount = InitAnimations.playerDeath;
 	private int score = InitAnimations.playerScore;
 	public static volatile boolean playerDead;
-	private int invincibleTime = 0;
+	public int invincibleTime = 0;
 	public boolean onMovingTile;
 	public boolean hasCollision = true;
 	public int tickerMove;
@@ -79,7 +79,8 @@ public class Player extends Mob {
 					(int) ceilCheck1.getX2() + offsetX, (int) ceilCheck1.getY2() + offsetY);
 			/*g.drawLine((int) ceilCheck2.getX1() + offsetX, (int) ceilCheck2.getY1() + offsetY,
 					(int) ceilCheck2.getX2() + offsetX, (int) ceilCheck2.getY2() + offsetY);*/
-			g.drawRect((int)x + offsetX, (int)y + offsetY, 64, 64);
+			//g.drawRect((int)x + offsetX, (int)y + offsetY, 64, 64);
+			g.drawRect((int)AABB.getX() + offsetX, (int)AABB.getY() + offsetY, (int)AABB.getWidth(), (int)AABB.getHeight());
 		}
 	}
 
@@ -264,12 +265,12 @@ public class Player extends Mob {
 		
 		if(KeyInput.wasPressed(KeyEvent.VK_Q)) {
 			//gsp = -maxMotionX;
-			setSpeed(-maxMotionX);
+			setSpeed(-16);
 		}
 		
 		if(KeyInput.wasPressed(KeyEvent.VK_E)) {
 			//gsp = maxMotionX;
-			setSpeed(maxMotionX);
+			setSpeed(16);
 		}
 		
 		if(KeyInput.wasReleased(KeyEvent.VK_A)||KeyInput.wasReleased(KeyEvent.VK_D)) {
@@ -287,6 +288,11 @@ public class Player extends Mob {
 		if(KeyInput.wasReleased(KeyEvent.VK_SPACE)) {
 			//motionY /= 2.0; //1.5;
 			//jumpTimer/=2;
+
+		}
+		
+		if(KeyInput.wasReleased(KeyEvent.VK_SPACE)&&ysp < -3) { 
+			ysp = -3;
 		}
 		
 		if(!KeyInput.isDown(KeyEvent.VK_SPACE)&& ysp < -4) {

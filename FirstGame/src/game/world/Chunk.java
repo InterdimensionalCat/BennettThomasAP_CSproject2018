@@ -5,7 +5,7 @@ import java.util.Arrays;
 import game.render.textures.Texture;
 
 /** 
- *4x4 tile maps, so 256x256px.
+ *4x4 tile maps, so 256x256px. (Technically it can be any size, but 4x4 is all I am using)
  *Done because many spritemaps for tiles are just 4x4's that are the copied into the world so this makes it easier
  *Square spritemaps only.
  */

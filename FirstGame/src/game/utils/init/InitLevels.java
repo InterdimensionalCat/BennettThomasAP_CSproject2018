@@ -34,7 +34,7 @@ public class InitLevels implements Runnable {
 		}
 		
 		Entity[] entityLevel00 = {
-				(Entity)new EntityBoop(128, 0, tileMap, 1.5, 100, false, 10),
+				(Entity)new EntityBoop(500, 600, tileMap, 0.9, 150, false, 10),
 				};
 		
 		Entity[] entityLevel0 = {

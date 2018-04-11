@@ -13,7 +13,7 @@ public class Tile {
 	
 
 	private static final Texture terrain = new Texture("SpriteMap1");
-	private static final Texture SlopeTest = new Texture("betterSlopeRight");
+	//private static final Texture SlopeTest = new Texture("betterSlopeRight");
 	private static final Texture CurveTest = new Texture("betterCurveRight");
 	private static final Texture CurveTestL = new Texture("betterCurveLeft");
 	private static final Texture CurveTestLC = new Texture("betterCurveLeftCeil");
@@ -84,14 +84,14 @@ public class Tile {
 	//public static final Tile g0_64l = new Tile(-100, new Texture(SlopeTestL, 2, 2 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(85));
 	
 	
-	public static final Tile s1_4 = new Tile(-100, new Texture(SlopeTest, 1, 4 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-15));
+/*	public static final Tile s1_4 = new Tile(-100, new Texture(SlopeTest, 1, 4 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-15));
 	public static final Tile s2_4 = new Tile(-100, new Texture(SlopeTest, 2, 4 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-30));
 	public static final Tile s3_4 = new Tile(-100, new Texture(SlopeTest, 3, 4 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-44));
 	public static final Tile s4_4 = new Tile(-100, new Texture(SlopeTest, 4, 4 , 64, 64), TileType.SOLID, createSolidArray() , createSolidArray() , Math.toRadians(0));
 	public static final Tile s3_3 = new Tile(-100, new Texture(SlopeTest, 3, 3 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-45));
 	public static final Tile s4_3 = new Tile(-100, new Texture(SlopeTest, 4, 3 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-46));
 	public static final Tile s4_2 = new Tile(-100, new Texture(SlopeTest, 4, 2 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-60));
-	public static final Tile s4_1 = new Tile(-100, new Texture(SlopeTest, 4, 1 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-75));
+	public static final Tile s4_1 = new Tile(-100, new Texture(SlopeTest, 4, 1 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-75));*/
 	
 	//public static final Tile c1_1 = new Tile(-100, new Texture(CurveTest, 1, 1 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-15));
 	public static final Tile c2_1 = new Tile(-100, new Texture(CurveTest, 2, 1 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(-45));
@@ -156,10 +156,11 @@ public class Tile {
 	public static final Tile s1_2L = new Tile(-100, new Texture(SlopeTestL, 1, 2 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(60));
 	public static final Tile s1_1L = new Tile(-100, new Texture(SlopeTestL, 1, 1 , 64, 64), TileType.TEST, createSolidArray() , createSolidArray() , Math.toRadians(75));*/
 	
+	public static final Chunk SlopeTest = new Chunk(new Texture("betterSlopeRight"), 4, new double[] {0,0,0, -75, 0,0,0, -60, 0,0, -45, -46, 0, -15,-30,-44, 0}, -89);
 	public static final Chunk SlopeTestL = new Chunk(new Texture("betterSlopeLeft"), 4, new double[] {75, 0, 0 , 0, 60 , 0 ,0 , 0, 46 , 45 ,0 ,0 , 0 ,44 ,30,15}, -75);	
 	public static final Chunk straightSlopeRC = new Chunk(new Texture("straightSlopeRC"), 4, new double[] {-135,0,0,0,0,-135,0,0,0,0,-135,0,0,0,0,-135} , -50);
-	
 	public static final Chunk betterSlopeLeftCeil = new Chunk(new Texture("betterSlopeLeftCeil"), 4, new double[] {0, 136, 150 , 165, 134 , 135 ,0 , 0, 120 ,0 ,0 ,0 , 105 ,0,0,0} , -100);
+	public static final Chunk betterSlopeRightCeil = new Chunk(new Texture("betterSlopeRightCeil"), 4, new double[] {-165, -150, -136, 0, 0,0, -135, -134, 0 ,0 ,0, -120, 0,0,0, -105}, -712);
 	
 	
 	protected Tile(int id, Texture sprite, TileType type, double[] heightMask, double[] heightMask1, double angle) { //creates tile type constants

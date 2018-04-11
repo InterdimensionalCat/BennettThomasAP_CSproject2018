@@ -26,6 +26,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	public boolean hasCollision = true;
 	public boolean falling;
 	public double ysp;
+	public double abspd = 20.0;
 	
 	public Line2D floorCheck1;
 	public Line2D floorCheck2;
@@ -151,15 +152,24 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		
 		changeAngleState(angle);
 		
+		
+		if(Math.abs(xsp) > abspd) {
+			xsp = (Math.abs(xsp) / xsp)*abspd;
+		}
+		
+		if(Math.abs(ysp) > abspd) {
+			ysp = (Math.abs(ysp) / ysp)*abspd;
+		}
+		
+		if(Math.abs(gsp) > abspd) {
+			gsp = (Math.abs(gsp) / gsp)*abspd;
+		}
+		
 		if(falling) {
 			angle = 0;
 			//xsp = gsp;
 			ysp += grv;
 			
-			
-			if(KeyInput.wasReleased(KeyEvent.VK_SPACE)&&ysp < -3) { 
-				ysp = -3;
-			}
 			
 		} else {
 			
