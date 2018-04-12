@@ -88,7 +88,7 @@ public class EntityBoop extends Mob {
 	}
 	
 	public void onKillHit(Player player) {
-		player.setMotionY(-10.0);
+		player.setMotionY(-6.0);
 		if(!InitAudio.musicFiles.get("BoopDeath").isPlaying()) {
 			Game.fxmanager.playSound("BoopDeath");
 		} else {

@@ -103,6 +103,9 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			if(horzLock <= 0) {
 				gsp = 0;
 				falling = true;
+				if(angleState == AngleState.CEILING) {
+					y += 10;
+				}
 				angle = 0;
 				horzLock = 30;
 			} else {

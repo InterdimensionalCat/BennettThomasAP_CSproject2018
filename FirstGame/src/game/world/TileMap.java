@@ -178,6 +178,22 @@ public class TileMap {
 			}
 		}
 		
+		for(Entity e : entities) {
+			if(e instanceof EntityMovingTile) {
+				EntityMovingTile et = (EntityMovingTile)e;
+				if(et.getAABB().intersectsLine(m.floorCheck2)||et.getAABB().intersectsLine(m.floorCheck1)) {
+					if(m.falling) {
+						if(m.getY() > et.getY()) {
+							movingTileCollision(m, et);
+							return;
+						}
+					} else {
+						return;
+					}
+				}
+			}
+		}
+		
 		m.falling = true;
 		
 		if (Math.abs(m.gsp) > 2&&Math.abs(Math.toRadians(m.angle)) > 75) {
@@ -803,6 +819,7 @@ public boolean mobCeilingCollision(Mob m) {
 
 		mobFallingOff(centerX, centerY, m);
 		
+		
 		//ceiling collision (including slopes)
 		
 		
@@ -812,10 +829,7 @@ public boolean mobCeilingCollision(Mob m) {
 		if (m instanceof Player) {
 			for (Entity e : entities) {
 				if (e instanceof EntityBoop) {
-					enemyCollision((EntityBoop) e);
-				}
-				if (e instanceof EntityMovingTile) {
-
+					enemyCollision((EntityBoop)e);
 				}
 			} 
 		}
@@ -835,6 +849,15 @@ public boolean mobCeilingCollision(Mob m) {
 		}
 		
 		return false;
+	}
+	
+	public boolean movingTileCollision(Mob m, EntityMovingTile t) {
+				m.setY(t.getY() - 64);
+				m.falling = false;
+				m.ysp = 0;
+				t.setCollided(true);
+				return true;
+		
 	}
 	
 
@@ -998,7 +1021,6 @@ public boolean mobCeilingCollision(Mob m) {
 					mob.setY(movingTile.getAABB().getMinY() - 62);
 					mob.setMotionY(0);
 					mob.setAirBorne(false);
-					movingTile.setCollided(true);
 					isOnMovingTile = true;
 
 					if (movingTile.getMotionY() > 0) {
@@ -1198,13 +1220,25 @@ public boolean mobCeilingCollision(Mob m) {
 			setChunk(13, 6,Tile.betterSlopeLeftCeil);
 			setChunk(13, 10, Tile.SlopeTestL);
 			setChunk(1, 10, Tile.SlopeTestL);
-			setChunk(8,10,Tile.SlopeTest);*/
-			//setChunk(8,6,Tile.betterSlopeRightCeil);
-			//setChunk(1,6,Tile.betterSlopeLeftCeil);
+			setChunk(8,10,Tile.SlopeTest);
+			setChunk(8,6,Tile.betterSlopeRightCeil);
+			setChunk(1,6,Tile.betterSlopeLeftCeil);
 			
 			setTile(5,5,Tile.tile1);
 			setTile(6,5,Tile.tile1);
 			setTile(7,5,Tile.tile1);
+			
+			setTile(4,5,Tile.tile1);
+			setTile(3,5,Tile.tile1);
+			setTile(2,5,Tile.tile1);
+			
+			setTile(8,5,Tile.tile1);
+			setTile(9,5,Tile.tile1);
+			setTile(10,5,Tile.tile1);
+			setTile(0,13,Tile.tile1);
+			setTile(0,12,Tile.tile1);
+			setTile(0,11,Tile.tile1);
+			setTile(0,10,Tile.tile1);*/
 
 			
 			//setChunk(17,6+4,Tile.betterSlopeLeftCeil);
