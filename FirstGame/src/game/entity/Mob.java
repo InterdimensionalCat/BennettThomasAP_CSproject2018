@@ -33,6 +33,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	public Line2D ceilCheck1;
 	//public Line2D ceilCheck2;
 	public Line2D centerLine;
+	public boolean angleStateChange;
 	
 	public Point center;
 	
@@ -379,9 +380,19 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			horzLock = 30;
 		}*/
 		
+		AngleState a = this.angleState;
+		
+		
 		this.angleState = AngleState.index[(int)(Math.round(Math.abs(angle) / (Math.PI/2)) % 4)];
 		if(angle > 0 && angleState == AngleState.RIGHT) {
 			angleState = AngleState.LEFT;
+		}
+		
+		if(this.angleState != a) {
+			//System.out.println("asdasdasd");
+			angleStateChange = true;
+		} else {
+			angleStateChange = false;
 		}
 		
 		ceilCheck1 = new Line2D.Float((float)x + 32 - 14, (float)y, (float)x + 32 + 14, (float)y);
@@ -391,29 +402,29 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		switch(angleState) {
 		case RIGHT:
 			
-			floorCheck1.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() - 14, (float)center.getX() + 42, (float)center.getY() - 14));
-			floorCheck2.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() + 14, (float)center.getX() + 42, (float)center.getY() + 14));
+			floorCheck1.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() - 14, (float)center.getX() + 64, (float)center.getY() - 14));
+			floorCheck2.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() + 14, (float)center.getX() + 64, (float)center.getY() + 14));
 			centerLine.setLine(new Line2D.Float((float)center.getX() + 6, (float)center.getY() - 26, (float)center.getX() + 6, (float)center.getY() + 26));
 			
 			break;
 		case LEFT:
 			
-			floorCheck1.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() - 14, (float)center.getX() - 42, (float)center.getY() - 14));
-			floorCheck2.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() + 14, (float)center.getX() - 42, (float)center.getY() + 14));
+			floorCheck1.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() - 14, (float)center.getX() - 64, (float)center.getY() - 14));
+			floorCheck2.setLine(new Line2D.Float((float)center.getX(), (float)center.getY() + 14, (float)center.getX() - 64, (float)center.getY() + 14));
 			centerLine.setLine(new Line2D.Float((float)center.getX() - 6, (float)center.getY() - 26, (float)center.getX() - 6, (float)center.getY() + 26));
 			
 			break;
 		case FLOOR:
 			
-			floorCheck1.setLine(new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() + 42));
-			floorCheck2.setLine(new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() + 42));
+			floorCheck1.setLine(new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() + 64));
+			floorCheck2.setLine(new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() + 64));
 			centerLine.setLine(new Line2D.Float((float)center.getX() - 26, (float)center.getY() + 6, (float)center.getX() + 26, (float)center.getY() + 6));
 			
 			break;	
 		case CEILING:
 			
-			floorCheck1.setLine(new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() - 42));
-			floorCheck2.setLine(new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() - 42));
+			floorCheck1.setLine(new Line2D.Float((float)center.getX() + 14, (float)center.getY(), (float)center.getX() + 14, (float)center.getY() - 64));
+			floorCheck2.setLine(new Line2D.Float((float)center.getX() - 14, (float)center.getY(), (float)center.getX() - 14, (float)center.getY() - 64));
 			centerLine.setLine(new Line2D.Float((float)center.getX() - 26, (float)center.getY() - 6, (float)center.getX() + 26, (float)center.getY() - 6));
 			
 			break;

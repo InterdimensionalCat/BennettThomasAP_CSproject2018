@@ -39,7 +39,7 @@ public class Player extends Mob {
 	private final double acc =  0.046875;
 	private final double dec = 0.5;
 	private final double frc = 0.06875;
-	private double top = 6.0;
+	private double top = 12.0;
 	
 	
 
@@ -89,11 +89,11 @@ public class Player extends Mob {
 
 		
 		if(!rolling) {
-			top = 6;
+			top = 12.0;
 		} else {
 			if(Math.abs(gsp) < 0.5) {
 				rolling = false;
-				top = 6;
+				top = 12.0;
 			}
 		}
 
@@ -482,6 +482,8 @@ public class Player extends Mob {
 	}
 	
 	protected void animate() {
+		
+		isAirBorne = falling;
 		
 		if(rolling) {
 			this.idle = InitAnimations.animations.get("Player_jump");
