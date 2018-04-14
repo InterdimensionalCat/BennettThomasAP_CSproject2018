@@ -802,10 +802,10 @@ public boolean mobCeilingCollision(Mob m) {
 			shouldFloor = mobWallCollision(m);
 			
 			if(Math.abs(m.gsp) > 15) {
-				System.out.println();
+				//System.out.println();
 			}
 			
-			if(!mobCeilingCollision(m)&&!(shouldFloor/*&&(Math.abs(m.xsp) > 12||Math.abs(m.gsp) > 12)*/)) {
+			if(!mobCeilingCollision(m)&&!(shouldFloor&&Math.abs(motionX) > 12)) {
 				mobGroundFloor(m);
 			} else {
 				//System.out.println("aaa");
@@ -1154,8 +1154,8 @@ public boolean mobCeilingCollision(Mob m) {
 			setTile(1, 11, Tile.s1_2L);
 			setTile(1, 10, Tile.s1_1L);*/
 			
-			setTile(0, 9, Tile.tile6);
-			setTile(0, 8, Tile.tile6);
+/*			setTile(0, 9, Tile.tile6);
+			setTile(0, 8, Tile.tile6);*/
 			
 /*			setTile(8, 13, Tile.s1_4);
 			setTile(9, 13, Tile.s2_4);
@@ -1192,10 +1192,10 @@ public boolean mobCeilingCollision(Mob m) {
 			setTile(19, 2, Tile.tile1);
 			setTile(20, 2, Tile.tile1);*/
 			
-			setTile(12, 9, Tile.tile5);
+/*			setTile(12, 9, Tile.tile5);
 			setTile(12, 8, Tile.tile5);
 			setTile(12, 7, Tile.tile5);
-			setTile(12, 6, Tile.tile5);
+			setTile(12, 6, Tile.tile5);*/
 			
 			
 /*			setTile(16 + 5, 5, Tile.c1_4L);
@@ -1243,7 +1243,7 @@ public boolean mobCeilingCollision(Mob m) {
 			
 			//setChunk(17,6,Tile.straightSlopeRC);
 			//setChunk(13, 6,Tile.betterSlopeLeftCeil);
-			setChunk(13, 10, Tile.SlopeTestL);
+/*			setChunk(13, 10, Tile.SlopeTestL);
 			setChunk(1, 10, Tile.SlopeTestL);
 			setChunk(8,10,Tile.SlopeTest);
 			//setChunk(8,6,Tile.betterSlopeRightCeil);
@@ -1268,8 +1268,15 @@ public boolean mobCeilingCollision(Mob m) {
 			setTile(0,13,Tile.tile1);
 			setTile(0,12,Tile.tile1);
 			setTile(0,11,Tile.tile1);
-			setTile(0,10,Tile.tile1);
-
+			setTile(0,10,Tile.tile1);*/
+			
+			//setChunk(10, 13 - 1, Tile.cornerRight);
+			//setChunk(10+4, 13 - 1, Tile.cornerLeft);
+			//setChunk(10+2, 13 - 1, Tile.Dirtx2);
+			
+			setTile(11,10,Tile.tile1);
+			setChunk(10+2, 13 - 3, Tile.Dipx4);
+			setTile(16,10,Tile.tile1);
 			
 			//setChunk(17,6+4,Tile.betterSlopeLeftCeil);
 			

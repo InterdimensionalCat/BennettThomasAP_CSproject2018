@@ -38,4 +38,23 @@ public class Chunk {
 		}
 		
 	}
+	
+	public Chunk(Texture t, int size, double[] angles, int id, TileType type) {
+		this(t, size,angles,id);
+		setChunkType(type);
+
+	}
+	
+	public void setChunkType(TileType t) {
+		for(int i = 0; i < map.length; i++) {
+			map[i].type = t;
+			if(t == TileType.AIR) {
+				map[i].solid = false;
+			}
+		}
+	}
+	
+	public void setTileType(TileType t, int x, int y) {
+		map[(x + y*size)].type = t;
+	}
 }

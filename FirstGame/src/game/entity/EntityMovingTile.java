@@ -31,6 +31,22 @@ public class EntityMovingTile extends Mob {
 			}
 		}
 	}
+	
+	/**
+	 * 
+	 * @param texture
+	 * @param x
+	 * @param y
+	 * @param tileMap
+	 * 
+	 * constructs a stationary platform(for 1way platforms)
+	 */
+	
+	public EntityMovingTile(Texture texture, double x, double y, TileMap tileMap) {
+		this(texture,x, y,tileMap,0, PlatformType.VERTICAL_MOVING);
+		motionX = 0;
+		motionY = 0;
+	}
 
 	@Override
 	public void setDead() {

@@ -233,7 +233,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		}*/
 		//motionX += xsp;
 		//motionY += ysp;
-		tileMap.entityCollision(x,y,motionX,motionY,this);
+		tileMap.entityCollision(x,y,xsp,ysp,this);
 		y+=  ysp;
 		//y+= gravityY;
 		x+=  xsp;

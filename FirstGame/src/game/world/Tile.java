@@ -172,6 +172,11 @@ public class Tile {
 	public static final Chunk CurveTestL = new Chunk(new Texture("betterCurveLeft"), 4, new double[] {15,30,44,0,0,0,45,46,0,0,0,60,0,0,0,75}, -66666);
 	public static final Chunk CurveTest = new Chunk(new Texture("betterCurveRight"), 4, new double[] {0,-44,-30,-15,-45,-46,0,0,-60,0,0,0,-75,0,0,0}, -666111);
 	public static final Chunk CurveTestC = new Chunk(new  Texture("betterCurveRightCeil"), 4, new double[] {-105,0,0,0,-120,0,0,0,-130,-135,0,0,0,-140,-150,-165}, 646464);
+	public static final Chunk cornerRight = new Chunk(new Texture("cornerRight"), 2, new double[] {0,0,0,0}, 1111202, TileType.SOLID);
+	public static final Chunk cornerLeft = new Chunk(new Texture("cornerLeft"), 2, new double[] {0,0,0,0}, 1111203, TileType.SOLID);
+	public static final Chunk Dirtx2 = new Chunk(new Texture("dirtChunk"), 2, new double[] {0,0,0,0}, 11112033, TileType.AIR);
+	public static final Chunk Dipx2 = new Chunk(new Texture("Dipx2Right"),2,new double[] {15,-15,0,0}, -121212);
+	public static final Chunk Dipx4 = new Chunk(new Texture("Dipx4Right"),4,new double[] {25,15,-15,-25,0,0,0,0,0,0,0,0,0,0,0,0}, -1212123);
 	
 	
 	protected Tile(int id, Texture sprite, TileType type, double[] heightMask, double[] heightMask1, double angle) { //creates tile type constants
