@@ -2,27 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="System.out.println" key="selection"/>
-		<item value="false" key="casesensitive"/>
+		<item value="setChunk" key="selection"/>
+		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="System.out.println"/>
-			<item value="entityColl"/>
-			<item value="aaa"/>
-			<item value="tile1"/>
-			<item value="angledFloor"/>
-			<item value="floorLeft"/>
-			<item value="changeAngle"/>
-			<item value="angled"/>
 			<item value="setChunk"/>
-			<item value="entityCol"/>
-			<item value="changeAngleState"/>
-			<item value="mobGround"/>
-			<item value="floorCheck"/>
-			<item value="ceilCheck"/>
-			<item value="32"/>
+			<item value="load"/>
+			<item value="getFrom"/>
+			<item value="getFromId"/>
+			<item value="tileMap"/>
+			<item value="getFromID"/>
+			<item value="Triangle"/>
+			<item value="triangle"/>
+			<item value="isMovingRight"/>
+			<item value="isMoving"/>
+			<item value="player.isMoving"/>
+			<item value="para"/>
+			<item value="ax"/>
+			<item value="paral"/>
+			<item value="14"/>
 		</list>
 		<list key="replacehistory">
 			<item value="ceil"/>

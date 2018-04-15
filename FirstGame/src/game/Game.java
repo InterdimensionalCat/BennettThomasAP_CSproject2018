@@ -34,7 +34,6 @@ import game.utils.init.InitAnimations;
 import game.utils.init.InitAudio;
 import game.utils.init.InitLevels;
 import game.utils.init.InitTextures;
-import game.utils.math.Triangle;
 import game.world.Tile;
 
 public class Game extends Canvas implements Runnable {
@@ -61,7 +60,6 @@ public class Game extends Canvas implements Runnable {
 	public static boolean paused;
 	public static ArrayList<Integer> arr = new ArrayList<Integer>();
 	
-	public static Triangle test = new Triangle(new Point(100, 100), 64, Math.PI / 4);
 	
 	public Game() {
 		keyInput = new KeyInput();
@@ -115,8 +113,6 @@ public class Game extends Canvas implements Runnable {
 
 		getStateManager().render(g2d);
 		
-		g2d.setColor(Color.WHITE);
-		test.render(g2d, 0, 0);
 		
 		/////////////////////////////////////
 		g.dispose();

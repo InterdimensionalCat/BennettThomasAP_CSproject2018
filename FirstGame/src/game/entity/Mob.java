@@ -26,7 +26,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	public boolean hasCollision = true;
 	public boolean falling;
 	public double ysp;
-	public double abspd = 20.0;
+	public double abspd = 25.0;
 	
 	public Line2D floorCheck1;
 	public Line2D floorCheck2;
@@ -355,11 +355,11 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	}
 	
 	public boolean isMovingLeft() {
-		return gsp < 0;
+		return xsp < 0;
 	}
 	
 	public boolean isMovingRight() {
-		return gsp > 0;
+		return xsp > 0;
 	}
 	
 	public boolean isMoving() {

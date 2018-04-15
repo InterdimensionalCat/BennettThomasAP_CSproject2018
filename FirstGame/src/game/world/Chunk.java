@@ -1,6 +1,8 @@
 package game.world;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import game.render.textures.Texture;
 
@@ -17,9 +19,13 @@ public class Chunk {
 	public Tile[] map;
 	public Texture texture;
 	public int size;
+	public int id;
+	
+	private static final Map<Integer, Chunk> chunkMap = new HashMap<Integer, Chunk>();
 	
 	public Chunk(Texture t, int size, double[] angles, int id) {
 		this.texture = t;
+		this.id = id;
 		this.size = size;
 		map = new Tile[size*size];
 		for(int i = 0; i < size; i++) { // y value
@@ -36,6 +42,8 @@ public class Chunk {
 				map[i].type = TileType.SLOPE_LEFT_64_00;
 			}*/
 		}
+		
+		chunkMap.put(id, this);
 		
 	}
 	
@@ -56,5 +64,9 @@ public class Chunk {
 	
 	public void setTileType(TileType t, int x, int y) {
 		map[(x + y*size)].type = t;
+	}
+	
+	public static Chunk getFromID(int id) {
+		return chunkMap.get(id);
 	}
 }

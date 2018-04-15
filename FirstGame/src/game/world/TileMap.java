@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,10 +24,10 @@ import game.entity.EntityMovingTile;
 import game.entity.Mob;
 import game.entity.PlatformType;
 import game.entity.Player;
+import game.input.KeyInput;
 import game.render.ParallaxEngine;
 import game.render.ParallaxLayer;
 import game.render.textures.Texture;
-import game.utils.math.Triangle;
 
 public class TileMap {
 
@@ -40,8 +41,6 @@ public class TileMap {
 	private Player player;
 	private ParallaxEngine parallaxEngine;
 	private ArrayList<Entity> entities;
-
-	private ArrayList<Triangle> slopeTriangles = new ArrayList<Triangle>();
 	
 	public ArrayList<Tile> usedTiles = new ArrayList<Tile>();
 
@@ -78,7 +77,11 @@ public class TileMap {
 	public void setChunk(int x, int y, Chunk c) {
 		for(int i = 0; i < c.size; i++) {
 			for(int j = 0; j < c.size; j++) {
-				setTile(x + j, y + i, c.map[j + i*c.size]);
+				try {
+					setTile(x + j, y + i, c.map[j + i*c.size]);
+				} catch (ArrayIndexOutOfBoundsException e) {
+					System.err.println("Ignoring tile placement at: " + i +" , " + j);
+				}
 			}
 		}
 	}
@@ -104,11 +107,23 @@ public class TileMap {
 				parallaxEngine.setRight();
 			}
 		}
-		if (player.isMoving()) {
-			parallaxEngine.setMove(6/*player.getMotionX()*/);
+		if (Math.abs(player.gsp) > 1 || Math.abs(player.xsp) > 1) {
+			parallaxEngine.setMove(Math.max(Math.abs(player.gsp), Math.abs(player.xsp)));
 		}
 		for (int i = 0; i < entities.size(); i++) {
 			entities.get(i).tick();
+		}
+		
+		if(KeyInput.wasPressed(KeyEvent.VK_V)) {
+			setChunk(convertToTiles((int)player.getX()), convertToTiles((int)player.getY()), Tile.groundx4Right);
+		}
+		
+		if(KeyInput.wasPressed(KeyEvent.VK_B)) {
+			setChunk(convertToTiles((int)player.getX()), convertToTiles((int)player.getY()), Tile.groundx4Left);
+		}
+		
+		if(KeyInput.wasPressed(KeyEvent.VK_N)) {
+			setChunk(convertToTiles((int)player.getX()), convertToTiles((int)player.getY()), Tile.groundx4lowright);
 		}
 	}
 
@@ -195,7 +210,9 @@ public class TileMap {
 		}
 		
 
-		
+		if(!m.falling&&Math.abs(m.gsp) > 12) {
+			m.xsp = m.gsp;
+		}
 		m.falling = true;
 		
 		if (Math.abs(m.gsp) > 2&&Math.abs(Math.toRadians(m.angle)) > 75) {
@@ -1125,18 +1142,18 @@ public boolean mobCeilingCollision(Mob m) {
 					player.setPlayerSpawnX(convertToPixels(x));
 					player.setPlayerSpawnY(convertToPixels(y));
 				} else {
-					if (Tile.getFromID(id) != null) {
-						setTile(x, y, Tile.getFromID(id));
-						if (Tile.getFromID(id).type == TileType.SLOPE_RIGHT_64_00) {
-							slopeTriangles.add(new Triangle(new Point(convertToPixels(x), convertToPixels(y) + 64), 64,
-									Math.PI / 4));
-						}
+					if(Chunk.getFromID(id) != null) {
+						setChunk(x,y,Chunk.getFromID(id));
 					} else {
-						if (id == 0xFF010101) {
-							System.out.println("Goal is " + convertToPixels(x) + " ," + convertToPixels(y));
+						if (Tile.getFromID(id) != null) {
+							setTile(x, y, Tile.getFromID(id));
 						} else {
-							if (id == 0xFF000001) {
-								System.out.println(convertToPixels(x) + " ," + convertToPixels(y));
+							if (id == 0xFF010101) {
+								System.out.println("Goal is " + convertToPixels(x) + " ," + convertToPixels(y));
+							} else {
+								if (id == 0xFF000001) {
+									System.out.println(convertToPixels(x) + " ," + convertToPixels(y));
+								}
 							}
 						}
 					}
@@ -1274,9 +1291,21 @@ public boolean mobCeilingCollision(Mob m) {
 			//setChunk(10+4, 13 - 1, Tile.cornerLeft);
 			//setChunk(10+2, 13 - 1, Tile.Dirtx2);
 			
-			setTile(11,10,Tile.tile1);
-			setChunk(10+2, 13 - 3, Tile.Dipx4);
-			setTile(16,10,Tile.tile1);
+			//setTile(10,11,Tile.tile1);
+			//setChunk(10, 13 - 9, Tile.straightSlopeR);
+			//setChunk(10, 13 - 9 + 4, Tile.straightSlopeRC);
+			//setChunk(10 + 4, 13 - 9, Tile.straightSlopeL);
+			//setChunk(10 + 4, 13 - 9 + 4, Tile.straightSlopeLC);
+			//setTile(16,10,Tile.tile1);
+			//setChunk(10, 10, Tile.Dirt4x);
+			//setChunk(14, 10, Tile.Dirt4xRough);
+			//setChunk(18, 10, Tile.Dirt4xRoughish);
+			//setChunk(22, 10, Tile.Dirt4xLowered);
+/*			setChunk(10 - 9,10 - 9,Tile.straightSlopeL);
+			setChunk(10 - 6,10 - 6,Tile.straightSlopeL);
+			setChunk(10 - 3,10 - 3,Tile.straightSlopeL);
+			setChunk(10,10,Tile.rampL);
+			setChunk(14,10,Tile.rampR);*/
 			
 			//setChunk(17,6+4,Tile.betterSlopeLeftCeil);
 			

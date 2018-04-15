@@ -18,12 +18,12 @@
 <fullyQualifiedTypeName name="java.awt.geom.Line2D"/>
 <fullyQualifiedTypeName name="java.awt.geom.Line2D.Float"/>
 <fullyQualifiedTypeName name="game.entity.AngleState"/>
-<fullyQualifiedTypeName name="game.input.KeyInput"/>
-<fullyQualifiedTypeName name="java.awt.event.KeyEvent"/>
 <fullyQualifiedTypeName name="java.lang.Math"/>
 <fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
 <fullyQualifiedTypeName name="game.render.textures.Texture"/>
 <fullyQualifiedTypeName name="java.util.Map"/>
 <fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="game.input.KeyInput"/>
+<fullyQualifiedTypeName name="java.awt.event.KeyEvent"/>
 <fullyQualifiedTypeName name="game.world.Tile"/>
 </qualifiedTypeNameHistroy>
