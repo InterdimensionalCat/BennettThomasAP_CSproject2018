@@ -243,7 +243,7 @@ public class TileMap {
 							
 							
 
-							m.setX(t.x - 58);
+							m.setX(t.x - 57);
 
 							
 							
@@ -254,7 +254,7 @@ public class TileMap {
 						}
 					} else {
 						
-							m.setX(t.x - 58);
+							m.setX(t.x - 57);
 							
 						
 						
@@ -271,7 +271,7 @@ public class TileMap {
 						if (m.xsp < 0) {
 							
 
-							m.setX(t.x + 59);
+							m.setX(t.x + 58);
 								
 							
 							//m.setX(t.x + 59);
@@ -282,7 +282,7 @@ public class TileMap {
 					} else {
 						
 						
-						m.setX(t.x + 59);
+						m.setX(t.x + 58);
 							
 						
 						//m.setX(t.x + 59);
@@ -883,6 +883,26 @@ public boolean mobCeilingCollision(Mob m) {
 	}
 	
 	public boolean movingTileCollision(Mob m, EntityMovingTile t) {
+		if(!m.falling) {
+			m.setY(t.getY() - 64);
+			if(t.getMotionX() != 0) {
+				m.xsp += t.getMotionX();
+			}
+			
+			if(m.falling) {
+				m.gsp = m.xsp;
+			}
+			
+			if(t.getMotionY() != 0) {
+				m.ysp += t.getMotionY();
+			}
+			m.falling = false;
+			m.ysp = 0;
+			t.setCollided(true);
+			return true;
+	
+		} else {
+			if(m.getY() + 32 < t.getY() && m.getY() + 64 >= t.getY() - 10) {
 				m.setY(t.getY() - 64);
 				if(t.getMotionX() != 0) {
 					m.xsp += t.getMotionX();
@@ -899,7 +919,10 @@ public boolean mobCeilingCollision(Mob m) {
 				m.ysp = 0;
 				t.setCollided(true);
 				return true;
-		
+			}
+		}
+
+		return false;
 	}
 	
 
@@ -1257,6 +1280,15 @@ public boolean mobCeilingCollision(Mob m) {
 			setTile(17 + 5, 2+ 4, Tile.c2_1LC);
 			setTile(18 + 5, 2+ 4, Tile.c3_1LC);
 			setTile(19 + 5, 2+ 4, Tile.c4_1LC);*/
+			
+			
+/*			setChunk(1, 10, Tile.betterSlopeLeft);
+			setChunk(8,10,Tile.betterSlopeRight);
+			setChunk(8,6,Tile.betterSlopeRightCeil);
+			setChunk(1,6,Tile.betterSlopeLeftCeil);
+			setTile(5,5,Tile.tile1);
+			setTile(6,5,Tile.tile1);
+			setTile(7,5,Tile.tile1);*/
 			
 			//setChunk(17,6,Tile.straightSlopeRC);
 			//setChunk(13, 6,Tile.betterSlopeLeftCeil);

@@ -39,6 +39,7 @@ public class InitLevels implements Runnable {
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 100, 600, tileMap, 200, PlatformType.HORIZONTAL_MOVING),
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 100, 700, tileMap, 640, PlatformType.VERTICAL_MOVING),*/
 				//(Entity)new EntityMovingTile(new Texture("movingTile"), 12*64, 12*64, tileMap),
+				(Entity)new EntityGoal(1000, 13*64, tileMap),
 				};
 		
 		Entity[] entityLevel0 = {
@@ -79,9 +80,9 @@ public class InitLevels implements Runnable {
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 256, 9408, tileMap, 0, PlatformType.FALLING),
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 128, 9408, tileMap, 0, PlatformType.FALLING),
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 0, 9408, tileMap, 0, PlatformType.FALLING),
-				(Entity)new EntityBoop(0, 9856 - 13, tileMap, 5.5, 64*20, false, 0),
-				(Entity)new EntityBoop(0, 9728 - 13, tileMap, 5.4, 64*20, false, 0),
-				(Entity)new EntityBoop(0, 9600 - 13, tileMap, 5.3, 64*20, false, 0),
+				(Entity)new EntityBoop(0, 9856 - 13, tileMap, 5.5, 64*15, false, 0),
+				(Entity)new EntityBoop(0, 9728 - 13, tileMap, 5.4, 64*15, false, 0),
+				(Entity)new EntityBoop(0, 9600 - 13, tileMap, 5.3, 64*15, false, 0),
 				(Entity)new EntityBoop(1152, 8512, tileMap, 0, 0, true),
 				(Entity)new EntityBoop(256, 8448, tileMap, 0, 0, false, 0),
 				(Entity)new EntityBoop(576, 8448, tileMap, 0, 0, false, 0),
@@ -104,7 +105,7 @@ public class InitLevels implements Runnable {
 		levelEntities.put("enemytest", entityLevel00);
 		
 		levels.add("level_4");
-		levelEntities.put("level_4", entityLevel00);
+		levelEntities.put("level_4", entityLevel0);
 		
 		levels.add("LEVEL_F2");
 		levelEntities.put("LEVEL_F2", entityLevel1);

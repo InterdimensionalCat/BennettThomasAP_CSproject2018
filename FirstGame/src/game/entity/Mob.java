@@ -54,7 +54,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	public double jumpY;
 	public double jumpX;
 	
-	protected final double grv = 0.21875;
+	protected double grv = 0.21875;
 	protected final double slp = 0.125;
 	
 	boolean shouldJump;

@@ -45,6 +45,7 @@ public class EntityBoop extends Mob {
 	public EntityBoop(double x, double y, TileMap tileMap, double speed, double displacement, boolean jumper, double gravity) {
 		this(x, y, tileMap, speed, displacement, jumper);
 		this.gravity = gravity;
+		this.grv = 0;
 /*		if(gravity == 0.0) {
 			this.state = ActionState.NO_GRAVITY;
 		} else {

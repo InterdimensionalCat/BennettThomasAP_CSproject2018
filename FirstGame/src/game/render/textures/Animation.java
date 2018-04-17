@@ -58,10 +58,13 @@ public class Animation {
 	
 	public void render(Graphics2D g2d, double x, double y) {
 		if(currentFrame != null) {
-			if(currentFrame.getHeight() == 0) {
-				System.out.println("b");
-			}
 			currentFrame.render((Graphics)g2d, x, y);
+		}
+	}
+	
+	public void render(Graphics2D g2d, double x, double y, double angle) {
+		if(currentFrame != null) {
+			currentFrame.render((Graphics)g2d, x, y, angle);
 		}
 	}
 	
@@ -77,5 +80,9 @@ public class Animation {
 	
 	public boolean getFlip() {
 		return frames[0].getFlip();
+	}
+	
+	public Texture getCurrentFrame() {
+		return currentFrame;
 	}
 }

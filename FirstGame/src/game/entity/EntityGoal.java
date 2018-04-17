@@ -14,6 +14,9 @@ public class EntityGoal extends Entity {
 
 	@Override
 	public void tick() {
+		if(AABB == null) {
+			System.out.println("lmao");
+		}
 		if(tileMap.getPlayer().getAABB().intersects(AABB)) {
 			Game.fxmanager.playSound("PlayerWin");
 			Game.pauseTime+= 100;

@@ -2,6 +2,8 @@ package game.render.textures;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -76,9 +78,6 @@ public class Texture {
 	}
 	
 	public void render(Graphics g, double posX, double posY) {
-		if(height == 0) {
-			System.out.println("a");
-		}
 		if(!hasFlip) {
 			g.drawImage(image, (int) posX, (int) posY, this.width, this.height, null); //old drawing method, would not allow image to be easily flipped
 			 
@@ -87,6 +86,25 @@ public class Texture {
 				g.drawImage(image, (int)posX, (int)posY /**Game.SCALEFACTOR*/, (int)(posX + width) /**Game.SCALEFACTOR*/, (int)(posY + height)/**Game.SCALEFACTOR*/, (int)0 + width, (int)0, (int)0 ,(int) 0 + height, null);
 			} else {
 				g.drawImage(image, (int)posX, (int)posY /**Game.SCALEFACTOR*/, (int)(posX + width) /**Game.SCALEFACTOR*/, (int)(posY + height)/**Game.SCALEFACTOR*/, (int)0, (int)0, (int)0 + width ,(int) 0 + height, null);
+			}
+		}
+	}
+	
+	public void render(Graphics g, double posX, double posY, double angle) {
+		
+		if(!hasFlip) {
+			g.drawImage(this.rotateImage(angle), (int) posX, (int) posY, this.width, this.height, null); //old drawing method, would not allow image to be easily flipped
+			 
+		} else {
+			if(flip) {
+				
+				if(angle == Math.PI || angle == 0) {
+					g.drawImage(this.rotateImage(angle), (int)posX, (int)posY /**Game.SCALEFACTOR*/, (int)(posX + width) /**Game.SCALEFACTOR*/, (int)(posY + height)/**Game.SCALEFACTOR*/, (int)0 + width, (int)0, (int)0 ,(int) 0 + height, null);
+				} else {
+					g.drawImage(this.rotateImage(angle), (int)posX, (int)posY /**Game.SCALEFACTOR*/, (int)(posX + width) /**Game.SCALEFACTOR*/, (int)(posY + height)/**Game.SCALEFACTOR*/, (int)0, (int)0 + height, (int)0 + width ,(int)0, null);
+				}
+			} else {
+				g.drawImage(this.rotateImage(angle), (int)posX, (int)posY /**Game.SCALEFACTOR*/, (int)(posX + width) /**Game.SCALEFACTOR*/, (int)(posY + height)/**Game.SCALEFACTOR*/, (int)0, (int)0, (int)0 + width ,(int) 0 + height, null);
 			}
 		}
 	}
@@ -122,6 +140,25 @@ public class Texture {
 	public boolean getFlip() {
 		return flip;
 	}
+	
+	/**
+	 * 
+	 * @param angle (angle in radians)
+	 */
+	
+	public BufferedImage rotateImage(double angle) {
+
+		BufferedImage imag = this.getImage();
+        double rotationRequired = angle;
+        double locationX = imag.getWidth() / 2;
+        double locationY = imag.getHeight() / 2;
+        AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);         
+       BufferedImage newImage = new BufferedImage(imag.getWidth(), imag.getHeight(), imag.getType());
+       op.filter(imag, newImage);
+
+       return newImage;
+     }
 	
 /*	public BufferedImage resizeTexture(int sf){
 		BufferedImage resizedImage = new BufferedImage(this.image.getWidth()*sf, this.image.getHeight()*sf, this.image.getType());

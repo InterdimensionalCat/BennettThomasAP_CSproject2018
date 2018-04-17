@@ -5,6 +5,10 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 
 import game.Game;
 import game.input.KeyInput;
@@ -57,7 +61,31 @@ public class Player extends Mob {
 	
 	@Override
 	public void render(Graphics2D g, int offsetX, int offsetY) {
-		idle.render(g, x + offsetX, y + offsetY);
+		
+		
+			switch (angleState) {
+			case RIGHT:
+
+				idle.render(g, x + offsetX, y + offsetY,3 * Math.PI / 2 );
+
+				break;
+			case LEFT:
+
+				idle.render(g, x + offsetX, y + offsetY, Math.PI / 2);
+
+				break;
+			case FLOOR:
+
+				idle.render(g, x + offsetX, y + offsetY, 0);
+
+				break;
+			case CEILING:
+
+				idle.render(g, x + offsetX, y + offsetY, Math.PI);
+
+				break;
+			}
+			
 		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Deaths: " + deathCount, 10, 30);
 		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Score: " + score, 10, 60);
 		if(falling) {
@@ -318,7 +346,7 @@ public class Player extends Mob {
 			}
 		}*/
 		
-		animate();
+		newAnimate();
 		
 		super.tick();
 		//System.out.println(motionX);
@@ -359,7 +387,7 @@ public class Player extends Mob {
 				
 				
 				if(getSpeed() > 4.5 && angleState == AngleState.FLOOR) {
-					turnRunRight = true;
+					//turnRunRight = true;
 				}
 			}
 			
@@ -369,7 +397,7 @@ public class Player extends Mob {
 				addSpeed(frc);
 				
 				if(getSpeed() < -4.5 && angleState == AngleState.FLOOR) {
-					turnRunLeft = true;
+					//turnRunLeft = true;
 				}
 				
 			}
@@ -462,9 +490,13 @@ public class Player extends Mob {
 			x = playerSpawnX;
 			y = playerSpawnY;
 			motionX = 0;
+			xsp = 0;
+			gsp = 0;
+			ysp = 0;
 			motionY = 0;
 			invincibleTime = 180;
 			this.idle = InitAnimations.animations.get("Player_idle");
+			//new InitLevels().reload();
 		}
 	}
 	
@@ -478,6 +510,49 @@ public class Player extends Mob {
 			
 			falling = true;
 			super.jump(velocityY);
+		}
+	}
+	
+	protected void newAnimate() {
+		if (rolling || falling) {
+			this.idle = InitAnimations.animations.get("Player_jump");
+			InitAnimations.animations.get("Player_jump").run();
+			return;
+		}
+
+		if (gsp != 0) {
+			if (turnRunLeft) {
+				this.idle = InitAnimations.animations.get("Player_turnRun");
+				this.idle.setFlip(true);
+				InitAnimations.animations.get("Player_turnRun").setFlip(true);
+				InitAnimations.animations.get("Player_turnRun").run();
+			} else {
+				if (turnRunRight) {
+					this.idle = InitAnimations.animations.get("Player_turnRun");
+					this.idle.setFlip(false);
+					InitAnimations.animations.get("Player_turnRun").setFlip(false);
+					InitAnimations.animations.get("Player_turnRun").run();
+				} else {
+					this.idle = InitAnimations.animations.get("Player_run");
+					if (this.gsp < 0) {
+						this.idle.setFlip(true);
+						InitAnimations.animations.get("Player_run").setFlip(true);
+					}
+					if (this.gsp > 0) {
+						this.idle.setFlip(false);
+						InitAnimations.animations.get("Player_run").setFlip(false);
+					}
+					InitAnimations.animations.get("Player_run").run();
+				}
+			}
+		} else {
+			this.idle = InitAnimations.animations.get("Player_idle");
+			if (InitAnimations.animations.get("Player_run").getFlip() == true)  {
+				this.idle.setFlip(true);
+			} else {
+				this.idle.setFlip(false);
+			}
+			InitAnimations.animations.get("Player_idle").run();
 		}
 	}
 	
