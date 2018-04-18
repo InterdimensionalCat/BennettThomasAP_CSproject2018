@@ -211,7 +211,7 @@ public class TileMap {
 		
 
 		if(!m.falling&&Math.abs(m.gsp) > 12) {
-			m.xsp = m.gsp;
+			//m.xsp = m.gsp;
 		}
 		m.falling = true;
 		
@@ -870,7 +870,7 @@ public boolean mobCeilingCollision(Mob m) {
 	
 	public boolean enemyCollision(EntityBoop b) {
 		if (player.getAABB().intersects(b.getAABB()) || player.centerLine.intersects(b.getAABB())) {
-			if (player.getY() + 48 < b.getY() || player.invincibleTime > 0) {
+			if (player.getY() + 48 < b.getY() || player.invincibleTime > 0 ||player.rolling) {
 				b.onKillHit(player);
 			} else {
 				b.onHit(player);

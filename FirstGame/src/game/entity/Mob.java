@@ -165,6 +165,8 @@ public abstract class Mob extends Entity { //It means MOBile entity
 			ysp = (Math.abs(ysp) / ysp)*abspd;
 		}
 		
+		//System.out.println(ysp);
+		
 		if(Math.abs(gsp) > abspd) {
 			gsp = (Math.abs(gsp) / gsp)*abspd;
 		}

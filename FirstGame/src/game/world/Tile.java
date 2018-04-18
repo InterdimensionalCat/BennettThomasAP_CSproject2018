@@ -184,7 +184,7 @@ public class Tile {
 	public static final Chunk CurveTestC = new Chunk(new  Texture("betterCurveRightCeil"), 4, new double[] {-105,0,0,0,-120,0,0,0,-130,-135,0,0,0,-140,-150,-165}, 0xFFFF000B);
 	public static final Chunk cornerRight = new Chunk(new Texture("cornerRight"), 2, new double[] {0,0,0,0}, 0xFFFF000C, TileType.SOLID);
 	public static final Chunk cornerLeft = new Chunk(new Texture("cornerLeft"), 2, new double[] {0,0,0,0}, 0xFFFF000D, TileType.SOLID);
-	public static final Chunk Dirtx2 = new Chunk(new Texture("dirtChunk"), 2, new double[] {0,0,0,0}, 0xFFFF000E, TileType.AIR);
+	public static final Chunk Dirtx2 = new Chunk(new Texture("dirtChunk"), 2, new double[] {0,0,0,0}, 0xFFFF000E, TileType.SOLID);
 	public static final Chunk Dipx2 = new Chunk(new Texture("Dipx2Right"),2,new double[] {15,-15,0,0}, 0xFFFF000F);
 	public static final Chunk Dipx4 = new Chunk(new Texture("Dipx4Right"),4,new double[] {25,15,-15,-25,0,0,0,0,0,0,0,0,0,0,0,0}, 0xFFFF0010);
 	public static final Chunk groundx4Right = new Chunk(new Texture("groundx4Right"),4,new double[] {35,15,5,0,0,0,44,0,0,0,0,0,0,0,0,0}, 0xFFFF0011);

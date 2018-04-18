@@ -1,0 +1,46 @@
+package game.entity;
+
+import java.awt.Rectangle;
+
+import game.render.textures.Texture;
+import game.world.TileMap;
+
+public class EntitySpring extends Entity {
+
+	private boolean horz;
+	
+	public EntitySpring(Texture texture, double x, double y, TileMap tileMap, Rectangle AABB, boolean horz) {
+		super(texture, x, y, tileMap, AABB);
+		if(horz) {
+			this.texture.rotateImage(-Math.PI / 2);
+		}
+		this.AABB horz = horz;
+		
+	}
+
+	@Override
+	public void tick() {
+		if(horz) {
+			if(tileMap.getPlayer().getAABB().intersects(this.AABB)&&tileMap.getPlayer().getX() > this.x) {
+				if(tileMap.getPlayer().falling) {
+					tileMap.getPlayer().setSpeed(16);
+				}
+			}
+		} else {
+			if(tileMap.getPlayer().getAABB().intersects(this.AABB)&&tileMap.getPlayer().getY() + 64 < this.y) {
+				if(tileMap.getPlayer().falling) {
+					tileMap.getPlayer().ysp = - 16;
+				}
+			}
+		}
+
+		
+	}
+
+	@Override
+	public void setDead() {
+		this.AABB = null;
+		
+	}
+
+}

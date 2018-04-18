@@ -2,27 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="setChunk" key="selection"/>
-		<item value="true" key="casesensitive"/>
+		<item value="enemy" key="selection"/>
+		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="setChunk"/>
-			<item value="load"/>
-			<item value="getFrom"/>
-			<item value="getFromId"/>
-			<item value="tileMap"/>
-			<item value="getFromID"/>
-			<item value="Triangle"/>
-			<item value="triangle"/>
-			<item value="isMovingRight"/>
-			<item value="isMoving"/>
-			<item value="player.isMoving"/>
-			<item value="para"/>
-			<item value="ax"/>
-			<item value="paral"/>
-			<item value="14"/>
+			<item value="enemy"/>
+			<item value="entity"/>
+			<item value="Goal is"/>
+			<item value="goal is"/>
+			<item value="setDead"/>
+			<item value="m.xsp = m.gsp"/>
+			<item value="xsp = gsp"/>
+			<item value="movingTile"/>
+			<item value="VK_R"/>
+			<item value="R"/>
+			<item value="entityboop"/>
+			<item value="entityboo"/>
+			<item value="gravity"/>
+			<item value="centerLine"/>
+			<item value="center"/>
 		</list>
 		<list key="replacehistory">
 			<item value="ceil"/>
