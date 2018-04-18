@@ -1,0 +1,53 @@
+package game.entity;
+
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+
+import game.Game;
+import game.render.textures.Texture;
+import game.world.TileMap;
+
+public class SpeedControl extends Entity {
+
+	final double control;
+	
+	public SpeedControl(double x, double y, TileMap tileMap, double control) {
+		super(null, x, y, tileMap, new Rectangle((int)x, (int)y, 64 , 64));
+		this.control = control;
+	}
+
+	@Override
+	public void tick() {
+		if(tileMap.getPlayer().getAABB().intersects(AABB)) {
+			if(!tileMap.getPlayer().falling) {
+				if(tileMap.getPlayer().gsp > control || tileMap.getPlayer().gsp < -control) {
+					tileMap.getPlayer().gsp = control*Math.signum(tileMap.getPlayer().gsp);
+				}
+			} else {
+				/*if(tileMap.getPlayer().xsp > control || tileMap.getPlayer().xsp < -control) {
+					tileMap.getPlayer().xsp = control*Math.signum(tileMap.getPlayer().xsp);
+				}
+				if(tileMap.getPlayer().ysp > control || tileMap.getPlayer().ysp < -control) {
+					tileMap.getPlayer().ysp = control*Math.signum(tileMap.getPlayer().ysp);
+				}*/
+			}
+		}
+		
+	}
+
+	@Override
+	public void setDead() {
+		AABB = null;
+		
+	}
+	
+	@Override
+	public void render(Graphics2D g , int offsetX, int offsetY) {
+	if (Game.debug) {
+		g.setColor(Color.BLUE);
+		g.drawRect((int)AABB.getX() + offsetX, (int)AABB.getY() + offsetY, (int)AABB.getWidth(), (int)AABB.getHeight());
+	}
+}
+
+}

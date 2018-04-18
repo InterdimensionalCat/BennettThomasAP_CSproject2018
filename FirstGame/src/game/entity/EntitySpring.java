@@ -24,7 +24,7 @@ public class EntitySpring extends Entity {
 			if(tileMap.getPlayer().getAABB().intersects(this.AABB)&&tileMap.getPlayer().getX() > this.x) {
 				if(true) {
 					if(tileMap.getPlayer().getSpeed() > 16) {
-						tileMap.getPlayer().multSpeed(2);
+						tileMap.getPlayer().multSpeed(1.1);
 					} else {
 						tileMap.getPlayer().setSpeed(16);
 					}

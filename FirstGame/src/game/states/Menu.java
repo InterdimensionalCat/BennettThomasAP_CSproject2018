@@ -83,7 +83,7 @@ public class Menu implements State {
 		switch(currentSelection) {
 		case 0:
 			System.out.println("Play");
-			stateManager.setState("enemytest");
+			stateManager.setState("newLevel1");
 			break;
 			
 		case 1:

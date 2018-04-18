@@ -170,7 +170,7 @@ public class Tile {
 	 */
 	
 	
-	public static final Chunk betterSlopeRight = new Chunk(new Texture("betterSlopeRight"), 4, new double[] {0,0,0, -75, 0,0,0, -60, 0,0, -45, -46, 0, -15,-30,-44, 0}, 0xFFFF0000);
+	public static final Chunk betterSlopeRight = new Chunk(new Texture("betterSlopeRightFixed"), 4, new double[] {0,0,0, -75, 0,0,0, -60, 0,0, -45, -46, 0, -15,-30,-44, 0}, 0xFFFF0000);
 	public static final Chunk betterSlopeLeft = new Chunk(new Texture("betterSlopeLeft"), 4, new double[] {75, 0, 0 , 0, 60 , 0 ,0 , 0, 46 , 45 ,0 ,0 , 0 ,44 ,30,15}, 0xFFFF0001);	
 	public static final Chunk straightSlopeRC = new Chunk(new Texture("straightSlopeRC"), 4, new double[] {-135,0,0,0,0,-135,0,0,0,0,-135,0,0,0,0,-135} , 0xFFFF0002);
 	public static final Chunk straightSlopeR = new Chunk(new Texture("straightSlopeR"), 4, new double[] {0,0,0,-44,0,0,-44,0,0,-44,0,0,-44,0,0,0} , 0xFFFF0003);
@@ -200,6 +200,9 @@ public class Tile {
 	public static final Chunk wallLeft = new Chunk(new Texture("wallLeft"), 2, new double[] {0,0,0,0}, 0xFFFF001B, TileType.SOLID);
 	public static final Chunk rampR = new Chunk(new Texture("rampR"), 4, new double[] {0,0,0,-44,0,-40,-40,0,-25,-35,0,0,0,0,0,0}, 0xFFFF001C);
 	public static final Chunk rampL = new Chunk(new Texture("rampL"), 4, new double[] {44,0,0,0,0,40,0,40,0,0,35,25,0,0,0,0}, 0xFFFF001D);
+	
+	public static final Tile dirtToGround = new Tile(0xFFFFFFF0, new Texture("dirtToGround"), TileType.SOLID, createSolidArray() , createSolidArray() , Math.toRadians(0));
+	public static final Tile groundToGrass = new Tile(0xFFFFFFF1, new Texture("groundToGrass"), TileType.SOLID, createSolidArray() , createSolidArray() , Math.toRadians(0));
 	
 	
 	protected Tile(int id, Texture sprite, TileType type, double[] heightMask, double[] heightMask1, double angle) { //creates tile type constants

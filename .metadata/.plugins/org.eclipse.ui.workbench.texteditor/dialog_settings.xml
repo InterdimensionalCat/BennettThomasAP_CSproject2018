@@ -2,27 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="enemy" key="selection"/>
+		<item value="turnRunRight" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="turnRunRight"/>
+			<item value="turnRun"/>
+			<item value="enemyTest"/>
+			<item value="render"/>
+			<item value="abspd"/>
+			<item value="jump"/>
+			<item value="load"/>
+			<item value="id"/>
+			<item value="0x01"/>
+			<item value="0x1"/>
 			<item value="enemy"/>
 			<item value="entity"/>
 			<item value="Goal is"/>
 			<item value="goal is"/>
 			<item value="setDead"/>
-			<item value="m.xsp = m.gsp"/>
-			<item value="xsp = gsp"/>
-			<item value="movingTile"/>
-			<item value="VK_R"/>
-			<item value="R"/>
-			<item value="entityboop"/>
-			<item value="entityboo"/>
-			<item value="gravity"/>
-			<item value="centerLine"/>
-			<item value="center"/>
 		</list>
 		<list key="replacehistory">
 			<item value="ceil"/>

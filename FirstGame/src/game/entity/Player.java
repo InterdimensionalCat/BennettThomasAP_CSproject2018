@@ -88,11 +88,14 @@ public class Player extends Mob {
 			
 		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Deaths: " + deathCount, 10, 30);
 		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Score: " + score, 10, 60);
-		if(falling) {
+/*		if(falling) {
 			Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Speed: " + (int)xsp, 10, 90);
 		} else {
 			Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Speed: " + (int)gsp, 10, 90);
-		}
+		}*/
+		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "X-Speed: " + (int)xsp, 10, 90);
+		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Y-Speed: " + (int)ysp, 10, 120);
+		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Ground-Speed: " + (int)gsp, 10, 150);
 
 		
 		if (Game.debug) {
@@ -365,11 +368,12 @@ public class Player extends Mob {
 			
 			moving = false;
 			
+			turnRunLeft = false;
+			turnRunRight = false;
+			
 			if(Math.abs(gsp) < frc) {
 				gsp = 0;
 				//setSpeed(0);
-				turnRunLeft = false;
-				turnRunRight = false;
 			}
 			
 	/*		if(falling) {
