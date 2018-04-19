@@ -62,6 +62,24 @@ public class Player extends Mob {
 	@Override
 	public void render(Graphics2D g, int offsetX, int offsetY) {
 		
+		Texture.windowPosX = (int)x + offsetX - Game.WIDTH / 2;
+		Texture.windowPosY = (int)y + offsetY - Game.HEIGHT / 2;
+		
+		if(Texture.windowPosX < 0) {
+			Texture.windowPosX = 0;
+		}
+		
+		if(Texture.windowPosX > tileMap.getWidth()*64 + Game.WIDTH) {
+			Texture.windowPosX = tileMap.getWidth()*64 + Game.WIDTH;
+		}
+		
+		if(Texture.windowPosY < 0) {
+			Texture.windowPosY = 0;
+		}
+		
+		if(Texture.windowPosY > tileMap.getHeight()*64 + Game.HEIGHT) {
+			Texture.windowPosY = tileMap.getHeight()*64 + Game.HEIGHT;
+		}
 		
 			switch (angleState) {
 			case RIGHT:

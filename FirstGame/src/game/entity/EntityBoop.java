@@ -33,6 +33,7 @@ public class EntityBoop extends Mob {
 		this.currentState = InitAnimations.animations.get("Boop_walk");
 		this.jumper = jumper;
 		this.abspd = 10.0;
+		//this.grv = 0;
 		if(xposRand.nextBoolean()) {
 			this.x += xposRand.nextDouble()*displacement;
 		} else {

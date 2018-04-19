@@ -34,6 +34,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	//public Line2D ceilCheck2;
 	public Line2D centerLine;
 	public boolean angleStateChange;
+	public boolean shouldCollide = true;
 	
 	public Point center;
 	
@@ -94,6 +95,12 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	
 	@Override
 	public void tick() {
+		
+/*		shouldCollide = !shouldCollide;
+		
+		if(gsp > 16) {
+			shouldCollide = true;
+		}*/
 		
 		if(falling) {
 			angle = 0;
@@ -374,6 +381,10 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	}
 	
 	public void changeAngleState(double angelIn) { //in radians
+		
+		if(!(this instanceof Player)) {
+			return;
+		}
 		
 		
 /*		if(this.angleState != AngleState.index[(int)(Math.round(Math.abs(angle) / (Math.PI/2)) % 4)] && Math.abs(gsp) < 2.5 && Math.abs(Math.toRadians(angle)) > 75){

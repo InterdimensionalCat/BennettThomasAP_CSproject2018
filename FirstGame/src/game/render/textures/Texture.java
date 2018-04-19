@@ -23,6 +23,8 @@ public class Texture {
 	private int width, height;
 	private boolean flip;
 	private boolean hasFlip;
+	public static int windowPosX;
+	public static int windowPosY;
 	
 	public Texture(String fileName) {
 		this.fileName = fileName;
@@ -78,6 +80,11 @@ public class Texture {
 	}
 	
 	public void render(Graphics g, double posX, double posY) {
+		
+		if(posX > windowPosX + Game.WIDTH + 64 || posX < windowPosX -64|| posY > windowPosY + Game.HEIGHT + 64|| posY < windowPosY - 64) {
+			return;
+		}
+		
 		if(!hasFlip) {
 			g.drawImage(image, (int) posX, (int) posY, this.width, this.height, null); //old drawing method, would not allow image to be easily flipped
 			 
@@ -91,6 +98,10 @@ public class Texture {
 	}
 	
 	public void render(Graphics g, double posX, double posY, double angle) {
+		
+		if(posX > windowPosX + Game.WIDTH + 64 || posX < windowPosX -64|| posY > windowPosY + Game.HEIGHT + 64|| posY < windowPosY - 64) {
+			return;
+		}
 		
 		if(!hasFlip) {
 			g.drawImage(this.rotateImage(angle), (int) posX, (int) posY, this.width, this.height, null); //old drawing method, would not allow image to be easily flipped
@@ -110,6 +121,11 @@ public class Texture {
 	}
 	
 	public void render(Graphics2D g2d, double toX1, double toX2, double posX1, double posX2, double y) {
+		
+/*		if(posX > windowPosX + Game.WIDTH || posX < windowPosX || posY > windowPosY + Game.HEIGHT || posY < windowPosY) {
+			return;
+		}*/
+		
 		g2d.drawImage(image, (int)toX1/**Game.SCALEFACTOR*/, (int)y/**Game.SCALEFACTOR*/, (int)toX2/**Game.SCALEFACTOR*/, (int)y + height, (int)posX1/**Game.SCALEFACTOR*/, 0, (int)posX2/**Game.SCALEFACTOR*/, height, null);
 	}
 

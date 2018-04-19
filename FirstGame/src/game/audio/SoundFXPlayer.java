@@ -11,7 +11,7 @@ public class SoundFXPlayer implements Runnable {
 	
 	public SoundFXPlayer(String... files) {
 		if(Runtime.getRuntime().availableProcessors() > 4) {
-			pool = new ThreadManager(2);
+			pool = new ThreadManager(1);
 		} else {
 			pool = new ThreadManager(1);
 		}
