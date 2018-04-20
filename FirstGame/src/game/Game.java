@@ -199,7 +199,7 @@ public class Game extends Canvas implements Runnable {
 		driver = new SplashScreenDriver();
 		System.out.println("Avalible Processors: " + Runtime.getRuntime().availableProcessors());
 		if(Runtime.getRuntime().availableProcessors() > 4) {
-			pool = new ThreadManager(1);
+			pool = new ThreadManager(3);
 		} else {
 			System.err.println("Game is running in low performance mode, initial loading time will be increased");
 			pool = new ThreadManager(2);
@@ -248,7 +248,7 @@ public class Game extends Canvas implements Runnable {
 		
 		player = new SoundBGMPlayer("FlatZone"); //music player playlist initialization
 		if(Runtime.getRuntime().availableProcessors() > 4) {
-			fxmanager = new SoundFXManager(2);
+			fxmanager = new SoundFXManager(3);
 		} else {
 			System.err.println("Game is running in low sound mode, this will increase performance but sound may fail to play");
 			fxmanager = new SoundFXManager(2);

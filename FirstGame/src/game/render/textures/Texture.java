@@ -36,7 +36,8 @@ public class Texture {
 		} else {
 			try {
 				System.out.println("Loading Texture:" + fileName);
-				image = ImageIO.read(new File("src/assets/" + fileName + ".png")); //need to do something more like this: || this.image = ImageIO.read(Texture.class.getResourceAsStream("/textures/" + fileName + ".png"));
+				//image = ImageIO.read(new File("src/assets/" + fileName + ".png")); //need to do something more like this: || this.image = ImageIO.read(Texture.class.getResourceAsStream("/textures/" + fileName + ".png"));
+				this.image = ImageIO.read(Texture.class.getClassLoader().getResourceAsStream("assets/" + fileName + ".png"));
 				textureMap.put(fileName, image);
 			} catch (IOException e) {
 				e.printStackTrace();

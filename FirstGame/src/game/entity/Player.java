@@ -69,16 +69,16 @@ public class Player extends Mob {
 			Texture.windowPosX = 0;
 		}
 		
-		if(Texture.windowPosX > tileMap.getWidth()*64 + Game.WIDTH) {
-			Texture.windowPosX = tileMap.getWidth()*64 + Game.WIDTH;
+		if(Texture.windowPosX > tileMap.getWidth()*64 - Game.WIDTH + offsetX) {
+			Texture.windowPosX = tileMap.getWidth()*64 - Game.WIDTH + offsetX;
 		}
 		
 		if(Texture.windowPosY < 0) {
 			Texture.windowPosY = 0;
 		}
 		
-		if(Texture.windowPosY > tileMap.getHeight()*64 + Game.HEIGHT) {
-			Texture.windowPosY = tileMap.getHeight()*64 + Game.HEIGHT;
+		if(Texture.windowPosY > tileMap.getHeight()*64 - Game.HEIGHT + offsetY) {
+			Texture.windowPosY = tileMap.getHeight()*64 - Game.HEIGHT + offsetY;
 		}
 		
 			switch (angleState) {
@@ -111,9 +111,9 @@ public class Player extends Mob {
 		} else {
 			Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Speed: " + (int)gsp, 10, 90);
 		}*/
-		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "X-Speed: " + (int)xsp, 10, 90);
-		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Y-Speed: " + (int)ysp, 10, 120);
-		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Ground-Speed: " + (int)gsp, 10, 150);
+		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "A/D = Left/Right", 10, 90);
+		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Space = Jump", 10, 120);
+		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "S = Roll, ; = Pause", 10, 150);
 
 		
 		if (Game.debug) {
@@ -288,7 +288,7 @@ public class Player extends Mob {
 		
 
 		
-		if(KeyInput.wasPressed(KeyEvent.VK_1)) {
+/*		if(KeyInput.wasPressed(KeyEvent.VK_1)) {
 			Game.pauseTime+= 100;
 			Game.level.nextLevel();
 		}
@@ -303,11 +303,11 @@ public class Player extends Mob {
 		
 		if(KeyInput.wasPressed(KeyEvent.VK_G)) {
 			invincibleTime += 180;
-		}
+		}*/
 		
 
 		
-		if(KeyInput.wasPressed(KeyEvent.VK_F)) {
+/*		if(KeyInput.wasPressed(KeyEvent.VK_F)) {
 			playerSpawnX = (int)x;
 			playerSpawnY = (int)y;
 		}
@@ -320,7 +320,7 @@ public class Player extends Mob {
 		if(KeyInput.wasPressed(KeyEvent.VK_E)) {
 			//gsp = maxMotionX;
 			setSpeed(16);
-		}
+		}*/
 		
 		if(KeyInput.wasReleased(KeyEvent.VK_A)||KeyInput.wasReleased(KeyEvent.VK_D)) {
 			//motionX /= 4;

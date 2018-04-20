@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class SoundFXManager {
 
 	public volatile ArrayList<SoundFXPlayer> players = new ArrayList<SoundFXPlayer>();
-	public volatile int globalFXVolume = -70;
+	public volatile int globalFXVolume = -20;
 	private volatile int newestPlayer = 0;
 	
 	public SoundFXManager(int num) {

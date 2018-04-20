@@ -41,8 +41,8 @@ public class InitLevels implements Runnable {
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 100, 600, tileMap, 200, PlatformType.HORIZONTAL_MOVING),
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 100, 700, tileMap, 640, PlatformType.VERTICAL_MOVING),*/
 				//(Entity)new EntityMovingTile(new Texture("movingTile"), 12*64, 12*64, tileMap),
-				(Entity)new EntitySpring(new Texture("BoopWalk1"), 100, 13*64, tileMap, false),
-				(Entity)new EntitySpring(new Texture("BoopWalk1"), 500, 13*64, tileMap, true),
+				(Entity)new EntitySpring(new Texture("SpringVert"), 100, 13*64, tileMap, false),
+				(Entity)new EntitySpring(new Texture("SpringHorz"), 500, 13*64, tileMap, true),
 				//(Entity)new EntityGoal(1000, 13*64, tileMap),
 				};
 		
@@ -73,9 +73,9 @@ public class InitLevels implements Runnable {
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 4*64, (150 - 7)*64, tileMap),
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 6*64, (150 - 7)*64, tileMap),
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 8*64, (150 - 7)*64, tileMap),
-				(Entity)new EntitySpring(new Texture("BoopWalk1"), 2048, 9024, tileMap, true),
-				(Entity)new EntitySpring(new Texture("BoopWalk1"), 6976, 9088, tileMap, true),
-				(Entity)new EntitySpring(new Texture("BoopWalk1"), 7808 ,8064, tileMap, false),
+				(Entity)new EntitySpring(new Texture("SpringHorz"), 2048, 9024, tileMap, true),
+				(Entity)new EntitySpring(new Texture("SpringHorz"), 6976, 9088, tileMap, true),
+				(Entity)new EntitySpring(new Texture("SpringVert"), 7808 ,8064, tileMap, false),
 				(Entity)new EntityBoop(2944 ,8256, tileMap, 1.5, 128, false),
 				(Entity)new EntityBoop(6720 ,9088, tileMap, 0, 0, true),
 				(Entity)new EntityBoop(8000+32 ,8064-64*7, tileMap, 1.5, 32*7, false, 0),
@@ -85,8 +85,8 @@ public class InitLevels implements Runnable {
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 10752 ,7360, tileMap, 64*2, PlatformType.FALLING),
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 11072 ,7360, tileMap),
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 11456 ,7360 - 64*10, tileMap, 64*10, PlatformType.HORIZONTAL_MOVING),
-				(Entity)new EntitySpring(new Texture("BoopWalk1"), 11776 ,6656, tileMap, true),
-				(Entity)new EntitySpring(new Texture("BoopWalk1"), 12736 ,7424, tileMap, true),
+				(Entity)new EntitySpring(new Texture("SpringHorz"), 11776 ,6656, tileMap, true),
+				(Entity)new EntitySpring(new Texture("SpringHorz"), 12736 ,7424, tileMap, true),
 				(Entity)new EntityGoal(13824 ,5632, tileMap),
 				};
 		
@@ -113,11 +113,11 @@ public class InitLevels implements Runnable {
 				(Entity)new EntityBoop(3840, 832, tileMap, 0.7, 64, true),
 				(Entity)new EntityBoop(5824, 832, tileMap, 0, 0, true),
 				(Entity)new EntityGoal(6272, 832, tileMap)*/
-				(Entity)new EntitySpring(new Texture("BoopWalk1"), 1664 ,384, tileMap, true),
+				(Entity)new EntitySpring(new Texture("SpringHorz"), 1664 ,384, tileMap, true),
 				(Entity)new EntityBoop(6144 ,2176, tileMap, 0, 0, false, 0),
 				(Entity)new SpeedControl(6464 ,5120,tileMap,32),
 				(Entity)new EntityMovingTile(new Texture("movingTile"), 5824 ,4736, tileMap, 64*25, PlatformType.HORIZONTAL_MOVING),
-				(Entity)new EntitySpring(new Texture("BoopWalk1"), 6464 ,6528, tileMap, false),
+				(Entity)new EntitySpring(new Texture("SpringVert"), 6464 ,6528, tileMap, false),
 				(Entity)new EntityGoal(9472 ,6272, tileMap),
 				(Entity)new EntityBoop(9024 ,6400, tileMap, 0.75, 32*7, false, 0),
 			};

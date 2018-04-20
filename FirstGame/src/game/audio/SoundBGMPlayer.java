@@ -9,12 +9,12 @@ public class SoundBGMPlayer implements Runnable {
 	private boolean running;
 	private SoundWAVFormat currentSong;
 	private boolean active;
-	public int globalBGMVolume = -70;
+	public int globalBGMVolume = -20;
 	
 	public SoundBGMPlayer(String... files) {
 		musicFiles = new ArrayList<SoundWAVFormat>();
 		for(String file : files) {
-			musicFiles.add(new SoundWAVFormat("src/assets/audio/" + file + ".wav"));
+			musicFiles.add(new SoundWAVFormat("assets/audio/" + file + ".wav"));
 		}
 	}
 

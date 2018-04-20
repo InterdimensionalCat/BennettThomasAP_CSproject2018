@@ -114,7 +114,7 @@ public class TileMap {
 			entities.get(i).tick();
 		}
 		
-		if(KeyInput.wasPressed(KeyEvent.VK_V)) {
+/*		if(KeyInput.wasPressed(KeyEvent.VK_V)) {
 			setChunk(convertToTiles((int)player.getX()), convertToTiles((int)player.getY()), Tile.groundx4Right);
 		}
 		
@@ -124,7 +124,7 @@ public class TileMap {
 		
 		if(KeyInput.wasPressed(KeyEvent.VK_N)) {
 			setChunk(convertToTiles((int)player.getX()), convertToTiles((int)player.getY()), Tile.groundx4lowright);
-		}
+		}*/
 	}
 
 	public void render(Graphics2D g2d, int screenWidth, int screenHeight) {
@@ -1144,7 +1144,8 @@ public boolean mobCeilingCollision(Mob m) {
 		this.name = name;
 		BufferedImage image = null;
 		try {
-			image = ImageIO.read(new File("src/assets/levels/" + name + ".png"));
+			//image = ImageIO.read(new File("src/assets/levels/" + name + ".png"));
+			image =  ImageIO.read(TileMap.class.getClassLoader().getResourceAsStream("assets/levels/" + name + ".png"));
 			System.out.println("read: " + name);
 		} catch (IOException e) {
 			e.printStackTrace();

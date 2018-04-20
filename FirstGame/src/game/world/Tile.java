@@ -17,9 +17,9 @@ public class Tile {
 	//private static final Texture CurveTest = new Texture("betterCurveRight");
 	//private static final Texture CurveTestL = new Texture("betterCurveLeft");
 	//private static final Texture CurveTestLC = new Texture("betterCurveLeftCeil");
-	private static final Texture SlopeTestC = new Texture("SlopeTestC");
+	//private static final Texture SlopeTestC = new Texture("SlopeTestC");
 	//private static final Texture SlopeTestL = new Texture("betterSlopeLeft");
-	private static final Texture SlopeTestLC = new Texture("SlopeTestLC");
+	//private static final Texture SlopeTestLC = new Texture("SlopeTestLC");
 	private static final Map<Integer, Tile> tileMap = new HashMap<Integer, Tile>();
 	public Texture sprite;
 	protected boolean solid = true;
@@ -171,24 +171,24 @@ public class Tile {
 	
 	
 	public static final Chunk betterSlopeRight = new Chunk(new Texture("betterSlopeRightFixed"), 4, new double[] {0,0,0, -75, 0,0,0, -60, 0,0, -45, -46, 0, -15,-30,-44, 0}, 0xFFFF0000);
-	public static final Chunk betterSlopeLeft = new Chunk(new Texture("betterSlopeLeft"), 4, new double[] {75, 0, 0 , 0, 60 , 0 ,0 , 0, 46 , 45 ,0 ,0 , 0 ,44 ,30,15}, 0xFFFF0001);	
+	public static final Chunk betterSlopeLeft = new Chunk(new Texture("betterSlopeLeftFixed"), 4, new double[] {75, 0, 0 , 0, 60 , 0 ,0 , 0, 46 , 45 ,0 ,0 , 0 ,44 ,30,15}, 0xFFFF0001);	
 	public static final Chunk straightSlopeRC = new Chunk(new Texture("straightSlopeRC"), 4, new double[] {-135,0,0,0,0,-135,0,0,0,0,-135,0,0,0,0,-135} , 0xFFFF0002);
 	public static final Chunk straightSlopeR = new Chunk(new Texture("straightSlopeR"), 4, new double[] {0,0,0,-44,0,0,-44,0,0,-44,0,0,-44,0,0,0} , 0xFFFF0003);
-	public static final Chunk straightSlopeL = new Chunk(new Texture("straightSlopeL"), 4, new double[] {44,0,0,0,0,44,0,0,0,0,44,0,0,0,0,44} , 0xFFFF0004);
+	public static final Chunk straightSlopeL = new Chunk(new Texture("straightSlopeLFixed"), 4, new double[] {44,0,0,0,0,44,0,0,0,0,44,0,0,0,0,44} , 0xFFFF0004);
 	public static final Chunk straightSlopeLC = new Chunk(new Texture("straightSlopeLC"), 4, new double[] {0,0,0,135,0,0,135,0,0,135,0,0,135,0,0,0}, 0xFFFF0005);
-	public static final Chunk betterSlopeLeftCeil = new Chunk(new Texture("betterSlopeLeftCeil"), 4, new double[] {0, 136, 150 , 165, 134 , 135 ,0 , 0, 120 ,0 ,0 ,0 , 105 ,0,0,0} , 0xFFFF0006);
-	public static final Chunk betterSlopeRightCeil = new Chunk(new Texture("betterSlopeRightCeil"), 4, new double[] {-165, -150, -136, 0, 0,0, -135, -134, 0 ,0 ,0, -120, 0,0,0, -105}, 0xFFFF0007);
-	public static final Chunk CurveTestLC = new Chunk(new Texture("betterCurveLeftCeil"), 4, new double[] {0,0,0,105,0,0,0,120,0,0,135,130,165,150,140,0}, 0xFFFF0008);
-	public static final Chunk CurveTestL = new Chunk(new Texture("betterCurveLeft"), 4, new double[] {15,30,44,0,0,0,45,46,0,0,0,60,0,0,0,75}, 0xFFFF0009);
-	public static final Chunk CurveTest = new Chunk(new Texture("betterCurveRight"), 4, new double[] {0,-44,-30,-15,-45,-46,0,0,-60,0,0,0,-75,0,0,0}, 0xFFFF000A);
-	public static final Chunk CurveTestC = new Chunk(new  Texture("betterCurveRightCeil"), 4, new double[] {-105,0,0,0,-120,0,0,0,-130,-135,0,0,0,-140,-150,-165}, 0xFFFF000B);
+	public static final Chunk betterSlopeLeftCeil = new Chunk(new Texture("betterSlopeLeftCeilFixed"), 4, new double[] {0, 136, 150 , 165, 134 , 135 ,0 , 0, 120 ,0 ,0 ,0 , 105 ,0,0,0} , 0xFFFF0006);
+	public static final Chunk betterSlopeRightCeil = new Chunk(new Texture("betterSlopeRightCeilFixed"), 4, new double[] {-165, -150, -136, 0, 0,0, -135, -134, 0 ,0 ,0, -120, 0,0,0, -105}, 0xFFFF0007);
+	public static final Chunk CurveTestLC = new Chunk(new Texture("betterCurveLeftCeilFixed"), 4, new double[] {0,0,0,105,0,0,0,120,0,0,135,130,165,150,140,0}, 0xFFFF0008);
+	public static final Chunk CurveTestL = new Chunk(new Texture("betterCurveLeftFixed"), 4, new double[] {15,30,44,0,0,0,45,46,0,0,0,60,0,0,0,75}, 0xFFFF0009);
+	public static final Chunk CurveTest = new Chunk(new Texture("betterCurveRightFixed"), 4, new double[] {0,-44,-30,-15,-45,-46,0,0,-60,0,0,0,-75,0,0,0}, 0xFFFF000A);
+	public static final Chunk CurveTestC = new Chunk(new  Texture("betterCurveRightCeilFixed"), 4, new double[] {-105,0,0,0,-120,0,0,0,-130,-135,0,0,0,-140,-150,-165}, 0xFFFF000B);
 	public static final Chunk cornerRight = new Chunk(new Texture("cornerRight"), 2, new double[] {0,0,0,0}, 0xFFFF000C, TileType.SOLID);
 	public static final Chunk cornerLeft = new Chunk(new Texture("cornerLeft"), 2, new double[] {0,0,0,0}, 0xFFFF000D, TileType.SOLID);
 	public static final Chunk Dirtx2 = new Chunk(new Texture("dirtChunk"), 2, new double[] {0,0,0,0}, 0xFFFF000E, TileType.SOLID);
 	public static final Chunk Dipx2 = new Chunk(new Texture("Dipx2Right"),2,new double[] {15,-15,0,0}, 0xFFFF000F);
 	public static final Chunk Dipx4 = new Chunk(new Texture("Dipx4Right"),4,new double[] {25,15,-15,-25,0,0,0,0,0,0,0,0,0,0,0,0}, 0xFFFF0010);
-	public static final Chunk groundx4Right = new Chunk(new Texture("groundx4Right"),4,new double[] {35,15,5,0,0,0,44,0,0,0,0,0,0,0,0,0}, 0xFFFF0011);
-	public static final Chunk groundx4Left = new Chunk(new Texture("groundx4Left"),4,new double[] {0,-5,-15,-35,0,-44,0,0,0,0,0,0,0,0,0,0}, 0xFFFF0012);
+	public static final Chunk groundx4Right = new Chunk(new Texture("groundx4right"),4,new double[] {35,15,5,0,0,0,44,0,0,0,0,0,0,0,0,0}, 0xFFFF0011);
+	public static final Chunk groundx4Left = new Chunk(new Texture("groundx4left"),4,new double[] {0,-5,-15,-35,0,-44,0,0,0,0,0,0,0,0,0,0}, 0xFFFF0012);
 	public static final Chunk groundx4lowright = new Chunk(new Texture("groundx4lowright"),4,new double[] {0,0,0,0,3,7,-7,-3,0,0,0,0,0,0,0,0}, 0xFFFF0013);
 	public static final Chunk Dirt4x = new Chunk(new Texture("Dirt4x"),4,new double[] {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, 0xFFFF0014, TileType.SOLID);
 	public static final Chunk Dirt4xRough = new Chunk(new Texture("Dirt4xRough"),4,new double[] {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}, 0xFFFF0015, TileType.SOLID);
@@ -203,6 +203,12 @@ public class Tile {
 	
 	public static final Tile dirtToGround = new Tile(0xFFFFFFF0, new Texture("dirtToGround"), TileType.SOLID, createSolidArray() , createSolidArray() , Math.toRadians(0));
 	public static final Tile groundToGrass = new Tile(0xFFFFFFF1, new Texture("groundToGrass"), TileType.SOLID, createSolidArray() , createSolidArray() , Math.toRadians(0));
+	public static final Tile dirtToGroundn90 = new Tile(0xFFFFFFF2, new Texture("dirtToGroundn90"), TileType.SOLID, createSolidArray() , createSolidArray() , Math.toRadians(0));
+	public static final Tile groundToGrassn90 = new Tile(0xFFFFFFF3, new Texture("groundToGrassn90"), TileType.SOLID, createSolidArray() , createSolidArray() , Math.toRadians(0));
+	public static final Tile straightLFixer = new Tile(0xFFFFFFF4, new Texture("straightLFixer"), TileType.SOLID, createSolidArray() , createSolidArray() , Math.toRadians(0));
+	
+	public static final Chunk cornerRightFixed = new Chunk(new Texture("cornerRightFixed"), 2, new double[] {0,0,0,0}, 0xFFFF001E, TileType.SOLID);
+	public static final Chunk cornerLeftFixed = new Chunk(new Texture("cornerLeftFixed"), 2, new double[] {0,0,0,0}, 0xFFFF001F, TileType.SOLID);
 	
 	
 	protected Tile(int id, Texture sprite, TileType type, double[] heightMask, double[] heightMask1, double angle) { //creates tile type constants

@@ -15,7 +15,7 @@ public class InitAudio implements Runnable {
 		System.err.println("Loading Audio");
 		
 		for(String s : audioFileNames) {
-			musicFiles.put(s, new SoundWAVFormat("src/assets/audio/" + s + ".wav"));
+			musicFiles.put(s, new SoundWAVFormat("assets/audio/" + s + ".wav"));
 		}
 		
 		System.err.println("Audio Loaded");

@@ -280,7 +280,7 @@ public abstract class Mob extends Entity { //It means MOBile entity
 		
 		
 		xsp += -jmp*Math.sin(angle);
-		System.out.println(-jmp*Math.sin(angle));
+		//System.out.println(-jmp*Math.sin(angle));
 		ysp += jmp*Math.cos(angle);
 		angle = 0;
 		

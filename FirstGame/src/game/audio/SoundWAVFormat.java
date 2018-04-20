@@ -1,6 +1,8 @@
 package game.audio;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.InputStream;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -11,9 +13,11 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 
+import game.utils.init.InitAudio;
+
 public class SoundWAVFormat implements LineListener{
 
-	private File soundFile;
+	//private File soundFile;
 	private AudioInputStream stream;
 	private AudioFormat format;
 	private DataLine.Info info;
@@ -23,8 +27,9 @@ public class SoundWAVFormat implements LineListener{
 	
 	public SoundWAVFormat(String fileName) {
 		try {
-			soundFile = new File(fileName);
-			stream = AudioSystem.getAudioInputStream(soundFile);
+			//soundFile = new File(fileName);
+			InputStream bufferedIn = new BufferedInputStream(SoundWAVFormat.class.getClassLoader().getResourceAsStream(fileName));
+			stream = AudioSystem.getAudioInputStream(bufferedIn);
 			format = stream.getFormat();
 			info = new DataLine.Info(Clip.class, format);
 			clip = (Clip)AudioSystem.getLine(info);
