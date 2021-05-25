@@ -35,6 +35,10 @@ public class GameState implements State {
 	public void render(Graphics2D g) {
 		tileMap.render(g, Game.WIDTH/**Game.SCALEFACTOR*/, Game.HEIGHT/**Game.SCALEFACTOR*/);
 	}
+	
+	public void render(Graphics2D g, double interpol) {
+		tileMap.render(g, Game.WIDTH, Game.HEIGHT, interpol);
+	}
 
 	@Override
 	public void exit() {

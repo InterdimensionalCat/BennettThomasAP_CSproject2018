@@ -11,5 +11,6 @@ public interface State {
 	public void render(Graphics2D g);
 	public void exit();
 	public String getName();
+	public void render(Graphics2D g2d, double interpol);
 	
 }

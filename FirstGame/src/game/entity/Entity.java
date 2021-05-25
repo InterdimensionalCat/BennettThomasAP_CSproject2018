@@ -37,6 +37,13 @@ public abstract class Entity {
 		}
 	}
 	
+	public void render(Graphics2D g2d, int offsetX, int offsetY, double interpol) {
+		//double interpolX = interpol*xsp;
+		//double interpolY = interpol*ysp;
+		render(g2d, offsetX, offsetY);
+		
+	}
+	
 	public double getX() {
 		return x;
 	}
@@ -75,6 +82,8 @@ public abstract class Entity {
 	public void setCollided(boolean collided) {
 		this.collided = collided;
 	}
+
+
 
 	
 }

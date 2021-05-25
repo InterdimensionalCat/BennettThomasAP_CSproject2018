@@ -2,27 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="System.out.println" key="selection"/>
+		<item value="getTile" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="System.out.println"/>
-			<item value="S ="/>
-			<item value="VK_"/>
-			<item value="VK_E"/>
-			<item value="Down ="/>
-			<item value="-70"/>
-			<item value="sound"/>
-			<item value="Spring"/>
-			<item value="availableProcessors"/>
-			<item value="avalibleProcessors"/>
-			<item value="manager"/>
-			<item value="entityColl"/>
-			<item value="grv"/>
-			<item value="width"/>
-			<item value="public void getWidth()"/>
+			<item value="getTile"/>
+			<item value="load("/>
+			<item value="0x"/>
+			<item value="render("/>
+			<item value="render"/>
+			<item value="run()"/>
+			<item value="render()"/>
+			<item value="(r)"/>
+			<item value="interpol = "/>
+			<item value="r"/>
+			<item value="run"/>
+			<item value="interpol"/>
+			<item value="pressed"/>
+			<item value="close"/>
+			<item value="alive"/>
 		</list>
 		<list key="replacehistory">
 			<item value="ceil"/>

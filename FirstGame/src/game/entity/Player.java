@@ -132,6 +132,86 @@ public class Player extends Mob {
 			g.drawRect((int)AABB.getX() + offsetX, (int)AABB.getY() + offsetY, (int)AABB.getWidth(), (int)AABB.getHeight());
 		}
 	}
+	
+	
+	
+	public void render(Graphics2D g, int offsetX, int offsetY, double interpol) {
+		Texture.windowPosX = (int)x + offsetX - Game.WIDTH / 2;
+		Texture.windowPosY = (int)y + offsetY - Game.HEIGHT / 2;
+		
+		double interpolX = interpol*xsp;
+		double interpolY = interpol*ysp;
+		
+		if(Texture.windowPosX < 0) {
+			Texture.windowPosX = 0;
+		}
+		
+		if(Texture.windowPosX > tileMap.getWidth()*64 - Game.WIDTH + offsetX) {
+			Texture.windowPosX = tileMap.getWidth()*64 - Game.WIDTH + offsetX;
+		}
+		
+		if(Texture.windowPosY < 0) {
+			Texture.windowPosY = 0;
+		}
+		
+		if(Texture.windowPosY > tileMap.getHeight()*64 - Game.HEIGHT + offsetY) {
+			Texture.windowPosY = tileMap.getHeight()*64 - Game.HEIGHT + offsetY;
+		}
+		
+			switch (angleState) {
+			case RIGHT:
+
+				idle.render(g, x + offsetX + interpolX, y + offsetY +interpolY,3 * Math.PI / 2 );
+
+				break;
+			case LEFT:
+
+				idle.render(g, x + offsetX + interpolX, y + offsetY +interpolY, Math.PI / 2);
+
+				break;
+			case FLOOR:
+
+				idle.render(g, x + offsetX + interpolX, y + offsetY +interpolY, 0);
+
+				break;
+			case CEILING:
+
+				idle.render(g, x + offsetX + interpolX, y + offsetY +interpolY, Math.PI);
+
+				break;
+			}
+			
+		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Deaths: " + deathCount, 10, 30);
+		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Score: " + score, 10, 60);
+/*		if(falling) {
+			Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Speed: " + (int)xsp, 10, 90);
+		} else {
+			Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Speed: " + (int)gsp, 10, 90);
+		}*/
+		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "A/D = Left/Right", 10, 90);
+		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "Space = Jump", 10, 120);
+		Fonts.drawString(g, new Font("Arial", Font.BOLD, 30) , Color.BLACK, "S = Roll, ; = Pause", 10, 150);
+
+		
+		if (Game.debug) {
+			g.setColor(Color.BLACK);
+			g.drawLine((int) centerLine.getX1() + offsetX, (int) centerLine.getY1() + offsetY,
+					(int) centerLine.getX2() + offsetX, (int) centerLine.getY2() + offsetY);
+			g.drawLine((int) floorCheck1.getX1() + offsetX, (int) floorCheck1.getY1() + offsetY,
+					(int) floorCheck1.getX2() + offsetX, (int) floorCheck1.getY2() + offsetY);
+			g.drawLine((int) floorCheck2.getX1() + offsetX, (int) floorCheck2.getY1() + offsetY,
+					(int) floorCheck2.getX2() + offsetX, (int) floorCheck2.getY2() + offsetY);
+			g.drawLine((int) ceilCheck1.getX1() + offsetX, (int) ceilCheck1.getY1() + offsetY,
+					(int) ceilCheck1.getX2() + offsetX, (int) ceilCheck1.getY2() + offsetY);
+			/*g.drawLine((int) ceilCheck2.getX1() + offsetX, (int) ceilCheck2.getY1() + offsetY,
+					(int) ceilCheck2.getX2() + offsetX, (int) ceilCheck2.getY2() + offsetY);*/
+			//g.drawRect((int)x + offsetX, (int)y + offsetY, 64, 64);
+			g.drawRect((int)AABB.getX() + offsetX, (int)AABB.getY() + offsetY, (int)AABB.getWidth(), (int)AABB.getHeight());
+		}
+		
+	}
+	
+	
 
 	@Override
 	public void tick() {
@@ -802,4 +882,6 @@ public class Player extends Mob {
 			super.fall();
 		}
 	}
+
+
 }

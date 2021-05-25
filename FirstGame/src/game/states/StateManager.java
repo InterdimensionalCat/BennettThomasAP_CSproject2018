@@ -53,5 +53,10 @@ public class StateManager {
 			return "";
 		}
 	}
+
+	public void render(Graphics2D g2d, double interpol) {
+		currentState.render(g2d, interpol);
+		
+	}
 	
 }

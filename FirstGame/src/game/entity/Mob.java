@@ -1,6 +1,7 @@
 package game.entity;
 
 
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -446,6 +447,13 @@ public abstract class Mob extends Entity { //It means MOBile entity
 	
 	public void land() {
 		gsp = xsp;
+	}
+	
+public void render(Graphics2D g2d, int offsetX, int offsetY, double interpol) {
+		double interpolX = interpol*xsp;
+		double interpolY = interpol*ysp;
+		super.render(g2d, offsetX + (int)interpolX, offsetY + (int)interpolY);
+		
 	}
 	
 }

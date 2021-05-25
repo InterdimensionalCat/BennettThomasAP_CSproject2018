@@ -26,10 +26,12 @@ public class KeyInput extends KeyAdapter {
 	}
 	
 	public static boolean isDown(int keyCode) {
+		//if(keys[keyCode]) System.out.println("key down");
 		return keys[keyCode];
 	}
 	
 	public static  boolean wasPressed(int keyCode) {
+		//if(isDown(keyCode) && !lastKeys[keyCode]) System.out.println("key pressed");
 		return isDown(keyCode) && !lastKeys[keyCode];
 	}
 	

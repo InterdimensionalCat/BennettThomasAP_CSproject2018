@@ -113,6 +113,10 @@ public class Options implements State {
 		}
 	}
 	
+	public void render(Graphics2D g, double interpol) {
+		render(g);
+	}
+	
 	
 	
 	@Override

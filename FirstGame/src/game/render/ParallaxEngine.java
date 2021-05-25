@@ -41,4 +41,10 @@ public class ParallaxEngine {
 			layers[i].render(g2d);
 		}
 	}
+	
+	public void render(Graphics2D g2d, double interpol) {
+		for(int i = 0; i < layers.length; i++) {
+			layers[i].render(g2d, interpol);
+		}
+	}
 }

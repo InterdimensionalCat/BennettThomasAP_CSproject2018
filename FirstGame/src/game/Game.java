@@ -59,7 +59,8 @@ public class Game extends Canvas implements Runnable {
 	public static SoundBGMPlayer player;
 	public static boolean paused;
 	public static ArrayList<Integer> arr = new ArrayList<Integer>();
-	
+	public Runnable r =  new Render();
+	public static double interpol;
 	
 	public Game() {
 		keyInput = new KeyInput();
@@ -96,7 +97,7 @@ public class Game extends Canvas implements Runnable {
 		}
 	}
 	
-	private void render() {
+	void render() {
 		BufferStrategy bs = getBufferStrategy();
 		if(bs == null) {
 			createBufferStrategy(3);
@@ -119,6 +120,34 @@ public class Game extends Canvas implements Runnable {
 		bs.show();
 	}
 	
+	
+	
+	void render(double interpol) {
+		BufferStrategy bs = getBufferStrategy();
+		if(bs == null) {
+			createBufferStrategy(3);
+			return;
+		}
+		
+		Graphics g = bs.getDrawGraphics();
+		Graphics2D g2d = (Graphics2D) g;
+		
+		/////////////////////////////////////
+		
+		g2d.setColor(Color.WHITE);
+		g2d.fillRect(0, 0, WIDTH/**SCALEFACTOR*/, HEIGHT/**SCALEFACTOR*/);
+
+		getStateManager().render(g2d, interpol);
+		
+		
+		/////////////////////////////////////
+		g.dispose();
+		bs.show();
+	}
+	
+	
+	
+	
 /*	private void start() { // commented out for multithreading
 		if(running) return;
 		running = true;
@@ -131,8 +160,81 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	
-	@Override
+	/*@Override
 	public void run() {
+		running = true; // for multithreading
+		boolean b = true;
+		requestFocus();
+		long timer = System.currentTimeMillis();
+		int fps = 0;
+		int tps = 0;
+		double lag = 0.0;
+		double previous = System.currentTimeMillis();
+		final double MS_PER_TICK = 16.666666666666667;
+		System.out.println("Running");
+		while (running) {
+			//long now = System.nanoTime();
+			double current = System.currentTimeMillis();
+			double elapsed = current - previous;
+			previous = current;
+			lag += elapsed;
+			
+
+			
+			while(lag >= MS_PER_TICK) {
+				lag -= MS_PER_TICK;
+				if(tps % 5 == 0) {
+					KeyInput.update();
+					MouseInput.update();
+				}
+				
+				if(pauseTime <= 0) {
+					tick();
+					tps++;
+					
+				} else {
+					if(Player.playerDead) {
+						new InitLevels().reload();
+						Player.playerDead = false;
+					}
+					pauseTime--;
+					keyInput.clear();
+				}
+			}
+			
+			//if (fps <= 60) {
+			
+			try {
+				Thread.sleep(1);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			b = !b;
+			
+				if (b) {
+					interpol = lag / MS_PER_TICK;
+					pool.runTask(r);
+					fps++;
+				}
+			//}
+			if(System.currentTimeMillis() - 1000 > timer) {
+				timer += 1000;
+				//if(Game.debug) {
+					System.out.printf("FPS: %d | TPS: %d\n", fps, tps);
+					//System.out.printf("TPS: %d\n", tps);
+				//}
+				fps = 0;
+				tps = 0;
+			}
+		}
+		System.exit(0);
+	}*/
+	
+	
+	
+	
+	/*public void run() {
 		running = true; // for multithreading
 		requestFocus();
 		double target = 60.0;
@@ -164,7 +266,7 @@ public class Game extends Canvas implements Runnable {
 				MouseInput.update();
 				unprocessed--;
 				tps++;
-				if (true/*tps % 2 != 0*/) {
+				if (true tps % 2 != 0) {
 					canRender = true;
 				} else {
 					canRender = false;
@@ -178,8 +280,73 @@ public class Game extends Canvas implements Runnable {
 			}
 			
 			if(canRender) {
-				render();
+				//render();
+				pool.runTask(r);
 				fps++;
+			}
+			
+			if(System.currentTimeMillis() - 1000 > timer) {
+				timer += 1000;
+				if(Game.debug) {
+					System.out.printf("FPS: %d | TPS: %d\n", fps, tps);
+					//System.out.printf("TPS: %d\n", tps);
+				}
+				fps = 0;
+				tps = 0;
+			}
+		}
+		System.exit(0);
+	}*/
+	
+	public void run() {
+		running = true; // for multithreading
+		requestFocus();
+		double target = 60.0;
+		double nsPerTick = 1000000000.0 / target;
+		long lastTime = System.nanoTime();
+		long timer = System.currentTimeMillis();
+		//double unprocessed = 0.0;
+		int fps = 0;
+		int tps = 0;
+		boolean canRender = false;
+		System.out.println("Running");
+		while (running) {
+			long now = System.nanoTime();
+			//unprocessed += (now - lastTime) / nsPerTick;
+			lastTime = now;
+			if (pauseTime <= 0) {
+				tick();
+			} else {
+				if (Player.playerDead) {
+					new InitLevels().reload();
+					Player.playerDead = false;
+				}
+				pauseTime--;
+				keyInput.clear();
+			}
+			KeyInput.update();
+			MouseInput.update();
+			tps++;
+			if (true) {
+				canRender = true;
+			} else {
+				canRender = false;
+			}
+			
+			if(canRender) {
+				render();
+				//pool.runTask(r);
+				fps++;
+			}
+			
+			try {
+				int sleepTime = (int)((nsPerTick - Math.abs(System.nanoTime() - now)) / 1000000);
+				//System.out.println(sleepTime);
+				Thread.sleep(sleepTime);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (IllegalArgumentException e1) {
+				
 			}
 			
 			if(System.currentTimeMillis() - 1000 > timer) {
@@ -202,7 +369,7 @@ public class Game extends Canvas implements Runnable {
 			pool = new ThreadManager(3);
 		} else {
 			System.err.println("Game is running in low performance mode, initial loading time will be increased");
-			pool = new ThreadManager(2);
+			pool = new ThreadManager(3);
 		}
 		pool.runTask(new InitTextures());
 		pool.runTask(new InitAnimations());
@@ -256,7 +423,7 @@ public class Game extends Canvas implements Runnable {
 		pool.runTask(player);
 		pool.runTask(game);
 		//game.start(); commented out for multithreading
-		pool.join();
+		//pool.join();
 	}
 
 	public StateManager getStateManager() {

@@ -78,4 +78,31 @@ public class ParallaxLayer {
 			}
 		}
 	}
+	
+	
+	public void render(Graphics2D g2d, double interpol) {
+		double interpolX = interpol*motionX;
+		if(x == 0) {
+			texture.render(g2d, 0, Game.WIDTH, 0, Game.WIDTH, y);
+		} else {
+			if (x > 0 && x < Game.WIDTH) {
+				texture.render(g2d, x + interpolX, Game.WIDTH + interpolX, 0 + interpolX, Game.WIDTH - x, y);
+				texture.render(g2d, 0 + interpolX, x + interpolX, width - x + interpolX, Game.WIDTH + interpolX, y);
+			} else {
+				if(x >= Game.WIDTH) {
+					texture.render(g2d, 0, Game.WIDTH, width - x, width - x + Game.WIDTH , y);
+				} else {
+					if(x < 0 && x>= Game.WIDTH - width) {
+						texture.render(g2d, 0, Game.WIDTH, -x, Game.WIDTH - x, y);
+					} else {
+						if(x < Game.WIDTH - width) {
+							texture.render(g2d, 0, width + x, -x, width, y);
+							texture.render(g2d, gap + width + x, gap + Game.WIDTH, 0, Game.WIDTH - width - x, y);
+						}
+					}
+				}
+			}
+		}
+	}
+	
 }

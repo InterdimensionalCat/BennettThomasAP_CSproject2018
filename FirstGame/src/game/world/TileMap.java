@@ -165,6 +165,42 @@ public class TileMap {
 
 	}
 
+	public void render(Graphics2D g2d, int screenWidth, int screenHeight, double interpol) {
+		int mapWidth = convertToPixels(width);
+		int mapHeight = convertToPixels(height);
+		int offsetX = (int) (screenWidth / 2 - player.getX() - TILE_SIZE / 2);
+		int offsetY = (int) (screenHeight / 2 - player.getY() - TILE_SIZE / 2);
+		offsetX = Math.min(offsetX, 0);
+		offsetX = Math.max(offsetX, screenWidth - mapWidth);
+		offsetY = Math.min(offsetY, 0);
+		offsetY = Math.max(offsetY, screenHeight - mapHeight);
+
+		int firstX = convertToTiles(-offsetX);
+		int lastX = firstX + convertToTiles(screenWidth) + 1;
+		int firstY = convertToTiles(-offsetY);
+		int lastY = firstY + convertToTiles(screenHeight) + 1;
+
+		parallaxEngine.render(g2d, interpol);
+
+		for (int y = firstY; y <= lastY; y++) {
+			for (int x = firstX; x <= lastX; x++) {
+				if (Game.showTileMap) {
+					g2d.setColor(Color.RED);
+					g2d.drawRect(convertToPixels(x) + offsetX, convertToPixels(y) + offsetY, 64, 64);
+				}
+			}
+		}
+		
+		for(Tile t : usedTiles) {
+			t.render(g2d, t.x + offsetX, t.y + offsetY);
+		}
+
+		for (int i = 0; i < entities.size(); i++) {
+			entities.get(i).render(g2d, offsetX, offsetY, interpol);
+		}
+		player.render(g2d, offsetX, offsetY, interpol);
+		
+	}
 	
 	
 	
@@ -1476,5 +1512,7 @@ public boolean mobCeilingCollision(Mob m) {
 		removeEntity(e);
 		// e = null;
 	}
+
+
 
 }
